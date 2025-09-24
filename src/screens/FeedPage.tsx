@@ -3,13 +3,15 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import FeedPoster from "../components/FeedPoster";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
 export default function FeedPage({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Feed Page</Text>
+      {/* <Text style={styles.text}>Feed Page</Text> */}
+      <FeedPoster />
     </View>
   );
 }
