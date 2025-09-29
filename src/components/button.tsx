@@ -4,7 +4,7 @@ import { Animated, TouchableOpacity, Text, StyleSheet } from 'react-native';
 type MyButtonProps = {
   title: string;
   onPress: () => void;
-  image?: any; // Optional image if needed
+  image?: any; // optional image if needed
 };
 
 
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
+    margin: 10,
     alignItems: 'center',
   },
   content: {
