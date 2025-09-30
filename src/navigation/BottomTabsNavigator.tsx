@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FeedPage from "../screens/FeedPage";
 import FeaturedPage from "../screens/FeaturedPage";
 import BoardPage from "../screens/BoardPage";
+import AddEventPage from "../screens/AddEventPage";
 
 import type { BottomTabsParamList } from "./types";
 
@@ -21,6 +22,9 @@ export default function BottomTabsNavigator() {
       <Tab.Screen name="Feed" component={FeedPage} />
       <Tab.Screen name="Featured" component={FeaturedPage} />
       <Tab.Screen name="Board" component={BoardPage} />
+      <Tab.Screen name = "AddEvent" component={AddEventPage} />
+      {/* <Tab.Screen name="AddEvent" component = {AddEventPage} /> */}
+      
     </Tab.Navigator>
   );
 }

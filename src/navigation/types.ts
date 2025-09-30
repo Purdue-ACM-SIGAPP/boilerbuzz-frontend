@@ -5,6 +5,7 @@ export type BottomTabsParamList = {
   Feed: undefined;
   Featured: undefined;
   Board: undefined;
+  AddEvent: undefined;
 };
 
 export type RootStackParamList = {
