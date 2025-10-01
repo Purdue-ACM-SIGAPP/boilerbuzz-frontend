@@ -3,13 +3,16 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import SearchBar from "../components/SearchBar";
+import FilterMenu from "../components/FilterMenu";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
-export default function FeedPage({ navigation, route }: Props) {
+export default function FindPage({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Feed Page</Text>
+      <SearchBar/>
+      <FilterMenu/>
     </View>
   );
 }
@@ -19,6 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 5,
   },
   text: { fontSize: 20 },
 });
