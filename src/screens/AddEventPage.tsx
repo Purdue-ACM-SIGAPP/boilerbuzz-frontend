@@ -1,44 +1,42 @@
 // src/screens/FeedScreen.tsx
-import React, {useState} from "react"; //imported {useState} for textbox
+import React, { useState } from "react"; //imported {useState} for textbox
 import { View, Text, StyleSheet, Image, TextInput } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-
 type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
-
 
 export default function AddEventPage({ navigation, route }: Props) {
   function setText(newText: string): void {
     throw new Error("Function not implemented.");
   }
-  const [number, onChangeNumber] = React.useState(''); //Dunno what this does, just added after looking through the react native textinput example
-  const [number2, onChangeNumber2] = React.useState(''); //Nvm, after experimenting, each of these variables seems to represent a unique textbox
-  const [number3, onChangeNumber3] = React.useState(''); 
+  const [number, onChangeNumber] = React.useState(""); //Dunno what this does, just added after looking through the react native textinput example
+  const [number2, onChangeNumber2] = React.useState(""); //Nvm, after experimenting, each of these variables seems to represent a unique textbox
+  const [number3, onChangeNumber3] = React.useState("");
 
   return (
-
     <>
-    {/* <View style={styles.container}>
+      {/* <View style={styles.container}>
       <Text style={styles.text}>AddEventPage</Text>
     </View> */}
 
-    <View style = {AddEventText.container}>
-          <Text style = {AddEventText.titleFont}>Add Event</Text>
-          <Text style = {AddEventText.subtitleFont}>Add your own club event</Text>
-    </View>
+      <View style={AddEventText.container}>
+        <Text style={AddEventText.titleFont}>Add Event</Text>
+        <Text style={AddEventText.subtitleFont}>Add your own club event</Text>
+      </View>
 
+      <View style={AddEventImages.container}>
+        <Image
+          source={require("../../assets/uploadicon.png")}
+          style={AddEventImages.uploadImage}
+        />
+      </View>
 
-    <View style={AddEventImages.container}>
-          <Image source={require('../../assets/uploadicon.png')} style={AddEventImages.uploadImage} />
-    </View>
+      <View style={AddEventText.container}>
+        <Text style={AddEventText.subtitleFont}>Organization Name</Text>
+      </View>
 
-
-    <View style = {AddEventText.container}>
-        <Text style = {AddEventText.subtitleFont}>Organization Name</Text>
-    </View>
-
-    <TextInput
+      <TextInput
         style={Textbox.container}
         onChangeText={onChangeNumber}
         value={number}
@@ -46,11 +44,11 @@ export default function AddEventPage({ navigation, route }: Props) {
         keyboardType="numeric"
       />
 
-    <View style = {AddEventText.container}>
-        <Text style = {AddEventText.subtitleFont}>Event Name</Text>
-    </View>
+      <View style={AddEventText.container}>
+        <Text style={AddEventText.subtitleFont}>Event Name</Text>
+      </View>
 
-    <TextInput
+      <TextInput
         style={Textbox.container}
         onChangeText={onChangeNumber2}
         value={number2}
@@ -58,11 +56,11 @@ export default function AddEventPage({ navigation, route }: Props) {
         keyboardType="numeric"
       />
 
-    <View style = {AddEventText.container}>
-        <Text style = {AddEventText.subtitleFont}>Description</Text>
-    </View>
+      <View style={AddEventText.container}>
+        <Text style={AddEventText.subtitleFont}>Description</Text>
+      </View>
 
-    <TextInput
+      <TextInput
         style={Textbox.container}
         onChangeText={onChangeNumber3}
         value={number3}
@@ -70,18 +68,17 @@ export default function AddEventPage({ navigation, route }: Props) {
         keyboardType="numeric"
       />
 
-    <View style = {AddEventText.container}>
-        <Text style = {AddEventText.subtitleFont}>Date and Time</Text>
-    </View>
+      <View style={AddEventText.container}>
+        <Text style={AddEventText.subtitleFont}>Date and Time</Text>
+      </View>
 
-    <View style={AddEventImages.container}>
-          <Image source={require('../../assets/CalenderIcon.png')} style={AddEventImages.calenderImage} />
-    </View>
-
-
-
+      <View style={AddEventImages.container}>
+        <Image
+          source={require("../../assets/CalenderIcon.png")}
+          style={AddEventImages.calenderImage}
+        />
+      </View>
     </>
-
   );
 }
 
@@ -93,7 +90,6 @@ const styles = StyleSheet.create({
   },
   text: { fontSize: 20 },
 });
-
 
 const AddEventText = StyleSheet.create({
   container: {
@@ -113,21 +109,16 @@ const AddEventText = StyleSheet.create({
 
   },
   subtitleFont: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
-    textAlign: 'left',
-
-
-
-  }
-
-
+    textAlign: "left",
+  },
 });
 
 const AddEventImages = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10,
     margin: 5,
     marginLeft: 100
@@ -142,10 +133,10 @@ const AddEventImages = StyleSheet.create({
   calenderImage: {
     width: 80,
     height: 80,
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
-    left: 495
-  }
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    left: 495,
+  },
 });
 
 const Textbox = StyleSheet.create({
@@ -163,6 +154,6 @@ const Textbox = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
-    textAlign:'center',
+    textAlign: "center",
   },
 });

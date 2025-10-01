@@ -3,6 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabsNavigator from "./BottomTabsNavigator";
+import LoginPage from "../screens/LoginPage";
 import type { RootStackParamList } from "./types";
 import AddEventPage from "../screens/AddEventPage";
 
@@ -12,12 +13,13 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Tabs"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Screen name="Tabs" component={BottomTabsNavigator} />
+        <Stack.Screen name="Login" component={LoginPage} />
         {/* Add other screens here as needed, e.g.: */}
         {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
         
