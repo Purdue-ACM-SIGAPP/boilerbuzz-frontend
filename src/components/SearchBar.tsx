@@ -11,16 +11,16 @@ export default function SearchBar() {
             onBlur={() => setIsFocused(false)}
             ref={textInputRef}
             placeholder="Search for an event..."/>
-        <View style={isFocused ? styles.clear : styles.hidden}>
-            <TouchableOpacity
-                onPress={() => {
-                    if (textInputRef && textInputRef.current) {
-                        textInputRef.current.setNativeProps({ text: "" });
-                    }
-                }}>
-                <AntDesign name="close" size={5} color="black"/>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+            style={isFocused ? styles.clear : styles.hidden}
+            onPress={() => {
+                if (textInputRef && textInputRef.current) {
+                    // Using ref instead of controlled input to avoid text flickering effect
+                    textInputRef.current.setNativeProps({ text: "" });
+                }
+            }}>
+            <AntDesign name="close" size={12} color="black"/>
+        </TouchableOpacity>
     </View>
 }
 
@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderColor: "black",
         borderWidth: 2,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
     hidden: {
         display: "none",
