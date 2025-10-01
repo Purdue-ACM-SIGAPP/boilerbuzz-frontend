@@ -14,29 +14,41 @@ export default function EventSlide({ navigation, route }: Props) {
     </View> */}
 
     <View style = {EventDates.container}>
-      <Text style = {EventDates.text}>7pm - 1 event</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1} style = {EventDates.text}>7pm - 1 event</Text>
     </View>
 
     <View style={EventPostShape.container}>
+      <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.image} />
+
+      <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Longboarding Callout</Text>
       <Text style = {EventPostShape.caption}>Engineering Fountain</Text>
-      <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.image} />
+      </View>
+      
     </View>
 
     <View style = {EventDates.container}>
-      <Text style = {EventDates.text}>8pm - 2 events</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1} style = {EventDates.text}>8pm - 2 events</Text>
     </View>
 
     <View style={EventPostShape.container}>
+      <Image source={require('../../assets/ClimbingTeam.jpeg')} style={EventPostShape.image} />
+
+      <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Climbing Team</Text>
       <Text style = {EventPostShape.caption}>Rockwall @ Corec</Text>
-      <Image source={require('../../assets/ClimbingTeam.jpeg')} style={EventPostShape.image} />
+      </View>
+      
     </View>
 
     <View style={EventPostShape.container}>
+      <Image source={require('../../assets/ImprovClub.jpeg')} style={EventPostShape.image} />
+
+      <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Improv Club</Text>
       <Text style = {EventPostShape.caption}>BRNG 1202</Text>
-      <Image source={require('../../assets/ImprovClub.jpeg')} style={EventPostShape.image} />
+      </View>
+
     </View>
     
 
@@ -56,36 +68,50 @@ const styles = StyleSheet.create({
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: 500,
-    height: 100,
+    width: 321,
+    height: 65,
     backgroundColor: 'lightblue',
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     borderRadius: 10,
     margin: 20,
+    flexDirection: 'row'
+
+    
   },
   title: {
     color: 'black',
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 'bold',
     paddingLeft: 100,
-    paddingTop: 30
+    paddingTop: 30,
+    height: 16,
+    marginBottom: 15
   },
   caption: {
     color: 'black',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 'thin',
-    paddingLeft: 100
+    paddingLeft: 100,
+    height: 13
 
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 28,
+    height: 43,
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    top: -30
+    resizeMode: 'cover',
+    marginTop: 16,
+    marginLeft:30
 
-  }
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: -70,
+    marginBottom: 50
+  },
 });
 
 const EventDates = StyleSheet.create({
@@ -94,8 +120,11 @@ const EventDates = StyleSheet.create({
   },
   text: {
     fontWeight: 'bold',
-    fontSize: 16,
-    textAlign: 'center'
+    fontSize: 11,
+    textAlign: 'center',
+    height: 13
+
+
   }
 
 

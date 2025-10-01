@@ -100,14 +100,17 @@ const AddEventText = StyleSheet.create({
     padding: 10,
     alignItems: 'flex-start',
     alignSelf: 'flex-start',
-    left: 495
-    
+    left: 495,
+    marginLeft: 93
     
   },
   titleFont: {
     fontWeight: 'light',
-    fontSize: 32,
-    textAlign: 'left'
+    fontSize: 48,
+    textAlign: 'left',
+    width: 239,
+    height: 58
+
   },
   subtitleFont: {
     fontWeight: 'bold',
@@ -127,12 +130,14 @@ const AddEventImages = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     margin: 5,
+    marginLeft: 100
   },
   uploadImage: {
     width: 159,
     height: 159,
     justifyContent: 'center',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
+    left: 575
   },
   calenderImage: {
     width: 80,
@@ -147,14 +152,14 @@ const Textbox = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 500,
-    height: 50,
+    width: 302,
+    height: 33,
     backgroundColor: 'gray',
     borderRadius:10,
     alignSelf:'center',
   },
   input: {
-    height: 40,
+    height: 20,
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
