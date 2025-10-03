@@ -1,79 +1,81 @@
-// src/screens/LoginPage.tsx
-
-//Remember to also transfer from login page to questions about demographics and clubs
 import React, { useState } from "react";
 import {
-  ImageBackground,
-  View,
-  Text,
   StyleSheet,
   TextInput,
   Alert,
+  View,
 } from "react-native";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MyButton from "../components/MyButton";
-import { createStaticNavigation } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../navigation/types";
+
+import theme from "../theme";
+
+type LoginPageNav = NativeStackNavigationProp<RootStackParamList, "Login">;
 
 export default function LoginPage() {
-  const navigation = useNavigation();
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <TextInput
-          onChangeText={setUsername}
-          value={username}
-          style={styles.textbox}
-          placeholder="Username"
-        />
-        <TextInput
-          onChangeText={setPassword}
-          value={password}
-          placeholder="Password"
-          keyboardType="default"
-          style={styles.textbox}
-        />
-        <MyButton
-          title="Login"
-          onPress={() => {
-            if (!username || !password) {
-              Alert.alert("Error", "Please enter both username and password.");
-            } else {
-              navigation.navigate("Tabs");
-            }
-          }}
-        />
+  const navigation = useNavigation<LoginPageNav>();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-        <MyButton
-          title="Register"
-          onPress={() => {
-            navigation.navigate("Tabs");
-          }}
-        />
-      </SafeAreaView>
-    </SafeAreaProvider>
+  const handleLogin = () => {
+    if (!username || !password) {
+      Alert.alert("Error", "Please enter both username and password.");
+    } else {
+      navigation.navigate("Tabs");
+    }
+  };
+
+  const handleRegister = () => {
+    navigation.navigate("Tabs");
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.circle} />
+      {/* Uncomment below when ready */}
+      {/* <TextInput
+        onChangeText={setUsername}
+        value={username}
+        style={styles.textbox}
+        placeholder="Username"
+      />
+      <TextInput
+        onChangeText={setPassword}
+        value={password}
+        placeholder="Password"
+        secureTextEntry
+        style={styles.textbox}
+      />
+      <MyButton title="Login" onPress={handleLogin} />
+      <MyButton title="Register" onPress={handleRegister} /> */}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffe138ff",
+    backgroundColor: theme.colors.background,
     alignItems: "center",
     justifyContent: "center",
   },
   textbox: {
     margin: 10,
-    height: 30,
+    height: 40,
     fontSize: 16,
     width: 300,
     borderColor: "black",
     borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffffff",
+    paddingHorizontal: 10,
+    backgroundColor: "#fff",
+  },
+  circle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#fff",
   },
 });
