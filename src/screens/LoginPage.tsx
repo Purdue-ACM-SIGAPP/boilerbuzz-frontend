@@ -36,7 +36,7 @@ export default function LoginPage() {
     <SafeAreaView style={styles.container}>
       <View style={styles.circle} />
       {/* Uncomment below when ready */}
-      {/* <TextInput
+      <TextInput
         onChangeText={setUsername}
         value={username}
         style={styles.textbox}
@@ -50,7 +50,7 @@ export default function LoginPage() {
         style={styles.textbox}
       />
       <MyButton title="Login" onPress={handleLogin} />
-      <MyButton title="Register" onPress={handleRegister} /> */}
+      <MyButton title="Register" onPress={handleRegister} />
     </SafeAreaView>
   );
 }
