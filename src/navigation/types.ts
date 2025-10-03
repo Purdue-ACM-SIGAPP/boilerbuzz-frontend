@@ -8,6 +8,7 @@ export type BottomTabsParamList = {
 };
 
 export type RootStackParamList = {
-  Tabs: NavigatorScreenParams<BottomTabsParamList>;
-  // you can add more screens here, e.g. Details: { itemId: string }
+  Tabs: NavigatorScreenParams<BottomTabsParamList> | undefined;
+  Login: undefined;
+  // Add more stack-level screens here if needed
 };
