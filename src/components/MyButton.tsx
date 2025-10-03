@@ -4,7 +4,7 @@ import { Animated, TouchableOpacity, Text, StyleSheet } from 'react-native';
 type MyButtonProps = {
   title: string;
   onPress: () => void;
-  image?: any; // optional image if needed
+  image?: any;
 };
 
 
@@ -12,17 +12,17 @@ type MyButtonProps = {
 export default function MyButton({ title, onPress }: MyButtonProps) {
   const scale = useRef(new Animated.Value(1)).current;
 
-  const handlePressIn = () => { // Animation for holding/pressing button
-    Animated.spring(scale, { // get a bouncy animation
-      toValue: 0.95, // Shrink button to 95% of size
+  const handlePressIn = () => {
+    Animated.spring(scale, {
+      toValue: 0.95,
       friction: 3,
       useNativeDriver: true,
     }).start();
   };
 
-  const handlePressOut = () => { //letting go of button
+  const handlePressOut = () => {
     Animated.spring(scale, {
-      toValue: 1, // Scale back to original size
+      toValue: 1,
       friction: 3,
       useNativeDriver: true,
     }).start();
@@ -45,7 +45,7 @@ export default function MyButton({ title, onPress }: MyButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#cfb991', //#daaa00 is also a purdue color
+    backgroundColor: '#cfb991',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -68,20 +68,3 @@ const styles = StyleSheet.create({
     fontFamily: "Arial"
   },
 });
-
-
-
-
-
-
-/*
-
-copy and paste for use
-
-import MyButton from "../components/button";
-
-
-<MyButton title="Go to Board Page" onPress={() => {
-        navigation.navigate('Board'); }} />
-
-*/
