@@ -1,4 +1,3 @@
-// src/navigation/BottomTabsNavigator.tsx
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FindPage from "../screens/FindPage";
@@ -19,6 +18,7 @@ export default function BottomTabsNavigator() {
       }}
     >
       <Tab.Screen name="Find" component={FindPage} />
+      <Tab.Screen name="Feed" component={FeedPage} />
       <Tab.Screen name="Featured" component={FeaturedPage} />
       <Tab.Screen name="Board" component={BoardPage} />
     </Tab.Navigator>
