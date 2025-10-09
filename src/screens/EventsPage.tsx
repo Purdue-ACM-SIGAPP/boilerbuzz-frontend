@@ -4,12 +4,12 @@ import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+type Props = BottomTabScreenProps<BottomTabsParamList, "Events">;
 
-export default function BoardPage({ navigation, route }: Props) {
+export default function EventsPage({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>BoardPage Page</Text>
+      <Text style={styles.text}>Events Page</Text>
     </View>
   );
 }
