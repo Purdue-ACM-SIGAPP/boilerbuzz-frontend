@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FindPage from "../screens/FindPage";
 import FeedPage from "../screens/FeedPage";
 import FeaturedPage from "../screens/FeaturedPage";
 import BoardPage from "../screens/BoardPage";
@@ -13,8 +14,12 @@ export default function BottomTabsNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Feed"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false, // so stack header shows if used above
+        // you can customize tab bar icons / styles here
+      }}
     >
+      <Tab.Screen name="Find" component={FindPage} />
       <Tab.Screen name="Feed" component={FeedPage} />
       <Tab.Screen name="Featured" component={FeaturedPage} />
       <Tab.Screen name="Board" component={BoardPage} />
