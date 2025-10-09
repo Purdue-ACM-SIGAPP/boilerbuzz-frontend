@@ -70,10 +70,6 @@ const styles = StyleSheet.create({
 });
 
 
-
-
-
-
 /*
 
 copy and paste for use
