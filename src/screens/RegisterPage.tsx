@@ -16,68 +16,96 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function RegisterPage() {
   const navigation = useNavigation();
-  const [firstName, setFirst] = React.useState("");
-  const [lastName, setLast] = React.useState("");
-  const [password, setPassword] = React.useState("");
-   const [day, setDay] = useState("");
-  const [month, setMonth] = useState("January");
-  const [year, setYear] = useState("");
+  const [firstName, setFirst] = useState("");
+  const [lastName, setLast] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const inputCheck = () => {
+    if (!firstName || !lastName || !email || !username || !password) {
+      Alert.alert("Error", "Please fill out all fields.");
+    } else {
+      navigation.navigate("Tabs");
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <ScrollView>
-         <Text style={styles.heading}>
-          Sign up
-         </Text> 
-          <Text style = {styles.subsection}>
-            Basic Details
-          </Text>
-          <View style={styles.line} />
-         <Text style = {styles.generalText}>
-          First Name
-         </Text>
-        <TextInput
-          onChangeText={setFirst}
-          value={firstName}
-          style={styles.textbox}
-        />
-        <Text style = {styles.generalText}>
-          Last Name
-         </Text>
-         <TextInput
-          onChangeText={setLast}
-          value={lastName}
-          style={styles.textbox}
-        />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Register</Text>
+            <Text style={styles.headerSubtitle}>Create a BoilerBuzz Account</Text>
+          </View>
 
-        <Text style = {styles.generalText}>
-          Email
-        </Text>
-         <TextInput
-          onChangeText={setLast}
-          value={lastName}
-          style={styles.textbox}
-        />
+          {/* Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Personal Info</Text>
+            <Text style={styles.cardSubtitle}>
+              Enter your information to create an account.
+            </Text>
 
+            {/* First name */}
+            <View style={styles.row}>
+            <View style={{ flex: 1, marginRight: 5 }}>
+              <Text style={styles.label}>First Name</Text>
+              <TextInput
+                style={styles.textbox}
+                value={firstName}
+                onChangeText={setFirst}
+              />
+            </View>
 
+            {/* Last name */}
+            <View style={{ flex: 1, marginLeft: 5 }}>
+              <Text style={styles.label}>Last Name</Text>
+              <TextInput
+                style={styles.textbox}
+                value={lastName}
+                onChangeText={setLast}
+              />
+            </View>
+          </View>
 
-        <TextInput
-          onChangeText={setPassword}
-          value={password}
-          placeholder="Password"
-          keyboardType="default"
-          style={styles.textbox}
-        />
-        <MyButton
-          title="Complete registration"
-          onPress={() => {
-            if (!username || !password) {
-              Alert.alert("Error", "Please enter both username and password.");
-            } else {
-              navigation.navigate("Tabs");
-            }
-          }}
-        />
+            {/* Email */}
+            <Text style={styles.label}>Email Address</Text>
+            <TextInput
+              style={styles.textbox}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+
+            {/* Username */}
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.textbox}
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+            />
+
+            {/* Password */}
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.textbox}
+                secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
+
+            {/* Buttons */}
+            <MyButton title="Save & Continue" 
+            onPress={inputCheck}
+            style={{ marginTop: 50 }} />
+            <MyButton
+              title="Back to Login"
+              onPress={() => navigation.navigate("Login")}
+            />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -89,40 +117,65 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ebd99fff",
   },
-  generalText: {
-    margin: 15,
-    fontSize: 15
+  scrollContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 20,
   },
-  subsection: {
-    margin: 10,
-    fontSize: 20
+  header: {
+    marginBottom: 25,
+    alignItems: "center",
   },
-  heading:{ 
-    fontSize: 32,
-    textAlign: 'center',
-    fontFamily: "sans-serif"
+  headerTitle: {
+    fontSize: 34,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: "#333",
+  },
+  card: {
+    width: "90%",
+    backgroundColor: "#f2ecd7ff",
+    borderRadius: 20,
+    padding: 20,
+  },
+  cardTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "#000",
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    color: "#777",
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 4,
+    marginTop: 10,
   },
   textbox: {
-    marginHorizontal: 15,
-    marginVertical: 5,
-    paddingLeft: 10,
-    height: 55,
-    fontSize: 16,
-    width: "92%",
-    borderColor: "black",
+    height: 48,
     borderWidth: 1,
+    borderColor: "#ddd",
     borderRadius: 10,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    flexDirection: "row",
-    backgroundColor: "#ffffffff",
-    alignSelf: "flex-start",
-},
-line: {
-    borderBottomWidth: 1, // Controls the thickness of the line, a smaller value makes it fainter
-    borderBottomColor: '#000', // Sets a light gray color for a faint appearance
-    marginVertical: 5, // Adds vertical spacing above and below the line
-    marginHorizontal: 8,
-    width: '95%', // Makes the line span the full width of its parent container
+    paddingHorizontal: 10,
+    backgroundColor: "#fafafa",
+    fontSize: 15,
   },
-})
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  backToLogin: {
+    textAlign: "center",
+    marginTop: 15,
+    color: "#555",
+    fontSize: 15,
+    textDecorationLine: "underline",
+  },
+});
