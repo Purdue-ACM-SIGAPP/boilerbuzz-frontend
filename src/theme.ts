@@ -30,6 +30,11 @@ const theme = {
     fontSize: 15,
     fontFamily: "JosefinSans_400Regular",
   },
+  h2Bold: {
+    color: "#000000ff",
+    fontSize: 15,
+    fontFamily: "JosefinSans_600SemiBold",
+  },
   h3: {
     color: "#000000ff",
     fontSize: 12,
