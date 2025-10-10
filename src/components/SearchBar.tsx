@@ -3,64 +3,87 @@ import {
   View,
   TextInput,
   StyleSheet,
-  Dimensions,
-  Button,
+  Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
-
-// ! REVIEW NEEDED
+import Images from "../../assets";
+import theme from "../theme";
 
 export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
-  const textInputRef = useRef<null | TextInput>(null);
+  const textInputRef = useRef<TextInput | null>(null);
+
+  const handleClear = () => {
+    if (textInputRef.current) {
+      textInputRef.current.clear();
+    }
+  };
+
   return (
-    <View style={styles.bar}>
-      <TextInput
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        ref={textInputRef}
-        placeholder="Search for an event..."
-      />
-      <TouchableOpacity
-        style={isFocused ? styles.clear : styles.hidden}
-        onPress={() => {
-          if (textInputRef && textInputRef.current) {
-            // Using ref instead of controlled input to avoid text flickering effect
-            textInputRef.current.setNativeProps({ text: "" });
-          }
-        }}
-      >
-        <AntDesign name="close" size={12} color="black" />
-      </TouchableOpacity>
-    </View>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss(); // closes keyboard
+        setIsFocused(false); // resets state
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.bar}>
+          <TextInput
+            ref={textInputRef}
+            style={[theme.h2, styles.input]}
+            placeholder="Search something..."
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            returnKeyType="search"
+          />
+
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={isFocused ? handleClear : undefined}
+          >
+            <Image
+              source={isFocused ? Images.cross : Images.search}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  bar: {
-    width: Dimensions.get("window").width * 0.8,
-    height: 35,
-    borderRadius: 25,
-    borderColor: "black",
-    borderWidth: 2,
-    padding: 5,
-    paddingLeft: 10,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  clear: {
-    width: 20,
-    height: 20,
-    borderRadius: 25,
-    borderColor: "black",
-    borderWidth: 2,
-    display: "flex",
+  container: {
     alignItems: "center",
+    width: "100%",
     justifyContent: "center",
+    backgroundColor: theme.colors.navyBlue,
+    paddingBottom: 15,
   },
-  hidden: {
-    display: "none",
+  bar: {
+    width: "85%",
+    height: 40,
+    backgroundColor: "white",
+    borderRadius: 25,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    paddingRight: 10,
+  },
+  iconContainer: {
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    width: 25,
+    height: 25,
   },
 });

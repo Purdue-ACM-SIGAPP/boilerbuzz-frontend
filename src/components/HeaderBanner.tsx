@@ -19,7 +19,7 @@ export const HeaderBanner = ({ title }: { title: string }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: "#07112a",
+    backgroundColor: theme.colors.navyBlue,
     paddingTop: 60,
     paddingBottom: 18,
     paddingHorizontal: 16,

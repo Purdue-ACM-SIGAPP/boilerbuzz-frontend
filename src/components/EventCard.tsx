@@ -48,11 +48,13 @@ export default function EventCard({
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}> */}
+
       {/* Club Info */}
       <View style={styles.clubRow}>
         <Image source={{ uri: clubLogo }} style={styles.clubLogo} />
         <Text style={theme.h2Bold}>{clubName}</Text>
       </View>
+
       <View style={styles.poster}></View>
       {/* Description */}
       <Text style={theme.h2}>{description}</Text>

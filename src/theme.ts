@@ -2,6 +2,7 @@ const theme = {
   colors: {
     background: "#FFFCF4",
     highlight: "#EDECDD",
+    navyBlue: "#07112a",
   },
   fonts: {
     heading: "Staatliches_400Regular",
