@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
 export default function FeedPage({ navigation, route }: Props) {
   return (
