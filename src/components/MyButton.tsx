@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
-import { Animated, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Animated, TouchableOpacity, Text, StyleSheet } from "react-native";
+
+// ! REVIEW NEEDED
 
 type MyButtonProps = {
   title: string;
   onPress: () => void;
   image?: any;
 };
-
-
 
 export default function MyButton({ title, onPress }: MyButtonProps) {
   const scale = useRef(new Animated.Value(1)).current;
@@ -42,29 +42,28 @@ export default function MyButton({ title, onPress }: MyButtonProps) {
   );
 }
 
-
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#cfb991',
+    backgroundColor: "#cfb991",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     margin: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   content: {
-    flexDirection: 'row', 
-    alignItems: 'center', 
+    flexDirection: "row",
+    alignItems: "center",
   },
   image: {
     width: 24,
-    height: 24, 
+    height: 24,
     marginRight: 8,
   },
   text: {
-    color: '#000000',
+    color: "#000000",
     fontSize: 16,
-    fontWeight: '600',
-    fontFamily: "Arial"
+    fontWeight: "600",
+    fontFamily: "Arial",
   },
 });
