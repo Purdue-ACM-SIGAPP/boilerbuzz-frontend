@@ -1,9 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FeedPage from "../screens/FeedPage";
-import FeaturedPage from "../screens/FeaturedPage";
-import BoardPage from "../screens/BoardPage";
-import SearchPage from "../screens/SearchPage";
+import FeedPage from "../screens/HomePage";
+import FeaturedPage from "../screens/TrendingPage";
+import BoardPage from "../screens/PinnedPage";
+import SearchPage from "../screens/FindPage";
 import ProfilePage from "../screens/ProfilePage";
 import type { BottomTabsParamList } from "./types";
 import Images from "../../assets";

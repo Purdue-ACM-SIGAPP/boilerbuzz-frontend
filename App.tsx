@@ -2,7 +2,10 @@
 import React from "react";
 import RootStackNavigator from "./src/navigation/RootStackNavigator";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts, JosefinSans_400Regular } from "@expo-google-fonts/josefin-sans";
+import {
+  useFonts,
+  JosefinSans_400Regular,
+} from "@expo-google-fonts/josefin-sans";
 import { Staatliches_400Regular } from "@expo-google-fonts/staatliches";
 
 export default function App() {
@@ -11,7 +14,9 @@ export default function App() {
     Staatliches_400Regular,
   });
 
-  return <GestureHandlerRootView>
-    <RootStackNavigator />
-  </GestureHandlerRootView>;
+  return (
+    <GestureHandlerRootView>
+      <RootStackNavigator />
+    </GestureHandlerRootView>
+  );
 }

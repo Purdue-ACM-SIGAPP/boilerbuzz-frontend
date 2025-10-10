@@ -11,7 +11,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import ClubBanner from "../components/ClubBanner"; // adjust path if needed
-import theme from "../theme"
+import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 
 type FilterKey = "pinned" | "rsvp" | "past" | "invited";
