@@ -19,8 +19,8 @@ export default function BottomTabsNavigator() {
         // you can customize tab bar icons / styles here
       }}
     >
-      <Tab.Screen name="Find" component={FindPage} />
       <Tab.Screen name="Feed" component={FeedPage} />
+      <Tab.Screen name="Find" component={FindPage} />
       <Tab.Screen name="Featured" component={FeaturedPage} />
       <Tab.Screen name="Board" component={BoardPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />

@@ -12,6 +12,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import ClubBanner from "../components/ClubBanner"; // adjust path if needed
+import HeaderBanner from "../components/HeaderBanner";
 
 type FilterKey = "pinned" | "rsvp" | "past" | "invited";
 
@@ -98,9 +99,12 @@ export default function ProfilePage() {
     <View style={styles.page}>
       {/* Header section */}
       <View style={styles.header}>
-        <View style={styles.headerTop}>
-          <Text style={styles.pageTitle}>PROFILE</Text>
-        </View>
+        <HeaderBanner
+          title="PROFILE"
+          // showBack and showSearch are optional; they remain hidden unless you enable them
+          // showBack={true} onBack={() => navigation.goBack()}
+          // showSearch={true} onSearchChange={(q) => console.log('search', q)}
+        />
 
         <View style={styles.profileRow}>
           {/* Avatar */}
@@ -212,11 +216,6 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     backgroundColor: "#fbf8f3",
     // top bar / dark section is optional — replicate the image if you want
-  },
-  headerTop: {
-    backgroundColor: "#07112a", // dark/navy header color (approx)
-    paddingVertical: 18,
-    paddingHorizontal: 16,
   },
   pageTitle: {
     color: "#fff",
