@@ -8,6 +8,7 @@ import SearchPage from "../screens/SearchPage";
 import ProfilePage from "../screens/ProfilePage";
 import { Image } from "react-native";
 import type { BottomTabsParamList } from "./types";
+import Images from "../../assets";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
@@ -22,20 +23,16 @@ export default function BottomTabsNavigator() {
         component={FeedPage}
         options={{
           tabBarLabel: "Home",
-          // tabBarIcon: ({ focused }) => (
-            // <Image
-            //   source={
-            //     focused
-                  // ? require("../../../assets/icons/home_pressed.png")
-                  // : require("../../../assets/icons/home.png")
-            //   }
-            //   style={{
-            //     width: 24,
-            //     height: 24,
-            //     tintColor: focused ? "#007AFF" : "#8e8e93", // optional tint
-            //   }}
-            // />
-          // ),
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={focused ? Images.home_pressed : Images.home}
+              style={{
+                width: 24,
+                height: 24,
+                tintColor: focused ? "#007AFF" : "#8e8e93", // optional tint
+              }}
+            />
+          ),
         }}
       />
       <Tab.Screen name="Trending" component={FeaturedPage} />
