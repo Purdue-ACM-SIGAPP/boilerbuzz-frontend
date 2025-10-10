@@ -5,6 +5,7 @@ import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import SearchBar from "../components/SearchBar";
 import FilterMenu from "../components/FilterMenu";
+import theme from "../theme"
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
@@ -23,6 +24,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
+        backgroundColor: theme.colors.background,
+
   },
   text: { fontSize: 20 },
 });

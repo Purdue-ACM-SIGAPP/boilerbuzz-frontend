@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabsNavigator from "./BottomTabsNavigator";
 import LoginPage from "../screens/LoginPage";
 import type { RootStackParamList } from "./types";
-
+import theme from "../theme"
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
@@ -17,7 +17,7 @@ export default function RootStackNavigator() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Tabs" component={BottomTabsNavigator} />
+        <Stack.Screen name="Tabs" component={BottomTabsNavigator}  />
         <Stack.Screen name="Login" component={LoginPage} />
       </Stack.Navigator>
     </NavigationContainer>

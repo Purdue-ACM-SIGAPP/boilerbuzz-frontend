@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import theme from "../theme"
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
@@ -19,6 +20,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+        backgroundColor: theme.colors.background,
+
   },
   text: { fontSize: 20 },
 });
