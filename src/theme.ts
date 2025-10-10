@@ -1,6 +1,7 @@
 const theme = {
   colors: {
-    background: '#EDECDD',
+    background: '#FFFCF4',
+    highlight: '#EDECDD'
   },
   fonts: {
     heading: 'Roboto_700Bold',
