@@ -1,2 +1,2 @@
 # Boilerbuzz
-Tests
+:p
