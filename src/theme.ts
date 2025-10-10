@@ -3,6 +3,8 @@ const theme = {
     background: "#FFFCF4",
     highlight: "#EDECDD",
     navyBlue: "#07112a",
+    lightGrey: "#DADADA",
+    darkGrey: "#909090",
   },
   fonts: {
     heading: "Staatliches_400Regular",
