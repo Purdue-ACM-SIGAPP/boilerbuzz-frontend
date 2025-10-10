@@ -7,7 +7,7 @@ import SearchBar from "../components/SearchBar";
 import FilterMenu from "../components/FilterMenu";
 import HeaderBanner from "../components/HeaderBanner";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
 export default function FindPage({ navigation, route }: Props) {
   return (
