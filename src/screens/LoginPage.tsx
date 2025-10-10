@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  Alert,
-  View,
-} from "react-native";
+import { StyleSheet, TextInput, Alert, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MyButton from "../components/MyButton";
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +30,6 @@ export default function LoginPage() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.circle} />
-      {/* Uncomment below when ready */}
       <TextInput
         onChangeText={setUsername}
         value={username}

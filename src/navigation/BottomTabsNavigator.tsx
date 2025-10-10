@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FindPage from "../screens/FindPage";
 import FeedPage from "../screens/FeedPage";
 import FeaturedPage from "../screens/FeaturedPage";
 import BoardPage from "../screens/BoardPage";
