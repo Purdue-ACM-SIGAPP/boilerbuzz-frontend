@@ -1,12 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FindPage from "../screens/FindPage";
 import FeedPage from "../screens/FeedPage";
 import FeaturedPage from "../screens/FeaturedPage";
 import BoardPage from "../screens/BoardPage";
 import SearchPage from "../screens/SearchPage";
 import ProfilePage from "../screens/ProfilePage";
-import { Image } from "react-native";
 import type { BottomTabsParamList } from "./types";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
