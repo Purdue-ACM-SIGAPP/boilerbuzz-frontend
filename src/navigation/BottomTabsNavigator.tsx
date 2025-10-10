@@ -8,7 +8,7 @@ import ProfilePage from "../screens/ProfilePage";
 import type { BottomTabsParamList } from "./types";
 import Images from "../../assets";
 import theme from "../theme";
-import { TabIcon } from "../components/TabButtom";
+import { TabIcon } from "../components/TabIcon";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 

@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { Animated, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
+// ! REVIEW NEEDED
+
 type MyButtonProps = {
   title: string;
   onPress: () => void;
   image?: any;
 };
-
-
 
 export default function MyButton({ title, onPress }: MyButtonProps) {
   const scale = useRef(new Animated.Value(1)).current;

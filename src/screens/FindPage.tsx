@@ -1,4 +1,3 @@
-// src/screens/FeedScreen.tsx
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";

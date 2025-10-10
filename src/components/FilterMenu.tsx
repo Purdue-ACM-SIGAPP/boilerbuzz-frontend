@@ -3,6 +3,8 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
+// ! REVIEW NEEDED
+
 export default function FilterMenu() {
     return <View style={styles.container}>
         <View style={styles.filterContainer}>

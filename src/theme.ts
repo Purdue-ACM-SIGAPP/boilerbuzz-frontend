@@ -4,18 +4,16 @@ const theme = {
     highlight: '#EDECDD'
   },
   fonts: {
-    heading: 'Roboto_700Bold',
-    body: 'Roboto_400Regular',
-  },
-  spacing: {
-    small: 8,
-    medium: 16,
-    large: 24,
+    heading: 'Staatliches_400Regular',
+    body: 'JosefinSans_400Regular',
+    // JosefinSans_500Medium, 
+    // JosefinSans_600SemiBold, 
+    // JosefinSans_700Bold, 
   },
   fontSize: {
-    large: 30,
-    medium: 20,
-    small: 10,
+    large: 20,
+    medium: 15,
+    small: 12,
   }
 } as const;
 

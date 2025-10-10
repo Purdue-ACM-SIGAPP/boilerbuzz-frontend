@@ -2,8 +2,15 @@ import React from "react";
 import { View, Image, Text } from "react-native";
 import theme from "../theme";
 
+/**
+ * 
+ * Tab icon components that renders a round-bordered rectangle with
+ * screen icon and labels
+ * 
+ */
+
 export const TabIcon = ({
-  focused,
+  focused, // signifies whether user is on the screen or not
   source,
   label,
 }: {
@@ -13,17 +20,17 @@ export const TabIcon = ({
 }) => {
     return (
       <View style={{marginTop: 40}}>
-        <View
+        <View // round-bordered rectangle
           style={{
             backgroundColor: focused ? theme.colors.highlight : "transparent",
             borderRadius: 8,
-            width: 80,
+            width: 65,
             height: 60,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <Image
+          <Image // screen icon
             source={source}
             style={{
               width: 25,
@@ -31,11 +38,11 @@ export const TabIcon = ({
               tintColor: "#000",
               marginBottom: 5,
             }} />
-          <Text
+          <Text // screen label
             style={{
               color: "#000",
-              fontWeight: "600",
-              fontSize: 12,
+              fontSize: theme.fontSize.small,
+              fontFamily: theme.fonts.body
             }}
           >
             {label}

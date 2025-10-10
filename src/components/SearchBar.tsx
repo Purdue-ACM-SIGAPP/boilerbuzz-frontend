@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { View, TextInput, StyleSheet, Dimensions, Button, TouchableOpacity } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
+// ! REVIEW NEEDED
+
 export default function SearchBar() {
     const [isFocused, setIsFocused] = useState(false);
     const textInputRef = useRef<null | TextInput>(null);

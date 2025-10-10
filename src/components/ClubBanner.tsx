@@ -1,7 +1,8 @@
-// ClubBanner.tsx
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import type { GestureResponderEvent } from 'react-native';
+
+// ! REVIEW NEEDED
 
 type ClubBannerProps = {
   onPress?: (e: GestureResponderEvent) => void;
