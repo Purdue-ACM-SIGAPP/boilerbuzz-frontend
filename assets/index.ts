@@ -7,11 +7,14 @@ const Images = {
   home: require("./navbar_icons/home.png"),
   home_pressed: require("./navbar_icons/home_pressed.png"),
   search: require("./navbar_icons/search.png"),
+  search_pressed: require("./navbar_icons/search_pressed.png"),
   podium: require("./navbar_icons/podium.png"),
+  podium_pressed: require("./navbar_icons/podium_pressed.png"),
   thumbtack: require("./navbar_icons/thumbtack.png"),
+  thumbtack_pressed: require("./navbar_icons/thumbtack_pressed.png"),
   user: require("./navbar_icons/user.png"),
+  user_pressed: require("./navbar_icons/user_pressed.png"),
 
-  // add more groups/entries here...
 } as const;
 
 export type ImagesType = typeof Images;

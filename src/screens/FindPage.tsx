@@ -6,7 +6,7 @@ import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import SearchBar from "../components/SearchBar";
 import FilterMenu from "../components/FilterMenu";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
 export default function FindPage({ navigation, route }: Props) {
   return (
