@@ -11,5 +11,6 @@ export type RootStackParamList = {
   Tabs: NavigatorScreenParams<BottomTabsParamList>;
   Login: undefined;
   Register: undefined;
+  Settings: undefined
   // you can add more screens here, e.g. Details: { itemId: string }
 };
