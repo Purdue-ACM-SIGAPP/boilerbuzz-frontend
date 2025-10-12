@@ -1,157 +1,256 @@
-import React, { useState } from "react";
+// src/screens/SettingsPage.tsx
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Switch,
   TouchableOpacity,
-  StatusBar,
+  Animated,
+  Alert,
+  ScrollView,
 } from "react-native";
-import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 
-const Banner = ({ title, onBack }) => {
+// Easy way to test and change different color schemes/themes
+const COLORS = {
+  background: "#faf7ef",
+  cardBackground: "#f9f6ed",
+  switchOn: "#cfb991",
+  switchOff: "#ccc",
+  headerBackground: "#0b142a",
+  headerText: "#fff",
+};
+
+/* Header Banner */
+function SettingsHeader({ title, onBack }: { title: string; onBack: () => void }) {
+  
+  // getting insets to apply top padding so header banner can reach iphone notchs
   const insets = useSafeAreaInsets();
+
   return (
-    <View style={[styles.banner, { paddingTop: insets.top }]}>
-      <TouchableOpacity
-        onPress={onBack}
-        style={[styles.backButton, { top: insets.top }]}
-      >
-        <Text style={styles.backText}>←</Text>
+    <View
+      style={[
+        styles.headerContainer,
+        { paddingTop: insets.top },
+      ]}
+    >
+      {/* Back Arrow */}
+      <TouchableOpacity style={styles.backButton} onPress={onBack}>
+        <Text style={styles.backArrow}>❮</Text>
       </TouchableOpacity>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
+
+      {/* Title */}
+      <View style={styles.headerCenter}>
+        <Text style={styles.headerTitle}>{title}</Text>
       </View>
     </View>
   );
-};
+}
 
+/* Toggle switch functionality */
+function ToggleSwitch({value, onToggle}: {value: boolean; onToggle: (v: boolean) => void;}) {
+  const animation = useRef(new Animated.Value(value ? 1 : 0)).current;
+
+  // knob animation
+  const toggle = () => {
+    const newValue = !value;
+    onToggle(newValue);
+    Animated.timing(animation, {
+      toValue: newValue ? 1 : 0,
+      duration: 250, // duration in milliseconds
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const backgroundColor = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [COLORS.switchOff, COLORS.switchOn],
+  });
+  const knobPosition = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [2, 32],
+  });
+
+  return (
+    <TouchableOpacity onPress={toggle} activeOpacity={0.8}>
+      <Animated.View style={[styles.switch, { backgroundColor }]}>
+        <Animated.View style={[styles.switchKnob, { left: knobPosition }]} />
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
+
+/* Settings page component */
 export default function SettingsPage() {
   const navigation = useNavigation();
-  const handleBack = () => navigation.goBack();
 
-  // Switch states
+  // Toggle states for on/off settings
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [emailEnabled, setEmailEnabled] = useState(false);
+  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false);
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.container}>
-        <Banner title="Settings" onBack={handleBack} />
+      <View style={styles.container}>
+        <SettingsHeader title="SETTINGS" onBack={() => navigation.navigate("Tabs")} />
 
-        {/* Centered card */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Notifications</Text>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* Notifications Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Notifications</Text>
+            <View style={styles.row}>
+              <Text style={styles.label}>Enable notifications:</Text>
 
-          {/* Notification Switch */}
-          <View style={styles.row}>
-            <Text style={styles.label}>Enable notifications</Text>
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
-              trackColor={{ false: "#ccc", true: "#cbb88aff" }}
-              thumbColor={notificationsEnabled ? "#fff" : "#fff"}
-            />
+              {/* Notifications toggle switch */}
+              <ToggleSwitch
+                value={notificationsEnabled}
+                onToggle={setNotificationsEnabled}
+              />
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Enable Email notifications:</Text>
+              
+              {/* Email notificaiton toggle switch */}
+              <ToggleSwitch
+                value={emailNotificationsEnabled}
+                onToggle={setEmailNotificationsEnabled}
+              />
+            </View>
           </View>
 
-          {/* Email Notification Switch */}
-          <View style={styles.row}>
-            <Text style={styles.label}>Enable email notifications</Text>
-            <Switch
-              value={emailEnabled}
-              onValueChange={setEmailEnabled}
-              trackColor={{ false: "#ccc", true: "#cbb88aff" }}
-              thumbColor={emailEnabled ? "#fff" : "#fff"}
-            />
+          {/* More settings Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Example Setting</Text>
+            <View style={styles.row}>
+              <Text style={styles.label}>Content:</Text>
+              <ToggleSwitch
+                value={notificationsEnabled}
+                onToggle={setNotificationsEnabled}
+              />
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Feed:</Text>
+              <ToggleSwitch
+                value={notificationsEnabled}
+                onToggle={setNotificationsEnabled}
+              />
+            </View>
           </View>
 
           {/* Sign Out Button */}
-          <TouchableOpacity style={styles.signOutButton} onPress={() => alert("Sign Out")}>
+          <TouchableOpacity
+            style={styles.signOutButton}
+            onPress={() =>
+              Alert.alert("Signed out!", undefined, [{ text: "OK" }])
+            }
+          >
             <Text style={styles.signOutText}>Sign Out</Text>
           </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+        </ScrollView>
+      </View>
     </SafeAreaProvider>
   );
 }
 
+/* Style sheets */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fef8ef",
-    alignItems: "center",
+    backgroundColor: COLORS.background,
   },
-  banner: {
+
+  headerContainer: {
     width: "100%",
-    backgroundColor: "#000361ff",
-    height: 100,
+    backgroundColor: COLORS.headerBackground,
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 35,
+    paddingHorizontal: 15,
     position: "relative",
   },
   backButton: {
     position: "absolute",
     left: 15,
-    justifyContent: "center",
-    height: "100%",
+    bottom: 15,
+    padding: 8,
   },
-  backText: {
+  backArrow: {
+    fontSize: 26,
     color: "#fff",
-    fontSize: 24,
+    fontWeight: "bold",
   },
-  titleContainer: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: "center",
+  headerCenter: {
+    flex: 1,
     alignItems: "center",
   },
-  title: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: COLORS.headerText,
+    letterSpacing: 1,
+  },
+
+  scrollContainer: {
+    alignItems: "center",
+    paddingVertical: 25,
   },
   card: {
     width: "90%",
-    backgroundColor: "#fff",
-    borderRadius: 20,
+    backgroundColor: COLORS.cardBackground,
+    borderRadius: 15,
     padding: 20,
-    marginTop: 30,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
+    marginBottom: 22,
+    borderWidth: 1,
+    borderColor: "#000",
+    borderStyle: "solid",
   },
   cardTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 17,
+    fontWeight: "700",
+    marginBottom: 15,
     color: "#000",
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 15,
+    marginVertical: 10,
   },
   label: {
-    fontSize: 16,
-    color: "#555",
+    fontSize: 15,
+    color: "#333",
   },
-  signOutButton: {
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "#e74c3c",
+
+  switch: {
+    width: 54,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: "center",
+    paddingHorizontal: 2,
+  },
+  switchKnob: {
+    width: 20,
+    height: 20,
     borderRadius: 10,
-    paddingVertical: 12,
+    backgroundColor: "#fff",
+    position: "absolute",
+    top: 2,
+  },
+
+  signOutButton: {
+    borderWidth: 1.5,
+    borderColor: "red",
+    borderRadius: 50,
+    width: "80%",
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    paddingVertical: 12,
   },
   signOutText: {
-    color: "#e74c3c",
+    color: "red",
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "600",
   },
 });
