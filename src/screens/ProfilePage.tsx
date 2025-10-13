@@ -1,4 +1,3 @@
-// ProfilePage.tsx
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -12,6 +11,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import ClubBanner from "../components/ClubBanner"; // adjust path if needed
+import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 
 type FilterKey = "pinned" | "rsvp" | "past" | "invited";
@@ -210,12 +210,10 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: "#fbf8f3",
+    backgroundColor: theme.colors.background,
   },
   header: {
     paddingBottom: 12,
-    backgroundColor: "#fbf8f3",
-    // top bar / dark section is optional — replicate the image if you want
   },
   pageTitle: {
     color: "#fff",

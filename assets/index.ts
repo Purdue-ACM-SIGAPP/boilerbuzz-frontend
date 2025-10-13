@@ -15,6 +15,8 @@ const Images = {
   user: require("./navbar_icons/user.png"),
   user_pressed: require("./navbar_icons/user_pressed.png"),
 
+  cross: require("./cross.png"),
+
 } as const;
 
 export type ImagesType = typeof Images;

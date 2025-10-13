@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, Alert, View } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, Alert, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MyButton from "../components/MyButton";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "../navigation/types";
@@ -12,64 +11,60 @@ type LoginPageNav = NativeStackNavigationProp<RootStackParamList, "Login">;
 
 export default function LoginPage() {
   const navigation = useNavigation<LoginPageNav>();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (!username || !password) {
-      Alert.alert("Error", "Please enter both username and password.");
-    } else {
-      navigation.navigate("Tabs");
-    }
-  };
-
-  const handleRegister = () => {
     navigation.navigate("Tabs");
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.circle} />
-      <TextInput
-        onChangeText={setUsername}
-        value={username}
-        style={styles.textbox}
-        placeholder="Username"
-      />
-      <TextInput
-        onChangeText={setPassword}
-        value={password}
-        placeholder="Password"
-        secureTextEntry
-        style={styles.textbox}
-      />
-      <MyButton title="Login" onPress={handleLogin} />
-      <MyButton title="Register" onPress={handleRegister} />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.upper}></View>
+      <View style={styles.container}>
+        <View style={{ height: 50 }}></View>
+        <Text style={theme.titleBlack}>BOILERBUZZ</Text>
+        <View style={{ height: 20 }}></View>
+
+        {/* Login Button */}
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={theme.h1}>Login</Text>
+        </TouchableOpacity>
+
+        {/* Sign Up Text */}
+        <Text style={theme.h2}>Don't have an account?</Text>
+        <View style={{ height: 20 }}></View>
+        <TouchableOpacity onPress={handleLogin}>
+          <Text style={theme.h1}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.highlight,
+  },
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     alignItems: "center",
+  },
+  upper: {
+    zIndex: 1,
+    backgroundColor: theme.colors.background,
+    width: "100%",
+    height: "70%",
+    borderBottomLeftRadius: 200,
+    borderBottomRightRadius: 200,
+    marginTop: -100,
+  },
+  loginButton: {
+    width: 150,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
     justifyContent: "center",
-  },
-  textbox: {
-    margin: 10,
-    height: 40,
-    fontSize: 16,
-    width: 300,
-    borderColor: "black",
-    borderWidth: 2,
-    paddingHorizontal: 10,
-    backgroundColor: "#fff",
-  },
-  circle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#fff",
+    alignItems: "center",
+    marginBottom: 35,
   },
 });

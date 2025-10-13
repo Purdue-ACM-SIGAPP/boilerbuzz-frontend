@@ -1,13 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FeedPage from "../screens/FeedPage";
-import FeaturedPage from "../screens/FeaturedPage";
-import BoardPage from "../screens/BoardPage";
-import SearchPage from "../screens/SearchPage";
+import FeedPage from "../screens/HomePage";
+import FeaturedPage from "../screens/TrendingPage";
+import BoardPage from "../screens/PinnedPage";
+import SearchPage from "../screens/FindPage";
 import ProfilePage from "../screens/ProfilePage";
 import type { BottomTabsParamList } from "./types";
 import Images from "../../assets";
-import { Image } from "react-native";
+import theme from "../theme";
+import { TabIcon } from "../components/TabIcon";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
@@ -15,21 +16,27 @@ export default function BottomTabsNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: theme.colors.background,
+          borderTopWidth: 1,
+          borderTopColor: "black",
+          height: 100,
+        },
+        tabBarLabelStyle: { color: "black" },
+      }}
     >
       <Tab.Screen
         name="Home"
         component={FeedPage}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ focused }) => (
-            <Image
+            <TabIcon
+              focused={focused}
               source={focused ? Images.home_pressed : Images.home}
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? "#00000" : "#00000",
-              }}
+              label="Home"
             />
           ),
         }}
@@ -38,15 +45,11 @@ export default function BottomTabsNavigator() {
         name="Trending"
         component={FeaturedPage}
         options={{
-          tabBarLabel: "Trending",
           tabBarIcon: ({ focused }) => (
-            <Image
+            <TabIcon
+              focused={focused}
               source={focused ? Images.podium_pressed : Images.podium}
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? "#00000" : "#00000",
-              }}
+              label="Trending"
             />
           ),
         }}
@@ -55,15 +58,11 @@ export default function BottomTabsNavigator() {
         name="Search"
         component={SearchPage}
         options={{
-          tabBarLabel: "Find Events",
           tabBarIcon: ({ focused }) => (
-            <Image
+            <TabIcon
+              focused={focused}
               source={focused ? Images.search_pressed : Images.search}
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? "#00000" : "#00000",
-              }}
+              label="Find Events"
             />
           ),
         }}
@@ -72,15 +71,11 @@ export default function BottomTabsNavigator() {
         name="Pinned"
         component={BoardPage}
         options={{
-          tabBarLabel: "Pinned",
           tabBarIcon: ({ focused }) => (
-            <Image
+            <TabIcon
+              focused={focused}
               source={focused ? Images.thumbtack_pressed : Images.thumbtack}
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? "#00000" : "#00000",
-              }}
+              label="Pinned"
             />
           ),
         }}
@@ -89,15 +84,11 @@ export default function BottomTabsNavigator() {
         name="Profile"
         component={ProfilePage}
         options={{
-          tabBarLabel: "Profile",
           tabBarIcon: ({ focused }) => (
-            <Image
+            <TabIcon
+              focused={focused}
               source={focused ? Images.user_pressed : Images.user}
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? "#00000" : "#00000",
-              }}
+              label="Profile"
             />
           ),
         }}
