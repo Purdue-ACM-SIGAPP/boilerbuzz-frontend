@@ -1,122 +1,286 @@
 // src/screens/LoginPage.tsx
-
-/* Official Purdue colors: 
-   #cfb991
-   #000000 
-   #8e6f3e
-   #DAAA00
-   #DDB945
-   #EBD99F
-   #555960
-   #6F727B
-   #9D9795
-   #C4BFC0
-*/
-
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  ImageBackground,
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
   Alert,
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  View
 } from "react-native";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import MyButton from "../components/MyButton";
 import { useNavigation } from "@react-navigation/native";
 
-// Use this to set an image as the background if needed. It just defaults to #ebd99fff when empty
-const BACKGROUND_IMAGE_URI = "";
+const { width, height } = Dimensions.get("window");
 
+
+
+// Height of the curved banner. It's proportional to the screen height.
+// Change this variable to make the banner taller or shorter.
+const CURVEDBANNER_HEIGHT = height * 0.66; // 0.66 = 2/3 of screen height from what I saw on figma
+
+// The initial offset of the banner when screen loads.
+// Negative values move it higher up, so 0.33 would be 1/3 of the banner above the loaded screen
+const CURVEDBANNER_SLIDE_TARGET = -CURVEDBANNER_HEIGHT * 0.33; // stop around 1/3 down.
+
+const LOGO_SIZE = 300; // size of logo
+const LOGO_MARGIN_TOP = 200; // Distance logo is from top of screen
+
+// Easy way to test and change color schemes/themes
+const COLORS = {
+  background: "#edecdd",
+  curvedBanner: "#fffaf1",
+  primaryText: "#000",
+  smallText: "#555",
+};
+
+
+
+
+/* Login page */
 export default function LoginPage() {
   const navigation = useNavigation();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const slideAnim = useRef(new Animated.Value(CURVEDBANNER_SLIDE_TARGET)).current;
 
-  const handleLogin = () => {
-    if (!username || !password) {
-      Alert.alert("Error", "Please enter both username and password.");
-    } else {
-      navigation.navigate("Tabs");
-    }
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 900,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
+  const [showLoginInputs, setShowLoginInputs] = useState(false);
+  const handleLoginPress = () => {
+    Animated.timing(slideAnim, {
+      toValue: -CURVEDBANNER_HEIGHT,
+      duration: 600,
+      easing: Easing.in(Easing.ease),
+      useNativeDriver: true,
+    }).start(() => {
+      setShowLoginInputs(true); // show inputs after animation
+    });
   };
 
-  const Container = BACKGROUND_IMAGE_URI ? ImageBackground : View;
-  const containerProps = BACKGROUND_IMAGE_URI
-    ? { source: { uri: BACKGROUND_IMAGE_URI }, style: styles.container }
-    : { style: styles.container };
 
   return (
-    <SafeAreaProvider>
-      <ImageBackground
-        source={BACKGROUND_IMAGE_URI ? { uri: BACKGROUND_IMAGE_URI } : undefined}
-        style={styles.container}
-        resizeMode="cover"
-      >
-        <View style={styles.card}>
-          <Text style={styles.headerTitle}>
-            Login
-          </Text>
-          <TextInput
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-            style={styles.textbox}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.textbox}
-          />
-          <MyButton title="Login" onPress={handleLogin} />
-          <MyButton title="Register" onPress={() => navigation.navigate("Register")} />
-        </View>
-      </ImageBackground>
-
-    </SafeAreaProvider>
-
+    <View style={styles.container}>
+      <CurvedBanner slideAnim={slideAnim} />
+      <LoginSection
+        navigation={navigation}
+        onLoginPress={handleLoginPress}
+        showInputs={showLoginInputs}
+        slideAnim={slideAnim}
+      />
+    </View>
   );
 }
 
+/* Component for Curved banner */
+function CurvedBanner({ slideAnim }: { slideAnim: Animated.Value }) {
+  return (
+    <Animated.View
+      style={[styles.curvedBannerWrapper, { transform: [{ translateY: slideAnim }] }]}
+    >
+      <View style={styles.curvedBannerShape} />
+
+      {/* Logo slides down with the curved banner */}
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            top: LOGO_MARGIN_TOP,
+            alignSelf: "center",
+            transform: [{ translateY: slideAnim }],
+          },
+        ]}
+      >
+        {/* Image of logo */}
+        <Image
+          source={require("../../assets/templogo.png")}
+          style={styles.logo}
+          resizeMode="cover"
+        />
+      </Animated.View>
+    </Animated.View>
+  );
+}
+
+// Bottom section / login area
+function LoginSection({ navigation, onLoginPress, showInputs, slideAnim }: any) {
+  const [username, setusername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Function to check that everything is inputted
+  const inputCheck = () => {
+      if (!username || !password) {
+        Alert.alert("Error", "Please fill out all fields.");
+      } else {
+        navigation.navigate("Tabs");
+      }
+    };
+
+  const loginSlide = slideAnim.interpolate({
+    inputRange: [-CURVEDBANNER_HEIGHT, 0],
+    outputRange: [-height * 0.5, 0], // This controls how far the login section slides upwards from the bottom once login is pressed
+    extrapolate: "clamp",
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.loginSection,
+        showInputs && styles.inputs,
+        { transform: [{ translateY: loginSlide }] },
+      ]}
+    >
+      <Text style={styles.appTitle}>BoilerBuzz</Text>
+
+      {/* Login Button */}
+      {!showInputs && (
+        <TouchableOpacity style={styles.loginButton} onPress={onLoginPress}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableOpacity>
+      )}
+        
+      {showInputs && (
+        <View style={styles.inputContainer}>
+
+          {/* Username textbox */}
+          <Text style={styles.label}>Username</Text>
+          <TextInput 
+            style={styles.input}
+            value={username}
+            onChangeText={setusername}
+          />
+
+          {/* Password textbox */}
+          <Text style={styles.label}>Password</Text>
+          <TextInput 
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+           
+          {/* Submit button */}
+          <TouchableOpacity style={styles.loginButton} onPress={() => inputCheck()}>
+            <Text style={styles.loginText}>Submit</Text>
+          </TouchableOpacity>
+
+          {/* Register text & button that appears only when login button is pressed*/}
+          <Text style={styles.signupPrompt}>Don’t have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+            <Text style={styles.signupLink}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      
+
+      {/* Register text & button that appears by default */}
+      {!showInputs && (
+        <>
+          <Text style={styles.signupPrompt}>Don’t have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+            <Text style={styles.signupLink}>Sign Up</Text>
+          </TouchableOpacity>
+        </>
+      )}
+    </Animated.View>
+  );
+}
+
+
+
+
+/* Style Sheets */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ebd99f",
+    backgroundColor: COLORS.background,
     alignItems: "center",
-    justifyContent: "center",
+  },
+  curvedBannerWrapper: {
     width: "100%",
-    height: "100%",
-  },
-  headerTitle: {
-    fontSize: 34,
-    fontWeight: "bold",
-    color: "#000",
-    padding:20
-  },
-  card: {
-    width: "85%",
-    padding: 20,
-    borderRadius: 15,
-    backgroundColor: "#f2ecd7ff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
     alignItems: "center",
+    overflow: "hidden",
   },
-  textbox: {
+  curvedBannerShape: {
+    width: width * 1.2,
+    height: CURVEDBANNER_HEIGHT,
+    backgroundColor: COLORS.curvedBanner,
+    borderBottomLeftRadius: width,
+    borderBottomRightRadius: width,
+  },
+  logo: {
+    width: LOGO_SIZE,
+    height: LOGO_SIZE,
+    borderRadius: 20,
+  },
+  loginSection: {
+    alignItems: "center",
+    marginTop: 40,
+  },
+  inputContainer: { 
+    width: "80%",
+    alignItems: "center" 
+  },
+  input: {
     width: "100%",
     height: 50,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-    borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#000",
-    backgroundColor: "#ffffff",
+    borderColor: COLORS.primaryText,
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
+  inputs: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+},
+  appTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    fontFamily: "Times New Roman", // Idk the font that was in the figma
+    color: COLORS.primaryText,
+    marginBottom: 40,
+  },
+  loginButton: {
+    width: 150,
+    height: 50,
+    borderWidth: 2,
+    borderColor: COLORS.primaryText,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 25,
+    backgroundColor: "transparent",
+  },
+  loginText: {
+    fontSize: 18,
+    color: COLORS.primaryText,
+    fontWeight: "600",
+  },
+  label: {
     fontSize: 16,
+    color: COLORS.primaryText,
+    marginBottom: 6,
+    alignSelf: "flex-start",
+  },
+  signupPrompt: {
+    fontSize: 14,
+    color: COLORS.smallText,
+  },
+  signupLink: {
+    fontSize: 18,
+    color: COLORS.primaryText,
+    fontWeight: "700",
+    marginTop: 5,
   },
 });
