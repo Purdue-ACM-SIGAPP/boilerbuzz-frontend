@@ -6,9 +6,11 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../theme";
+import Images from "../../assets";
 
 type User = {
   id: string;
@@ -34,7 +36,7 @@ type Props = {
   onPress?: () => void;
 };
 
-export default function EventCard({
+export default function PosterCard({
   eventTitle,
   eventDate,
   eventLocation,
@@ -53,37 +55,42 @@ export default function EventCard({
       <View style={styles.clubRow}>
         <Image source={{ uri: clubLogo }} style={styles.clubLogo} />
         <Text style={theme.h2Bold}>{clubName}</Text>
+        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
+          <Pressable 
+            style={styles.followBtn}
+            // onPress={onPressFunction}
+          >
+            <Text style={theme.h2Bold}>Follow</Text>
+          </Pressable>
+        </View>
       </View>
 
       <View style={styles.poster}></View>
-      {/* Description */}
-      <Text style={theme.h2}>{description}</Text>
-
-      {/* Attendees */}
-      <View style={styles.attendeeRow}>
-        {attendees.slice(0, 2).map((user) => (
-          <Image
-            key={user.id}
-            source={{ uri: user.avatar }}
-            style={styles.avatar}
-          />
-        ))}
-        {attendees.length > 2 && (
-          <Text style={theme.h2}> +{attendees.length - 2}</Text>
-        )}
+      {/* Buttons */}
+      <View style={styles.clubRow}>
+        <Image source={Images.favorite} style={styles.icons} resizeMode="contain"/>
+        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
+        <Text style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}>Likes</Text>
+        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
+          <Image source={Images.comment} style={styles.icons} resizeMode="contain"/>
+          <Image source={Images.send} style={styles.icons} resizeMode="contain"/>
+          <Image source={Images.pin} style={styles.icons} resizeMode="contain"/>
+        </View>
       </View>
-
-      {/* Comments */}
-      <FlatList
-        data={comments}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.comment}>
-            <Text style={theme.h2Bold}>{item.user}</Text>
-            <Text style={theme.h2}>{item.text}</Text>
-          </View>
-        )}
-      />
+      {/* Description */}
+      <View style={styles.clubRow}>
+        <Text style={theme.h2}>{description}</Text>
+        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
+          <Pressable 
+            style={styles.seeEventBtn}
+            // onPress={onPressFunction}
+          >
+            <Text style={theme.h2Bold}>See Event</Text>
+            <Image source={Images.toEvent} style={styles.toEvent} resizeMode="contain"/>
+          </Pressable>
+        </View>
+      </View>
+      
       {/* </TouchableOpacity> */}
     </View>
   );
@@ -132,5 +139,34 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.highlight,
     width: "100%",
     height: 400,
+  },
+  followBtn: {
+    backgroundColor: "#feb210",
+    height: 30,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  seeEventBtn: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "gray",
+    height: 30,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icons: {
+    width: 30,
+    height: 30,
+    margin: 5
+  },
+  toEvent: {
+    width: 15,
+    height: 15,
+    marginLeft: 2,
   },
 });
