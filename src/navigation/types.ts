@@ -2,15 +2,16 @@
 import type { NavigatorScreenParams } from "@react-navigation/native";
 
 export type BottomTabsParamList = {
-  Feed: undefined;
-  Featured: undefined;
-  Board: undefined;
+  Home: undefined;
+  Trending: undefined;
+  Search: undefined;
+  Pinned: undefined;
+  Profile: undefined;
 };
 
 export type RootStackParamList = {
-  Tabs: NavigatorScreenParams<BottomTabsParamList>;
+  Tabs: NavigatorScreenParams<BottomTabsParamList> | undefined;
   Login: undefined;
   Register: undefined;
   Settings: undefined
-  // you can add more screens here, e.g. Details: { itemId: string }
 };
