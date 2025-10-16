@@ -15,6 +15,13 @@ const Images = {
   user: require("./navbar_icons/user.png"),
   user_pressed: require("./navbar_icons/user_pressed.png"),
 
+  // poster icons
+  comment: require("./post_icons/comment.png"),
+  favorite: require("./post_icons/favorite.png"),
+  send: require("./post_icons/send.png"),
+  pin: require("./navbar_icons/thumbtack.png"),
+  toEvent: require("./post_icons/to_event.png"),
+
   cross: require("./cross.png"),
 
 } as const;
