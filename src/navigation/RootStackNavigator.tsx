@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabsNavigator from "./BottomTabsNavigator";
 import LoginPage from "../screens/LoginPage";
 import type { RootStackParamList } from "./types";
+import AddEventPage from "../screens/AddEventPage";
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
