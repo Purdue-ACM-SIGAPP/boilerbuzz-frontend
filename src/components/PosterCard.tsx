@@ -55,8 +55,10 @@ export default function PosterCard({
       <View style={styles.clubRow}>
         <Image source={{ uri: clubLogo }} style={styles.clubLogo} />
         <Text style={theme.h2Bold}>{clubName}</Text>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Pressable 
+        <View
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <Pressable
             style={styles.followBtn}
             // onPress={onPressFunction}
           >
@@ -68,29 +70,59 @@ export default function PosterCard({
       <View style={styles.poster}></View>
       {/* Buttons */}
       <View style={styles.clubRow}>
-        <Image source={Images.favorite} style={styles.icons} resizeMode="contain"/>
+        <Image
+          source={Images.favorite}
+          style={styles.icons}
+          resizeMode="contain"
+        />
         <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
-        <Text style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}>Likes</Text>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Image source={Images.comment} style={styles.icons} resizeMode="contain"/>
-          <Image source={Images.send} style={styles.icons} resizeMode="contain"/>
-          <Image source={Images.pin} style={styles.icons} resizeMode="contain"/>
+        <Text
+          style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}
+        >
+          Likes
+        </Text>
+        <View
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <Image
+            source={Images.comment}
+            style={styles.icons}
+            resizeMode="contain"
+          />
+          <Image
+            source={Images.send}
+            style={styles.icons}
+            resizeMode="contain"
+          />
+          <Image
+            source={Images.pin}
+            style={styles.icons}
+            resizeMode="contain"
+          />
         </View>
       </View>
       {/* Description */}
       <View style={styles.clubRow}>
-        <Text style={theme.h2}>{description}</Text>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Pressable 
+        <View style={styles.description}>
+          <Text style={theme.h2}>{description}</Text>
+        </View>
+        <View
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <Pressable
             style={styles.seeEventBtn}
             // onPress={onPressFunction}
           >
             <Text style={theme.h2Bold}>See Event</Text>
-            <Image source={Images.toEvent} style={styles.toEvent} resizeMode="contain"/>
+            <Image
+              source={Images.toEvent}
+              style={styles.toEvent}
+              resizeMode="contain"
+            />
           </Pressable>
         </View>
       </View>
-      
+
       {/* </TouchableOpacity> */}
     </View>
   );
@@ -135,6 +167,9 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: 6,
   },
+  description: {
+    marginRight: 10,
+  },
   poster: {
     backgroundColor: theme.colors.highlight,
     width: "100%",
@@ -162,7 +197,7 @@ const styles = StyleSheet.create({
   icons: {
     width: 30,
     height: 30,
-    margin: 5
+    margin: 5,
   },
   toEvent: {
     width: 15,
