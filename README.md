@@ -1,1 +1,2 @@
 # Boilerbuzz
+Trending Component
