@@ -14,16 +14,25 @@ export default function EventSlide({ navigation, route }: Props) {
     </View> */}
 
     <View style = {EventDates.container}>
-      <Text adjustsFontSizeToFit numberOfLines={1} style = {EventDates.text}>7pm - 1 event</Text>
+      <Text adjustsFontSizeToFit style = {EventDates.text}>7pm - 1 event</Text>
     </View>
 
     <View style={EventPostShape.container}>
-      <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.image} />
+      <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.image} /> 
 
       <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Longboarding Callout</Text>
-      <Text style = {EventPostShape.caption}>Engineering Fountain</Text>
+      <Text style = {EventPostShape.location}>Engineering Fountain</Text>
+      <Text style = {EventPostShape.club}>Purdue ACM SIGAPP</Text>
+      <Text style = {EventPostShape.time}>5:30 - 8:30</Text>
+      <Text style = {EventPostShape.participants}>23/50</Text>
+      
       </View>
+
+      <Text style = {EventPostShape.socialTag}>Social</Text>
+      
+
+
       
     </View>
 
@@ -36,7 +45,7 @@ export default function EventSlide({ navigation, route }: Props) {
 
       <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Climbing Team</Text>
-      <Text style = {EventPostShape.caption}>Rockwall @ Corec</Text>
+      <Text style = {EventPostShape.location}>Rockwall @ Corec</Text>
       </View>
       
     </View>
@@ -46,7 +55,7 @@ export default function EventSlide({ navigation, route }: Props) {
 
       <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title}>Purdue Improv Club</Text>
-      <Text style = {EventPostShape.caption}>BRNG 1202</Text>
+      <Text style = {EventPostShape.location}>BRNG 1202</Text>
       </View>
 
     </View>
@@ -68,14 +77,16 @@ const styles = StyleSheet.create({
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: 321,
-    height: 65,
-    backgroundColor: 'lightblue',
+    width: 295,
+    height: 140,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
     margin: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderColor: 'black',
+    borderWidth: 1
 
     
   },
@@ -88,12 +99,11 @@ const EventPostShape = StyleSheet.create({
     height: 16,
     marginBottom: 15
   },
-  caption: {
+  location: {
     color: 'black',
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 'thin',
     paddingLeft: 100,
-    height: 13
 
   },
   image: {
@@ -112,6 +122,39 @@ const EventPostShape = StyleSheet.create({
     marginLeft: -70,
     marginBottom: 50
   },
+
+  club: {
+    fontSize: 12,
+
+  },
+
+  socialTag: {
+    backgroundColor: 'F0D895',
+
+
+
+  },
+
+  artsTag: {
+    backgroundColor: 'F68479',
+
+
+  },
+
+  time: {
+    fontSize: 15,
+    
+
+  },
+
+  participants: {
+    fontSize: 15,
+
+
+  }
+
+
+
 });
 
 const EventDates = StyleSheet.create({
@@ -124,8 +167,13 @@ const EventDates = StyleSheet.create({
     textAlign: 'center',
     height: 13
 
+  },
+  secondtext: {
+    
+
 
   }
 
 
 });
+
