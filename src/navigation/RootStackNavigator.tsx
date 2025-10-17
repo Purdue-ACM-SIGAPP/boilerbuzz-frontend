@@ -4,9 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabsNavigator from "./BottomTabsNavigator";
 import LoginPage from "../screens/LoginPage";
-import RegisterPage from "../screens/RegisterPage"
-import SettingsPage from "../screens/SettingsPage"
-import ProfilePage from "../screens/ProfilePage"
+import RegisterPage from "../screens/RegisterPage";
+import SettingsPage from "../screens/SettingsPage";
+import ProfilePage from "../screens/ProfilePage";
 import type { RootStackParamList } from "./types";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -14,7 +14,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Settings"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}

@@ -10,7 +10,10 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 // Easy way to test and change different color schemes/themes
 const COLORS = {
@@ -23,18 +26,18 @@ const COLORS = {
 };
 
 /* Header Banner */
-function SettingsHeader({ title, onBack }: { title: string; onBack: () => void }) {
-  
+function SettingsHeader({
+  title,
+  onBack,
+}: {
+  title: string;
+  onBack: () => void;
+}) {
   // getting insets to apply top padding so header banner can reach iphone notchs
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={[
-        styles.headerContainer,
-        { paddingTop: insets.top },
-      ]}
-    >
+    <View style={[styles.headerContainer, { paddingTop: insets.top }]}>
       {/* Back Arrow */}
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Text style={styles.backArrow}>❮</Text>
@@ -49,7 +52,13 @@ function SettingsHeader({ title, onBack }: { title: string; onBack: () => void }
 }
 
 /* Toggle switch functionality */
-function ToggleSwitch({value, onToggle}: {value: boolean; onToggle: (v: boolean) => void;}) {
+function ToggleSwitch({
+  value,
+  onToggle,
+}: {
+  value: boolean;
+  onToggle: (v: boolean) => void;
+}) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current;
 
   // knob animation
@@ -87,12 +96,16 @@ export default function SettingsPage() {
 
   // Toggle states for on/off settings
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false);
+  const [emailNotificationsEnabled, setEmailNotificationsEnabled] =
+    useState(false);
 
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <SettingsHeader title="SETTINGS" onBack={() => navigation.navigate("Login")} />
+        <SettingsHeader
+          title="SETTINGS"
+          onBack={() => navigation.navigate("Tabs", { screen: "Profile" })}
+        />
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {/* Notifications Card */}
@@ -109,7 +122,7 @@ export default function SettingsPage() {
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Enable Email notifications:</Text>
-              
+
               {/* Email notificaiton toggle switch */}
               <ToggleSwitch
                 value={emailNotificationsEnabled}
