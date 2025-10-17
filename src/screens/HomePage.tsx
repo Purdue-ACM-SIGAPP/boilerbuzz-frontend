@@ -4,7 +4,7 @@ import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
-import EventCard from "../components/EventCard";
+import PosterCard from "../components/PosterCard";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
@@ -71,7 +71,7 @@ export default function FeaturedPage({ navigation, route }: Props) {
        <FlatList
         data={events}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <EventCard {...item} />}
+        renderItem={({ item }) => <PosterCard {...item} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
