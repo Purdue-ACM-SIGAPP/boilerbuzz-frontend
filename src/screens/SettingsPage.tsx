@@ -92,7 +92,7 @@ export default function SettingsPage() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <SettingsHeader title="SETTINGS" onBack={() => navigation.navigate("Tabs")} />
+        <SettingsHeader title="SETTINGS" onBack={() => navigation.navigate("Login")} />
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {/* Notifications Card */}
