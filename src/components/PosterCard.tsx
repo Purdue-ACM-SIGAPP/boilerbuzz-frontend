@@ -36,6 +36,9 @@ type Props = {
   onPress?: () => void;
 };
 
+// Notes: Comments should open a comment section (still being discussed)
+// Send should open an external link to share (unimplemented)
+// Pin should add to the Pinned page (unimplemented)
 export default function PosterCard({
   eventTitle,
   eventDate,
