@@ -6,6 +6,7 @@ export type BottomTabsParamList = {
   Search: undefined;
   Pinned: undefined;
   Profile: undefined;
+  Feed: undefined;
 };
 
 export type RootStackParamList = {
