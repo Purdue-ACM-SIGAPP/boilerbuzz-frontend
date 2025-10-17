@@ -20,9 +20,6 @@ export default function RootStackNavigator() {
       >
         <Stack.Screen name="Tabs" component={BottomTabsNavigator} />
         <Stack.Screen name="Login" component={LoginPage} />
-        {/* Add other screens here as needed, e.g.: */}
-        {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
