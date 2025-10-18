@@ -2,82 +2,101 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import theme from "../theme";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
-export default function EventSlide({ navigation, route }: Props) {
+type EventSlideProps = {
+  eventTitle?: string;
+  eventHost?: string;
+  eventLocation?: string;
+  eventTime?: string;
+  eventParticipants?: number;
+  eventParticipantsMax?: number;
+  socialTag?: boolean;
+  artsTag?: boolean;
+
+};
+
+export default function EventSlide({eventTitle, 
+  eventHost, 
+  eventLocation, 
+  eventTime, 
+  eventParticipants, 
+  eventParticipantsMax, 
+  socialTag, 
+  artsTag}: EventSlideProps) {
+
+
+
   return (
     <>
-    {/* <View style={styles.container}>
-      <Text style={styles.text}>EventSlide Page</Text>
     
-    </View> */}
-
-    <View style = {EventDates.container}>
-      <Text adjustsFontSizeToFit style = {EventDates.text}>7pm - 1 event</Text>
-    </View>
-
     <View style={EventPostShape.container}>
-      <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.image} /> 
+ 
+    <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.imageContainer} /> 
+    
+    <View style={EventPostShape.textContainer}>
+      <Text style={EventPostShape.title} numberOfLines={1} >{eventTitle}.</Text>
 
-      <View style={EventPostShape.textContainer}>
-      <Text style={EventPostShape.title}>Purdue Longboarding Callout</Text>
-      <Text style = {EventPostShape.location}>Engineering Fountain</Text>
-      <Text style = {EventPostShape.club}>Purdue ACM SIGAPP</Text>
-      <Text style = {EventPostShape.time}>5:30 - 8:30</Text>
-      <Text style = {EventPostShape.participants}>23/50</Text>
+      <View style = {EventPostShape.textImageContainer}>
+        <Image source = {require('../../assets/location.png')} style = {EventPostShape.locationicon} />
+        <Text style = {EventPostShape.location}>{eventLocation}</Text>
+      </View>
+    
+      <Text style = {EventPostShape.club}>{eventHost}</Text>
+
       
+      <View style = {EventPostShape.tagContainerRow1}>
+        
+
+        {socialTag && (<View style = {EventPostShape.socialTag}>
+          <Text style = {EventPostShape.socialText}>social</Text>
+        </View>)}
+
       </View>
 
-      <Text style = {EventPostShape.socialTag}>Social</Text>
-      
+      <View style = {EventPostShape.tagContainerRow2}>
+        
+        {artsTag && (<View style = {EventPostShape.artsTag}>
+          <Text style = {EventPostShape.socialText}>Arts & Crafts</Text>
+        </View>)}
 
-
-      
-    </View>
-
-    <View style = {EventDates.container}>
-      <Text adjustsFontSizeToFit numberOfLines={1} style = {EventDates.text}>8pm - 2 events</Text>
-    </View>
-
-    <View style={EventPostShape.container}>
-      <Image source={require('../../assets/ClimbingTeam.jpeg')} style={EventPostShape.image} />
-
-      <View style={EventPostShape.textContainer}>
-      <Text style={EventPostShape.title}>Purdue Climbing Team</Text>
-      <Text style = {EventPostShape.location}>Rockwall @ Corec</Text>
-      </View>
-      
-    </View>
-
-    <View style={EventPostShape.container}>
-      <Image source={require('../../assets/ImprovClub.jpeg')} style={EventPostShape.image} />
-
-      <View style={EventPostShape.textContainer}>
-      <Text style={EventPostShape.title}>Purdue Improv Club</Text>
-      <Text style = {EventPostShape.location}>BRNG 1202</Text>
       </View>
 
     </View>
+
+    <View style = {EventPostShape.rightContainer}>
+    
+    <Text style = {EventPostShape.time}>{eventTime}</Text>
+
+    <View style = {EventPostShape.rightImageContainer}>
+      <Image source = {require('../../assets/group.png')} style = {EventPostShape.participantsicon} />
+      <Text style = {EventPostShape.participants}>{eventParticipants}/{eventParticipantsMax}</Text>
+    </View>
+
+    </View>
+
+          
+        </View>
     
 
     </>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 4,
     alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: theme.colors.background,
   },
-  text: { fontSize: 20 },
 });
-
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: 295,
+    width: 320,
     height: 140,
     backgroundColor: 'white',
     justifyContent: 'center',
@@ -86,93 +105,171 @@ const EventPostShape = StyleSheet.create({
     margin: 20,
     flexDirection: 'row',
     borderColor: 'black',
-    borderWidth: 1
+    borderWidth: 1,
+    padding: 10,
+    
 
     
   },
+  
   title: {
     color: 'black',
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold',
-    paddingLeft: 100,
-    paddingTop: 30,
-    height: 16,
-    marginBottom: 15
+    flex: 1
   },
   location: {
     color: 'black',
     fontSize: 15,
-    fontWeight: 'thin',
-    paddingLeft: 100,
+    fontWeight: 'condensedBold',
+    flex: 1,
+    height: 15,
+    width: 82,
+    alignSelf:'center'
 
   },
-  image: {
-    width: 28,
-    height: 43,
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
-    resizeMode: 'cover',
-    marginTop: 16,
-    marginLeft:30
+  resizeImage: {
+    width: '100%',
+    height: '100%',
+
+
 
   },
+
+  imageContainer: {
+    width: 45,
+    height: 63,
+    borderWidth: 1,
+    borderColor: 'black',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft: 10,
+    marginTop: -50
+  },
+  
   textContainer: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: -70,
-    marginBottom: 50
+    marginBottom: 10,
+    marginLeft: 0,
+    marginTop: 10,
+    flexDirection: 'column',
+    gap: 0,
+    padding: 10,
+
+    
   },
+
+  textImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5
+
+  },
+
+  rightContainer: {
+    justifyContent: 'flex-end',
+    flex: 1,
+    flexDirection: 'column',
+    gap: 0,
+    alignItems: 'flex-end',
+    marginTop: -65,
+    
+  },
+
+  rightImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5
+
+  },
+
+  tagContainerRow1: {
+    alignItems:'flex-end',
+    flexDirection: 'row',
+
+  },
+
+  tagContainerRow2: {
+    alignItems:'flex-end',
+    flexDirection: 'row'
+
+
+  },
+
 
   club: {
     fontSize: 12,
+    color: 'darkgrey',
+    flex: 1,
+    width: 140,
+    height: 12,
 
   },
 
   socialTag: {
-    backgroundColor: 'F0D895',
+    backgroundColor: 'rgb(240, 216, 149)',
+    borderRadius: 10,
+    padding: 10,
+    borderColor: 'black',
+    width: 57,
+    height: 21,
+    margin: 5
+    
+  },
 
 
+  socialText: {
+    fontSize: 15,
+    alignSelf: 'center',
+    marginTop: -7,
+    fontWeight: 'medium'
 
   },
 
   artsTag: {
-    backgroundColor: 'F68479',
-
+    backgroundColor: 'rgb(246,132,121)',
+    borderRadius: 10,
+    padding: 10,
+    borderColor: 'black',
+    width: 110,
+    height: 21,
+    margin: 5
 
   },
 
   time: {
     fontSize: 15,
+    color: 'darkgrey',
+    flex: 1,
+    
     
 
   },
 
   participants: {
     fontSize: 15,
+    color: 'darkgrey',
+    flex: 1,
 
+  },
+
+  participantsicon: {
+    width: 17,
+    height: 17,
+
+  },
+
+  locationicon: {
+    width: 18,
+    height: 18,
 
   }
 
 
 
-});
 
-const EventDates = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 11,
-    textAlign: 'center',
-    height: 13
-
-  },
-  secondtext: {
-    
-
-
-  }
 
 
 });
