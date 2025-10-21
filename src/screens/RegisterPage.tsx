@@ -194,7 +194,7 @@ export default function RegisterPage() {
 
               {/* Birthday month input */}
                 <View style={{flex: 1}}>
-                  <Text style={styles.fieldLabel}>Month</Text>
+                  <Text style={styles.subFieldLabel}>Month</Text>
                   <TextInput
                     style={[styles.input, { marginBottom: 0 }]}
                     placeholder="MM"
@@ -205,7 +205,7 @@ export default function RegisterPage() {
 
               {/* Birthday day input */}
                 <View style={{flex: 1}}>
-                  <Text style={styles.fieldLabel}>Day</Text>
+                  <Text style={styles.subFieldLabel}>Day</Text>
                   <TextInput
                     style={[styles.input, { marginBottom: 0 }]}
                     placeholder="DD"
@@ -216,7 +216,7 @@ export default function RegisterPage() {
 
               {/* Birthday year input */}
                 <View style={{flex: 1}}>
-                  <Text style={styles.fieldLabel}>Year</Text>
+                  <Text style={styles.subFieldLabel}>Year</Text>
                   <TextInput
                     style={[styles.input, { marginBottom: 0 }]}
                     placeholder="YYYY"
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     color: COLORS.text,
     marginBottom: 6,
     alignSelf: "flex-start",
@@ -397,8 +397,14 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   fieldLabel: {
-    fontSize: 16,
+    fontSize: 20,
     color: COLORS.text,
+    marginBottom: 6,
+    fontFamily: theme.fonts.body,
+  },
+  subFieldLabel: {
+    fontSize: 16,
+    color: "#a1a1a1",
     marginBottom: 6,
     fontFamily: theme.fonts.body,
   },
