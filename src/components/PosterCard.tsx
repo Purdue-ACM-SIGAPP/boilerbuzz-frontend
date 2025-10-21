@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -47,6 +47,10 @@ export default function PosterCard({
   comments,
   onPress,
 }: Props) {
+  const [likes, setLikes] = useState<number>(0);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [following, setFollowing] = useState<boolean>(false);
+
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}> */}
@@ -58,9 +62,11 @@ export default function PosterCard({
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
           <Pressable 
             style={styles.followBtn}
-            // onPress={onPressFunction}
+            onPress={()=>setFollowing(!following)}
           >
-            <Text style={theme.h2Bold}>Follow</Text>
+            <Text style={theme.h2Bold}>
+              {following?"Following":"Follow"}
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -68,13 +74,29 @@ export default function PosterCard({
       <View style={styles.poster}></View>
       {/* Buttons */}
       <View style={styles.clubRow}>
-        <Image source={Images.favorite} style={styles.icons} resizeMode="contain"/>
-        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
+        {/* Need to make a filled in version of the heart for favorite_filled */}
+        <Pressable onPress={()=>{
+          liked ? setLikes(likes-1) : setLikes(likes+1);
+          setLiked(!liked);
+        }}>
+          {liked ? (
+            <Image source={Images.favorite_filled} style={styles.icons} resizeMode="contain"/>
+            ) : (
+            <Image source={Images.favorite} style={styles.icons} resizeMode="contain"/>
+          )}
+        </Pressable>
+        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>{likes}</Text>
         <Text style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}>Likes</Text>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Image source={Images.comment} style={styles.icons} resizeMode="contain"/>
-          <Image source={Images.send} style={styles.icons} resizeMode="contain"/>
-          <Image source={Images.pin} style={styles.icons} resizeMode="contain"/>
+          <Pressable onPress={()=>console.log("comment")}>
+            <Image source={Images.comment} style={styles.icons} resizeMode="contain"/>
+          </Pressable>
+          <Pressable onPress={()=>console.log("share")}>
+            <Image source={Images.send} style={styles.icons} resizeMode="contain"/>
+          </Pressable>
+          <Pressable onPress={()=>console.log("pin")}>
+            <Image source={Images.pin} style={styles.icons} resizeMode="contain"/>
+          </Pressable>
         </View>
       </View>
       {/* Description */}
@@ -83,7 +105,7 @@ export default function PosterCard({
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
           <Pressable 
             style={styles.seeEventBtn}
-            // onPress={onPressFunction}
+            onPress={()=>console.log("go to event page")}
           >
             <Text style={theme.h2Bold}>See Event</Text>
             <Image source={Images.toEvent} style={styles.toEvent} resizeMode="contain"/>
