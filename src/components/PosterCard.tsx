@@ -36,6 +36,9 @@ type Props = {
   onPress?: () => void;
 };
 
+// Notes: Comments should open a comment section (still being discussed)
+// Send should open an external link to share (unimplemented)
+// Pin should add to the Pinned page (unimplemented)
 export default function PosterCard({
   eventTitle,
   eventDate,
@@ -59,8 +62,10 @@ export default function PosterCard({
       <View style={styles.clubRow}>
         <Image source={{ uri: clubLogo }} style={styles.clubLogo} />
         <Text style={theme.h2Bold}>{clubName}</Text>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Pressable 
+        <View
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <Pressable
             style={styles.followBtn}
             onPress={()=>setFollowing(!following)}
           >
@@ -101,18 +106,26 @@ export default function PosterCard({
       </View>
       {/* Description */}
       <View style={styles.clubRow}>
-        <Text style={theme.h2}>{description}</Text>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
-          <Pressable 
+        <View style={styles.description}>
+          <Text style={theme.h2}>{description}</Text>
+        </View>
+        <View
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <Pressable
             style={styles.seeEventBtn}
             onPress={()=>console.log("go to event page")}
           >
             <Text style={theme.h2Bold}>See Event</Text>
-            <Image source={Images.toEvent} style={styles.toEvent} resizeMode="contain"/>
+            <Image
+              source={Images.toEvent}
+              style={styles.toEvent}
+              resizeMode="contain"
+            />
           </Pressable>
         </View>
       </View>
-      
+
       {/* </TouchableOpacity> */}
     </View>
   );
@@ -157,6 +170,9 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: 6,
   },
+  description: {
+    marginRight: 10,
+  },
   poster: {
     backgroundColor: theme.colors.highlight,
     width: "100%",
@@ -184,7 +200,7 @@ const styles = StyleSheet.create({
   icons: {
     width: 30,
     height: 30,
-    margin: 5
+    margin: 5,
   },
   toEvent: {
     width: 15,
