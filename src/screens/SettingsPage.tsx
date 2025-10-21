@@ -14,6 +14,8 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import HeaderBanner from "../components/HeaderBanner";
+import theme from "../theme";
 
 // Easy way to test and change different color schemes/themes
 const COLORS = {
@@ -25,7 +27,7 @@ const COLORS = {
   headerText: "#fff",
 };
 
-/* Header Banner */
+/* Header Banner (not used anymore, kept here just in case though.)
 function SettingsHeader({
   title,
   onBack,
@@ -38,18 +40,18 @@ function SettingsHeader({
 
   return (
     <View style={[styles.headerContainer, { paddingTop: insets.top }]}>
-      {/* Back Arrow */}
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Text style={styles.backArrow}>❮</Text>
       </TouchableOpacity>
 
-      {/* Title */}
       <View style={styles.headerCenter}>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
     </View>
   );
 }
+*/
+
 
 /* Toggle switch functionality */
 function ToggleSwitch({
@@ -102,10 +104,24 @@ export default function SettingsPage() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <SettingsHeader
-          title="SETTINGS"
-          onBack={() => navigation.navigate("Tabs", { screen: "Profile" })}
-        />
+        {/* --- HEADER SECTION --- */}
+        <View style={{position: "relative"}}>
+          
+          {/* I changed the banner so that it uses the component in the files,
+              but I couldn't find another way to center the title, so
+              I'll just leave this temporary fix until there's a
+              way to change the banner component to allow for centered
+              text and have a button*/}
+          <HeaderBanner title="                SETTINGS" /> 
+
+          {/* Back Arrow Overlay */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Tabs", { screen: "Profile" })}
+            style={styles.backButton}
+          >
+            <Text style={styles.backArrow}>❮</Text>
+          </TouchableOpacity>
+        </View>
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {/* Notifications Card */}
@@ -133,7 +149,7 @@ export default function SettingsPage() {
 
           {/* More settings Card */}
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Example Setting</Text>
+            <Text style={styles.cardTitle}>PROFILE</Text>
             <View style={styles.row}>
               <Text style={styles.label}>Content:</Text>
               <ToggleSwitch
@@ -153,9 +169,7 @@ export default function SettingsPage() {
           {/* Sign Out Button */}
           <TouchableOpacity
             style={styles.signOutButton}
-            onPress={() =>
-              Alert.alert("Signed out!", undefined, [{ text: "OK" }])
-            }
+            onPress={() => navigation.navigate("Login")}
           >
             <Text style={styles.signOutText}>Sign Out</Text>
           </TouchableOpacity>
@@ -189,9 +203,11 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   backArrow: {
-    fontSize: 26,
+    fontSize: 42,
     color: "#fff",
     fontWeight: "bold",
+    fontFamily: theme.fonts.heading,
+    marginBottom: 5
   },
   headerCenter: {
     flex: 1,
@@ -201,7 +217,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: COLORS.headerText,
-    letterSpacing: 1,
+    fontFamily: theme.fonts.heading,
+    letterSpacing: 2,
   },
 
   scrollContainer: {
@@ -219,10 +236,11 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   cardTitle: {
-    fontSize: 17,
+    fontSize: 22,
     fontWeight: "700",
     marginBottom: 15,
     color: "#000",
+    fontFamily: theme.fonts.heading,
   },
   row: {
     flexDirection: "row",
@@ -231,8 +249,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   label: {
-    fontSize: 15,
+    fontSize: 18,
     color: "#333",
+    fontFamily: theme.fonts.body,
   },
 
   switch: {
@@ -265,5 +284,6 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 16,
     fontWeight: "600",
+    fontFamily: theme.fonts.body,
   },
 });

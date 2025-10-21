@@ -13,7 +13,7 @@ import {
   View
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import theme from "../theme"
 const { width, height } = Dimensions.get("window");
 
 
@@ -237,17 +237,19 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 15,
     marginBottom: 20,
+    fontFamily: theme.fonts.body,
+    
   },
   inputs: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-},
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
   appTitle: {
-    fontSize: 28,
+    fontSize: 50,
     fontWeight: "bold",
-    fontFamily: "Times New Roman", // Idk the font that was in the figma
+    fontFamily: theme.fonts.heading,
     color: COLORS.primaryText,
     marginBottom: 40,
   },
@@ -261,26 +263,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 25,
     backgroundColor: "transparent",
+    fontFamily: theme.fonts.body,
   },
   loginText: {
     fontSize: 18,
     color: COLORS.primaryText,
     fontWeight: "600",
+    fontFamily: theme.fonts.body,
   },
   label: {
     fontSize: 16,
     color: COLORS.primaryText,
     marginBottom: 6,
     alignSelf: "flex-start",
+    fontFamily: theme.fonts.body,
   },
   signupPrompt: {
     fontSize: 14,
     color: COLORS.smallText,
+    fontFamily: theme.fonts.body,
   },
   signupLink: {
     fontSize: 18,
     color: COLORS.primaryText,
     fontWeight: "700",
     marginTop: 5,
+    fontFamily: theme.fonts.body,
   },
 });

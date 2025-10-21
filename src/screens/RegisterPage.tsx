@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-
+import theme from "../theme"
 
 // Easy way to test and change different color schemes/themes
 const COLORS = {
@@ -306,7 +306,7 @@ export default function RegisterPage() {
 
               <Text style={styles.signUpText}>You’re Signed Up!</Text>
               <Text>
-                Explore what events Purdue has to offer!
+                Explore what events Purdue has to offer
               </Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={nextStep}>
@@ -343,9 +343,10 @@ const styles = StyleSheet.create({
     color: COLORS.headerText,
     fontSize: 40,
     fontWeight: "bold",
-    letterSpacing: 1,
+    letterSpacing: 3,
     marginTop: 20,
-    marginLeft: 25
+    marginLeft: 25,
+    fontFamily: theme.fonts.heading,
   },
   progressContainer: {
     flexDirection: "row",
@@ -374,6 +375,7 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginBottom: 6,
     alignSelf: "flex-start",
+    fontFamily: theme.fonts.body,
   },
   input: {
     backgroundColor: COLORS.inputBackground,
@@ -385,6 +387,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: "100%",
     marginBottom: 60,
+    fontFamily: theme.fonts.body,
   },
   mutlipleFieldsRow: {
     flexDirection: "row",
@@ -397,6 +400,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text,
     marginBottom: 6,
+    fontFamily: theme.fonts.body,
   },
   slash: {
     fontSize: 18,
@@ -411,11 +415,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 25,
+    
   },
   nextText: {
     fontSize: 17,
     fontWeight: "600",
     color: COLORS.text,
+    fontFamily: theme.fonts.body,
   },
 
   imageContainer: {
@@ -432,10 +438,11 @@ const styles = StyleSheet.create({
     height: 200,
   },
   signUpText: {
-    fontSize: 22,
+    fontSize: 35,
     fontWeight: "700",
     color: COLORS.text,
     marginBottom: 10,
     textAlign: "center",
+    fontFamily: theme.fonts.heading,
   },
 });
