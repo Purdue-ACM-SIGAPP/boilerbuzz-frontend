@@ -8,7 +8,7 @@ type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
 const { width: screenWidth } = Dimensions.get("window");
 const BASE_WIDTH = 375;
-const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85;
+const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85; 
 
 
 type EventSlideProps = {
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: Math.min(screenWidth * 0.85, 320), 
-    minHeight: 70 * scale,
+    width: Math.min(screenWidth * 0.85, 320), //Math.min(screenWidth * 0.85, 320)
+    minHeight: 70 * scale, 
     backgroundColor: "white",
     justifyContent: "space-between",
     alignItems: "center",
@@ -134,7 +134,7 @@ const EventPostShape = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     flexDirection: "column",
-    paddingHorizontal: 8 * scale,
+    paddingHorizontal: 8 * scale, //8 * scale
     paddingVertical: 2 * scale,
     maxWidth: "60%", 
   },
@@ -206,14 +206,16 @@ const EventPostShape = StyleSheet.create({
     fontSize: 10 * scale,
     fontWeight: "500",
     textAlign: "center",
+    flexShrink: 1,
   },
 
   rightContainer: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "flex-end",
     paddingLeft: 8 * scale,
     height: "100%",
     width: "20%",
+
   },
 
   rightImageContainer: {

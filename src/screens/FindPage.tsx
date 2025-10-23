@@ -17,7 +17,7 @@ export default function FeaturedPage({ navigation, route }: Props) {
   const eventData = [
     {
     eventTitle: "Event", 
-    eventHost: "Sigapp", 
+    eventHost: "Purdue Acm Sigapp", 
     eventLocation: "LWSN", 
     eventTime: "5:30 - 8:30", 
     eventParticipants: 23, 
