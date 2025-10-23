@@ -13,6 +13,22 @@ import EventSlide from "../components/EventSlide";
 type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
 export default function FeaturedPage({ navigation, route }: Props) {
+
+  const eventData = [
+    {
+    eventTitle: "Event", 
+    eventHost: "Sigapp", 
+    eventLocation: "LWSN", 
+    eventTime: "5:30 - 8:30", 
+    eventParticipants: 23, 
+    eventParticipantsMax: 50, 
+    socialTag: true, 
+    artsTag: true 
+
+    }
+
+  ];  
+
   return (
     <>
     <View style={styles.container}>
@@ -21,7 +37,9 @@ export default function FeaturedPage({ navigation, route }: Props) {
       <FilterMenu></FilterMenu>
       <ClubBanner></ClubBanner>
       <MyButton title="test" onPress={()=>{}}></MyButton>
-      <EventSlide eventTitle = "Event" eventHost = "Sigapp" eventLocation = "LWSN" eventTime = "5:30 - 8:30" eventParticipants = {23} eventParticipantsMax = {50} socialTag = {true} artsTag = {true} ></EventSlide>
+      {eventData.map((event, index) => (
+        <EventSlide key={index} data={event} />
+      ))}
     </View>
 
     

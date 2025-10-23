@@ -1,40 +1,52 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
+const { width: screenWidth } = Dimensions.get("window");
+const BASE_WIDTH = 375;
+const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85;
+
+
 type EventSlideProps = {
-  eventTitle?: string;
-  eventHost?: string;
-  eventLocation?: string;
-  eventTime?: string;
-  eventParticipants?: number;
-  eventParticipantsMax?: number;
-  socialTag?: boolean;
-  artsTag?: boolean;
+  data: {
+    eventTitle?: string;
+    eventHost?: string;
+    eventLocation?: string;
+    eventTime?: string;
+    eventParticipants?: number;
+    eventParticipantsMax?: number;
+    socialTag?: boolean;
+    artsTag?: boolean;
 
-};
+  };
 
-export default function EventSlide({eventTitle, 
-  eventHost, 
-  eventLocation, 
-  eventTime, 
-  eventParticipants, 
-  eventParticipantsMax, 
-  socialTag, 
-  artsTag}: EventSlideProps) {
+  
 
+}
 
+export default function EventSlide({ data }: EventSlideProps) {
+  const {
+    eventTitle, 
+    eventHost, 
+    eventLocation, 
+    eventTime, 
+    eventParticipants, 
+    eventParticipantsMax, 
+    socialTag, 
+    artsTag
+  } = data;
+  
 
   return (
     <>
     
     <View style={EventPostShape.container}>
  
-    <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.imageContainer} /> 
+    <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.imageContainer} resizeMode="cover" /> 
     
     <View style={EventPostShape.textContainer}>
       <Text style={EventPostShape.title} numberOfLines={1} >{eventTitle}.</Text>
@@ -44,7 +56,7 @@ export default function EventSlide({eventTitle,
         <Text style = {EventPostShape.location}>{eventLocation}</Text>
       </View>
     
-      <Text style = {EventPostShape.club}>{eventHost}</Text>
+      <Text style = {EventPostShape.club} numberOfLines={1}>{eventHost}</Text>
 
       
       <View style = {EventPostShape.tagContainerRow1}>
@@ -68,7 +80,7 @@ export default function EventSlide({eventTitle,
 
     <View style = {EventPostShape.rightContainer}>
     
-    <Text style = {EventPostShape.time}>{eventTime}</Text>
+    <Text style = {EventPostShape.time} >{eventTime}</Text>
 
     <View style = {EventPostShape.rightImageContainer}>
       <Image source = {require('../../assets/group.png')} style = {EventPostShape.participantsicon} />
@@ -96,181 +108,138 @@ const styles = StyleSheet.create({
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: 320,
-    height: 140,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    margin: 20,
-    flexDirection: 'row',
-    borderColor: 'black',
+    width: Math.min(screenWidth * 0.85, 320), 
+    minHeight: 70 * scale,
+    backgroundColor: "white",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 6 * scale,
+    marginVertical: 6 * scale,
+    flexDirection: "row",
+    borderColor: "black",
     borderWidth: 1,
-    padding: 10,
-    
-
-    
-  },
-  
-  title: {
-    color: 'black',
-    fontSize: 15,
-    fontWeight: 'bold',
-    flex: 1
-  },
-  location: {
-    color: 'black',
-    fontSize: 15,
-    fontWeight: 'condensedBold',
-    flex: 1,
-    height: 15,
-    width: 82,
-    alignSelf:'center'
-
-  },
-  resizeImage: {
-    width: '100%',
-    height: '100%',
-
-
-
+    padding: 6 * scale,
+    alignSelf: "center",
   },
 
   imageContainer: {
-    width: 45,
-    height: 63,
+    width: 40 * scale,
+    height: 55 * scale,
     borderWidth: 1,
-    borderColor: 'black',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginLeft: 10,
-    marginTop: -50
+    borderColor: "black",
+    borderRadius: 8 * scale,
   },
-  
+
   textContainer: {
     flex: 1,
-    justifyContent: 'center',
-    marginBottom: 10,
-    marginLeft: 0,
-    marginTop: 10,
-    flexDirection: 'column',
-    gap: 0,
-    padding: 10,
-
-    
+    justifyContent: "center",
+    flexDirection: "column",
+    paddingHorizontal: 8 * scale,
+    paddingVertical: 2 * scale,
+    maxWidth: "60%", 
   },
 
-  textImageContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5
-
+  title: {
+    fontSize: 13 * scale,
+    fontWeight: "bold",
+    color: "black",
+    marginBottom: 2 * scale,
+    flexShrink: 1,
   },
 
-  rightContainer: {
-    justifyContent: 'flex-end',
-    flex: 1,
-    flexDirection: 'column',
-    gap: 0,
-    alignItems: 'flex-end',
-    marginTop: -65,
-    
-  },
-
-  rightImageContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5
-
-  },
-
-  tagContainerRow1: {
-    alignItems:'flex-end',
-    flexDirection: 'row',
-
-  },
-
-  tagContainerRow2: {
-    alignItems:'flex-end',
-    flexDirection: 'row'
-
-
-  },
-
-
-  club: {
-    fontSize: 12,
-    color: 'darkgrey',
-    flex: 1,
-    width: 140,
-    height: 12,
-
-  },
-
-  socialTag: {
-    backgroundColor: 'rgb(240, 216, 149)',
-    borderRadius: 10,
-    padding: 10,
-    borderColor: 'black',
-    width: 57,
-    height: 21,
-    margin: 5
-    
-  },
-
-
-  socialText: {
-    fontSize: 15,
-    alignSelf: 'center',
-    marginTop: -7,
-    fontWeight: 'medium'
-
-  },
-
-  artsTag: {
-    backgroundColor: 'rgb(246,132,121)',
-    borderRadius: 10,
-    padding: 10,
-    borderColor: 'black',
-    width: 110,
-    height: 21,
-    margin: 5
-
-  },
-
-  time: {
-    fontSize: 15,
-    color: 'darkgrey',
-    flex: 1,
-    
-    
-
-  },
-
-  participants: {
-    fontSize: 15,
-    color: 'darkgrey',
-    flex: 1,
-
-  },
-
-  participantsicon: {
-    width: 17,
-    height: 17,
-
+  location: {
+    fontSize: 11 * scale,
+    color: "black",
+    flexShrink: 1,
   },
 
   locationicon: {
-    width: 18,
-    height: 18,
+    width: 12 * scale,
+    height: 12 * scale,
+    marginRight: 4 * scale,
+  },
 
-  }
+  textImageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 4 * scale,
+  },
 
+  club: {
+    fontSize: 10 * scale,
+    color: "darkgrey",
+    marginBottom: 4 * scale,
+    flexShrink: 1,
+  },
 
+  tagContainerRow1: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 2 * scale,
+  },
 
+  tagContainerRow2: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 
+  socialTag: {
+    backgroundColor: "rgb(240, 216, 149)",
+    borderRadius: 6 * scale,
+    paddingHorizontal: 5 * scale,
+    paddingVertical: 1 * scale,
+    borderColor: "black",
+    borderWidth: 1,
+    marginRight: 5 * scale,
+  },
 
+  artsTag: {
+    backgroundColor: "rgb(246,132,121)",
+    borderRadius: 6 * scale,
+    paddingHorizontal: 5 * scale,
+    paddingVertical: 1 * scale,
+    borderColor: "black",
+    borderWidth: 1,
+  },
 
+  socialText: {
+    fontSize: 10 * scale,
+    fontWeight: "500",
+    textAlign: "center",
+  },
+
+  rightContainer: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingLeft: 8 * scale,
+    height: "100%",
+    width: "20%",
+  },
+
+  rightImageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4 * scale,
+  },
+
+  time: {
+    fontSize: 11 * scale,
+    color: "darkgrey",
+    textAlign: "right",
+  },
+
+  participants: {
+    fontSize: 11 * scale,
+    color: "darkgrey",
+    marginLeft: 4 * scale,
+    textAlign: "right",
+  },
+
+  participantsicon: {
+    width: 12 * scale,
+    height: 12 * scale,
+  },
 });
+
+
 
