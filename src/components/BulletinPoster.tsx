@@ -1,15 +1,22 @@
 // BulletinPoster.tsx
 import React, { useRef } from "react";
-import { Animated, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import { Animated, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-
-type posterProps = {
+type PosterProps = {
   title?: string;
   onPress: () => void;
-  image?: any;
+  image: number | { uri: string };
+  height?: number;
+  width?: number;
 };
 
-export default function BulletinPoster({ image, title, onPress }: posterProps) {
+export default function BulletinPoster({ 
+  image, 
+  title, 
+  onPress, 
+  height = 200, 
+  width = 150 
+}: PosterProps) {
   const scale = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
@@ -34,10 +41,14 @@ export default function BulletinPoster({ image, title, onPress }: posterProps) {
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={onPress}
-        >
-        <Image style={styles.poster}
-            source={require('../../assets/templogo.png')}
-            />
+      >
+        <Image 
+          style={[
+            styles.poster, 
+            { width, height }
+          ]}
+          source={image}
+        />
       </TouchableOpacity>
     </Animated.View>
   );
@@ -45,8 +56,6 @@ export default function BulletinPoster({ image, title, onPress }: posterProps) {
 
 const styles = StyleSheet.create({
   poster: {
-    width: 100,
-    height: 100,
     margin: 10,
     alignItems: "center",
   },
