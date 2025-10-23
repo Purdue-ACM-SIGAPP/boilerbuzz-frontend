@@ -5,6 +5,8 @@ import FeaturedPage from "../screens/TrendingPage";
 import BoardPage from "../screens/PinnedPage";
 import SearchPage from "../screens/FindPage";
 import ProfilePage from "../screens/ProfilePage";
+import AddEventPage from "../screens/AddEventPage";
+
 import type { BottomTabsParamList } from "./types";
 import Images from "../../assets";
 import theme from "../theme";
