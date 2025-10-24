@@ -110,7 +110,7 @@ const EventPostShape = StyleSheet.create({
   container: {
     width: Math.min(screenWidth * 0.85, 320), //Math.min(screenWidth * 0.85, 320)
     minHeight: 70 * scale, 
-    backgroundColor: "white",
+    backgroundColor: "FFFCF4",
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 6 * scale,
