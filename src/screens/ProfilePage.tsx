@@ -73,7 +73,7 @@ export default function ProfilePage() {
 
   const onOpenClubs = () => {
     // empty navigate as requested
-    navigation.navigate?.("Clubs" as never);
+    navigation.navigate?.("Clubs");
   };
 
   // Example stub for filter logic — you can plug your events array in here.
