@@ -3,11 +3,11 @@ import React, { useRef } from "react";
 import { Animated, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 type PosterProps = {
-  title?: string; // Just to keep track of poster origin/idea
+  title?: string;
   onPress: () => void;
   image: number | { uri: string };
-  height?: number;
-  width?: number;
+  height?: number; // optional now
+  width?: number;  // optional now
 };
 
 export default function BulletinPoster({

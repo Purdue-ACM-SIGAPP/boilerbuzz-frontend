@@ -46,11 +46,12 @@ export default function PanBoard({
 
   const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
+  // Build pan gesture (run on JS thread; no Reanimated needed)
   const pan = useMemo(() => {
     if (!metrics) return Gesture.Pan();
     return Gesture.Pan()
-      .runOnJS(true)
-      .activeOffsetX([-6, 6])
+      .runOnJS(true)                       // force JS callbacks (no worklets needed)
+      .activeOffsetX([-6, 6])              // small drag threshold so taps still work
       .activeOffsetY([-6, 6])
       .onUpdate((e) => {
         const nx = clamp(last.current.x + e.translationX, metrics.MIN_X, metrics.MAX_X);

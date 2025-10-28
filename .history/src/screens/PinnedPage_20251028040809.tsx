@@ -1,16 +1,14 @@
-// screens/PinnedPage.tsx
-import React, { useMemo, useState } from "react";
+// PinnedPage.tsx
+import React, { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import PanBoard from "../components/PanBoard";
 import BulletinPoster from "../components/BulletinPoster";
-import PackedScatterGrid, { ScatterItem } from "../components/PackedScatterGrid";
+import JitterScatter, { ScatterItem } from "../components/JitterScatter";
 
 export default function PinnedPage() {
-
-  // This is irrelevant, just filling space with random sized posters
   const posters = useMemo(
     () =>
-      Array.from({ length: 100 }, (_, i) => {
+      Array.from({ length: 600 }, (_, i) => {
         const likes = Math.floor(Math.random() * 600) + 10;
         const minH = 110, maxH = 240;
         const t = Math.min(1, Math.sqrt(likes) / Math.sqrt(600));
@@ -21,19 +19,18 @@ export default function PinnedPage() {
     []
   );
 
-  // Board size is 2000 x 2000 px
-  const [board, setBoard] = useState({ w: 2000, h: 2000 });
+  const boardWidth = 2000;
+  const boardHeight = 2000;
 
   return (
     <View style={styles.container}>
-      <PanBoard boardWidth={board.w} boardHeight={board.h}>
-        <PackedScatterGrid
+      <PanBoard boardWidth={boardWidth} boardHeight={boardHeight}>
+        <JitterScatter
           items={posters}
-          boardWidth={board.w}
-          boardHeight={board.h}
-          minSpacing={5}
-          seed={42}
-          onBoardSize={(w, h) => setBoard((cur) => (cur.w === w && cur.h === h ? cur : { w, h }))}
+          boardWidth={boardWidth}
+          boardHeight={boardHeight}
+          spacing={16}
+          seed={7}
           renderItem={(it) => (
             <BulletinPoster
               image={require("../../assets/tempposter.png")}
