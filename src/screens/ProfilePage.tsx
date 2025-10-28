@@ -1,4 +1,3 @@
-// ProfilePage.tsx
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -12,6 +11,8 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import ClubBanner from "../components/ClubBanner"; // adjust path if needed
+import theme from "../theme";
+import HeaderBanner from "../components/HeaderBanner";
 
 type FilterKey = "pinned" | "rsvp" | "past" | "invited";
 
@@ -64,10 +65,10 @@ export default function ProfilePage() {
     }
   };
 
-  const onEditProfile = () => {
+  const onSettings = () => {
     // navigate to your edit profile screen or open a modal
     // example navigation to an EditProfile screen (you can change)
-    navigation.navigate?.("EditProfile" as never);
+    navigation.navigate?.("Settings" as never);
   };
 
   const onOpenClubs = () => {
@@ -98,9 +99,12 @@ export default function ProfilePage() {
     <View style={styles.page}>
       {/* Header section */}
       <View style={styles.header}>
-        <View style={styles.headerTop}>
-          <Text style={styles.pageTitle}>PROFILE</Text>
-        </View>
+        <HeaderBanner
+          title="PROFILE"
+          // showBack and showSearch are optional; they remain hidden unless you enable them
+          // showBack={true} onBack={() => navigation.goBack()}
+          // showSearch={true} onSearchChange={(q) => console.log('search', q)}
+        />
 
         <View style={styles.profileRow}>
           {/* Avatar */}
@@ -122,10 +126,7 @@ export default function ProfilePage() {
           <View style={styles.profileInfo}>
             <View style={styles.nameRow}>
               <Text style={styles.username}>{username}</Text>
-              <TouchableOpacity
-                style={styles.settingsBtn}
-                onPress={onEditProfile}
-              >
+              <TouchableOpacity style={styles.settingsBtn} onPress={onSettings}>
                 <Text style={styles.settingsText}>Settings {">"}</Text>
               </TouchableOpacity>
             </View>
@@ -206,17 +207,10 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: "#fbf8f3",
+    backgroundColor: theme.colors.background,
   },
   header: {
     paddingBottom: 12,
-    backgroundColor: "#fbf8f3",
-    // top bar / dark section is optional — replicate the image if you want
-  },
-  headerTop: {
-    backgroundColor: "#07112a", // dark/navy header color (approx)
-    paddingVertical: 18,
-    paddingHorizontal: 16,
   },
   pageTitle: {
     color: "#fff",
