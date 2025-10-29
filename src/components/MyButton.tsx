@@ -1,21 +1,33 @@
 import React, { useRef } from "react";
-import { Animated, TouchableOpacity, Text, StyleSheet } from "react-native";
-
-// ! REVIEW NEEDED
+import {
+  Animated,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
+import theme from "../theme";
 
 type MyButtonProps = {
   title: string;
   onPress: () => void;
-  image?: any;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
 };
 
-export default function MyButton({ title, onPress }: MyButtonProps) {
+export default function MyButton({
+  title,
+  onPress,
+  style,
+  textStyle,
+}: MyButtonProps) {
   const scale = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
     Animated.spring(scale, {
-      toValue: 0.95,
-      friction: 3,
+      toValue: 0.96,
+      friction: 7,
       useNativeDriver: true,
     }).start();
   };
@@ -23,20 +35,21 @@ export default function MyButton({ title, onPress }: MyButtonProps) {
   const handlePressOut = () => {
     Animated.spring(scale, {
       toValue: 1,
-      friction: 3,
+      friction: 7,
       useNativeDriver: true,
     }).start();
   };
 
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
+    <Animated.View style={[{ transform: [{ scale }] }]}>
       <TouchableOpacity
-        style={styles.button}
+        activeOpacity={0.85}
+        style={[styles.button, style]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={onPress}
       >
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, textStyle]}>{title}</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -44,26 +57,26 @@ export default function MyButton({ title, onPress }: MyButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#cfb991",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    margin: 10,
+    backgroundColor: "#F6A21A", // orange pill like your design (keeps theme for other colors)
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 999, // pill
+    marginHorizontal: 12,
     alignItems: "center",
-  },
-  content: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  image: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
+    justifyContent: "center",
+    // shadow for iOS
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    // elevation for Android
+    elevation: 3,
   },
   text: {
     color: "#000000",
-    fontSize: 16,
-    fontWeight: "600",
-    fontFamily: "Arial",
+    fontSize: 20,
+    // prefer heading font for large button text if available
+    fontFamily: theme.fonts.body,
+    includeFontPadding: false,
   },
 });
