@@ -65,10 +65,10 @@ export default function ProfilePage() {
     }
   };
 
-  const onEditProfile = () => {
+  const onSettings = () => {
     // navigate to your edit profile screen or open a modal
     // example navigation to an EditProfile screen (you can change)
-    navigation.navigate?.("EditProfile" as never);
+    navigation.navigate?.("Settings" as never);
   };
 
   const onOpenClubs = () => {
@@ -127,10 +127,7 @@ export default function ProfilePage() {
           <View style={styles.profileInfo}>
             <View style={styles.nameRow}>
               <Text style={styles.username}>{username}</Text>
-              <TouchableOpacity
-                style={styles.settingsBtn}
-                onPress={onEditProfile}
-              >
+              <TouchableOpacity style={styles.settingsBtn} onPress={onSettings}>
                 <Text style={styles.settingsText}>Settings {">"}</Text>
               </TouchableOpacity>
             </View>
