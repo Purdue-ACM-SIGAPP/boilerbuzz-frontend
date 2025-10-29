@@ -74,6 +74,7 @@ export default function ProfilePage() {
   const onOpenClubs = () => {
     // empty navigate as requested
     navigation.navigate?.("Clubs");
+    console.log("Navigate to Clubs screen");
   };
 
   // Example stub for filter logic — you can plug your events array in here.
@@ -140,7 +141,17 @@ export default function ProfilePage() {
       </View>
 
       {/* Clubs banner */}
-      <ClubBanner onPress={onOpenClubs} title="Clubs" subtitle="20 Following" />
+      <TouchableOpacity
+            style={styles.container}
+            onPress={onOpenClubs}
+            activeOpacity={0.8}
+          >
+            <View>
+              <Text style={styles.title}>Clubs</Text>
+              <Text style={styles.subtitle}>0 Following</Text>
+            </View>
+            <Text style={styles.chev}>{">"}</Text>
+          </TouchableOpacity>
 
       {/* Divider */}
       <View style={styles.hr} />
@@ -292,6 +303,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: "flex-start",
   },
+  container: {
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // approx colors — you can override with your global styles
+    borderColor: "#cfcfcf",
+    backgroundColor: "transparent",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "600",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#999",
+    marginTop: 6,
+  },
+  chev: {
+    fontSize: 22,
+    color: "#333",
+    marginLeft: 12,
+  },
 });
 
 const filterStyles = StyleSheet.create({
@@ -313,4 +351,6 @@ const filterStyles = StyleSheet.create({
   activeLabel: {
     fontWeight: "700",
   },
+  
 });
+

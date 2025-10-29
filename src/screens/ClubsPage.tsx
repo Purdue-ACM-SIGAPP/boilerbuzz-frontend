@@ -1,10 +1,10 @@
 // src/screens/FeedScreen.tsx
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-export default function BoardPage() {
+export default function ClubsPage() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>BoardPage Page</Text>
+      <Text style={styles.text}>ClubsPage Page</Text>
     </View>
   );
 }
