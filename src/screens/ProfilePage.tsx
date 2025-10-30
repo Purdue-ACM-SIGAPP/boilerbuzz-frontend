@@ -53,13 +53,13 @@ export default function ProfilePage() {
         aspect: [1, 1],
       });
 
-      if (!result.cancelled) {
+      // if (!result.cancelled) {
         // expo v48+ uses result.assets[0].uri; older versions use result.uri
         // handle both shapes defensively
         // @ts-ignore
-        const uri = result.assets?.[0]?.uri ?? (result as any).uri;
-        if (uri) setAvatarUri(uri);
-      }
+      //   const uri = result.assets?.[0]?.uri ?? (result as any).uri;
+      //   if (uri) setAvatarUri(uri);
+      // }
     } catch (err) {
       console.warn("Image picker error", err);
     }
