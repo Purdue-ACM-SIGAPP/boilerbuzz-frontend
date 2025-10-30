@@ -141,7 +141,7 @@ export default function PackedScatterGrid({
       }
 
       if (!placedNode) {
-        // just drop far out without overlap (grid still prevents collisions)
+        // ultra-rare: just drop far out without overlap (grid still prevents collisions)
         placedNode = { id: it.id, left: Math.round(r), top: 0, width: it.width, height: it.height };
       }
 

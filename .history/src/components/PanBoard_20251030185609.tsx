@@ -34,19 +34,19 @@ export default function PanBoard({
     if (width !== vp.w || height !== vp.h) setVp({ w: width, h: height });
   };
 
-  // find centered start + clamped bounds from fixed board + measured viewport
+  // Compute centered start + clamped bounds from fixed board + measured viewport
   const metrics = useMemo(() => {
     if (!vp.w || !vp.h) return null;
     const START_X = -(boardWidth - vp.w) / 2;
     const START_Y = -(boardHeight - vp.h) / 2;
-    const MIN_X = vp.w - boardWidth; // right edge align
-    const MAX_X = 0;                 // left edge align
+    const MIN_X = vp.w - boardWidth; // leftmost (right edge aligns)
+    const MAX_X = 0;                 // rightmost (left edge aligns)
     const MIN_Y = vp.h - boardHeight;
     const MAX_Y = 0;
     return { START_X, START_Y, MIN_X, MAX_X, MIN_Y, MAX_Y };
   }, [vp, boardWidth, boardHeight]);
 
-  // Initialize centered area
+  // Initialize centered
   useEffect(() => {
     if (!metrics) return;
     tx.setValue(metrics.START_X);

@@ -46,7 +46,7 @@ export default function PanBoard({
     return { START_X, START_Y, MIN_X, MAX_X, MIN_Y, MAX_Y };
   }, [vp, boardWidth, boardHeight]);
 
-  // Initialize centered area
+  // Initialize centered
   useEffect(() => {
     if (!metrics) return;
     tx.setValue(metrics.START_X);

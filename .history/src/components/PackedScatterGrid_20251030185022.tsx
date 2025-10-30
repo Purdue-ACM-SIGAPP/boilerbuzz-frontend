@@ -3,11 +3,9 @@ import React, { useEffect, useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 
 /*
- * I couldn't get the library I wanted to work. I'm not too good with
- * understanding the math behind actual rendering and animation 
- * so I decided to just take some code from a library that someone made
- * and have AI optimize it so that it fit what I already had.
- * I'll try to make some comments to help with debugging if needed
+ * I couldn't get the library I wanted to work, so I decided to
+ * just take some code from a library already made and have AI
+ * optimize it so that it fit what I already had made.
  */
 
 
@@ -20,7 +18,7 @@ type Props = {
   boardHeight: number;
   minSpacing?: number;       // gap between posters (default 15)
   ringStep?: number;
-  compactness?: number;      // smaller = tighter packing (default 0.75)
+  compactness?: number;      // 0.5..1.2 — smaller = tighter spiral steps (default 0.75)
   seed?: number;
   onBoardSize?: (w: number, h: number) => void;
   renderItem: (it: ScatterItem) => React.ReactNode;
@@ -53,10 +51,10 @@ export default function PackedScatterGrid({
   const layout = useMemo(() => {
     if (!items.length) return { nodes: [] as Placed[], usedW: 0, usedH: 0, minX: 0, minY: 0 };
 
-    // Place bigger items first so the center is filled and denser than the outside
+    // Place bigger items first so the center is dense
     const data = [...items].sort((a, b) => b.width * b.height - a.width * a.height);
 
-    // Neighbor grid (limits collision checks to nearby posters/cells)
+    // Neighbor grid (limits collision checks to nearby cells)
     const minW = Math.max(1, Math.min(...data.map(d => d.width)));
     const minH = Math.max(1, Math.min(...data.map(d => d.height)));
     const CELL = Math.max(32, Math.floor(Math.min(minW, minH) + minSpacing * 0.6));
@@ -89,7 +87,7 @@ export default function PackedScatterGrid({
       return out;
     };
 
-    // Center-biased spiral search: starts at (0,0) then tries in a spiral manner to find more places to place posters
+    // Center-biased spiral search: try near (0,0) first, then slowly expand
     const rnd = prng(seed);
     const baseStep = Math.max( minSpacing, Math.round(Math.min(minW, minH) * compactness) );
     const maxRings = 1_000;  // hard safety cap
@@ -105,11 +103,12 @@ export default function PackedScatterGrid({
 
       for (let ring = 0; ring < maxRings && !placedNode; ring++) {
         const circumference = Math.max(1, TAU * Math.max(1, r));
+        // number of angular samples at this radius (more when r is large)
         const stepArc = Math.max(minSpacing, it.width * 0.6);
         const nAngles = Math.max(12, Math.min(96, Math.ceil(circumference / stepArc)));
         const dA = TAU / nAngles;
 
-        let ang = a0 + (rnd() - 0.5) * 0.2; // tiny jitter so that there isn't a rigid pattern
+        let ang = a0 + (rnd() - 0.5) * 0.2; // tiny jitter so patterns don’t show
         for (let t = 0; t < nAngles; t++) {
           const cx = r * Math.cos(ang);
           const cy = r * Math.sin(ang);
@@ -133,7 +132,7 @@ export default function PackedScatterGrid({
         }
 
         if (!placedNode) {
-          // grow outward
+          // gently grow outward
           r += baseStep;
           // shift the starting angle a bit to sneak into gaps between arcs
           a0 += dA * 0.37;
@@ -141,7 +140,7 @@ export default function PackedScatterGrid({
       }
 
       if (!placedNode) {
-        // just drop far out without overlap (grid still prevents collisions)
+        // ultra-rare: just drop far out without overlap (grid still prevents collisions)
         placedNode = { id: it.id, left: Math.round(r), top: 0, width: it.width, height: it.height };
       }
 

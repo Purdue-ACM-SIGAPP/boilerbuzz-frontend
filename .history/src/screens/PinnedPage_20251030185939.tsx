@@ -34,7 +34,7 @@ export default function PinnedPage() {
       // Switch tabs
       tabNav.navigate(link.name as any, link.params as any);
     } else {
-      // Navigate to a stack screen instead
+      // Navigate to a stack screen in the parent navigator (RootStack)
       rootNav?.navigate(link.name as any, link.params as any);
     }
   };

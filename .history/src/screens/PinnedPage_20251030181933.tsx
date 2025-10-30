@@ -6,26 +6,27 @@ import type { NavigationProp } from "@react-navigation/native";
 import PanBoard from "../components/PanBoard";
 import BulletinPoster from "../components/BulletinPoster";
 import PackedScatterGrid, { ScatterItem } from "../components/PackedScatterGrid";
-import { POSTERS, POSTERS_BY_ID, likesToSize, ALL_POSTERS} from "../components/ExamplePosters";
+import { POSTERS, POSTERS_BY_ID, likesToSize } from "../components/ExamplePosters";
 import type { BottomTabsParamList, RootStackParamList } from "../navigation/types";
 
 export default function PinnedPage() {
+  // Tab navigator (current) and parent (root stack) navigator
   const tabNav = useNavigation<BottomTabNavigationProp<BottomTabsParamList>>();
   const rootNav = tabNav.getParent<NavigationProp<RootStackParamList>>();
 
-  // making the scatter grid from the poster data
+  // Build scatter grid from the poster data
   const items = useMemo<ScatterItem[]>(
-    () => ALL_POSTERS.map(p => {
-      const { width, height } = likesToSize(p.likes); // make the width and height of a poster proportional to likes
+    () => POSTERS.map(p => {
+      const { width, height } = likesToSize(p.likes);
       return { id: p.id, width, height };
     }),
     []
   );
 
-  // board size
+  // Board size
   const [board, setBoard] = useState({ w: 2000, h: 2000 });
   
-  const poster_nav_handler = (posterId: string) => {
+  const go = (posterId: string) => {
     const p = POSTERS_BY_ID[posterId];
     if (!p) return;
     const link = p.link;
@@ -34,7 +35,7 @@ export default function PinnedPage() {
       // Switch tabs
       tabNav.navigate(link.name as any, link.params as any);
     } else {
-      // Navigate to a stack screen instead
+      // Navigate to a stack screen in the parent navigator (RootStack)
       rootNav?.navigate(link.name as any, link.params as any);
     }
   };
@@ -59,7 +60,7 @@ export default function PinnedPage() {
                 image={poster.image}
                 width={it.width}
                 height={it.height}
-                onPress={() => poster_nav_handler(it.id)}
+                onPress={() => go(it.id)}
               />
             );
           }}

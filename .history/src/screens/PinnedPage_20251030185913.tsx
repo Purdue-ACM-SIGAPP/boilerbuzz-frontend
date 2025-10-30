@@ -25,7 +25,7 @@ export default function PinnedPage() {
   // board size
   const [board, setBoard] = useState({ w: 2000, h: 2000 });
   
-  const poster_nav_handler = (posterId: string) => {
+  const poster_nav_hander = (posterId: string) => {
     const p = POSTERS_BY_ID[posterId];
     if (!p) return;
     const link = p.link;
@@ -34,7 +34,7 @@ export default function PinnedPage() {
       // Switch tabs
       tabNav.navigate(link.name as any, link.params as any);
     } else {
-      // Navigate to a stack screen instead
+      // Navigate to a stack screen in the parent navigator (RootStack)
       rootNav?.navigate(link.name as any, link.params as any);
     }
   };
@@ -59,7 +59,7 @@ export default function PinnedPage() {
                 image={poster.image}
                 width={it.width}
                 height={it.height}
-                onPress={() => poster_nav_handler(it.id)}
+                onPress={() => go(it.id)}
               />
             );
           }}
