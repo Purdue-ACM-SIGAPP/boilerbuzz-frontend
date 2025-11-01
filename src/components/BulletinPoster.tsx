@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { Animated, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 type PosterProps = {
-  title?: string; // Just to keep track of poster origin/idea
+  title?: string; // Just to keep track of what the poster is about
   onPress: () => void;
   image: number | { uri: string };
   height?: number;
@@ -32,15 +32,18 @@ export default function BulletinPoster({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={onPress}
-        activeOpacity={0.9}
+        activeOpacity={0.9} // 
       >
         <Image
           source={image}
           style={[
             styles.img,
-            width && height ? { width, height } : { width: "100%", height: "100%" },
+            width && height ? { width, height } : { width: "100%", height: "100%" }, // if there's a set width/height, keep it, else, set width/height to 100%
           ]}
-          resizeMode="cover"
+           // If you want the image sizes to be similar to the
+           // original image file and not adhereing to the 2:3 ratio,
+           // then change the mode to cover instead of stretch
+          resizeMode="stretch"
         />
       </TouchableOpacity>
     </Animated.View>
@@ -48,6 +51,6 @@ export default function BulletinPoster({
 }
 
 const styles = StyleSheet.create({
-  wrap: { borderRadius: 10, overflow: "hidden" },
-  img: { borderRadius: 10 },
+  wrap: { borderRadius: 0, overflow: "hidden" },
+  img: { borderRadius: 0 }, // Soleil said to have sharper poster edges
 });

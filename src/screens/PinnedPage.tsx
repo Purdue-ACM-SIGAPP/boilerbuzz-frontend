@@ -15,7 +15,7 @@ export default function PinnedPage() {
 
   // making the scatter grid from the poster data
   const items = useMemo<ScatterItem[]>(
-    () => ALL_POSTERS.map(p => {
+    () => ALL_POSTERS.map(p => { // ALL_POSTERS has the example posters + filler posters, but you can just use POSTERS for just the example ones
       const { width, height } = likesToSize(p.likes); // make the width and height of a poster proportional to likes
       return { id: p.id, width, height };
     }),
@@ -25,10 +25,10 @@ export default function PinnedPage() {
   // board size
   const [board, setBoard] = useState({ w: 2000, h: 2000 });
   
-  const poster_nav_handler = (posterId: string) => {
-    const p = POSTERS_BY_ID[posterId];
-    if (!p) return;
-    const link = p.link;
+  const posterNavHandler = (posterId: string) => {
+    const poster = POSTERS_BY_ID[posterId];
+    if (!poster) return;
+    const link = poster.link;
 
     if (link.type === "tab") {
       // Switch tabs
@@ -46,7 +46,7 @@ export default function PinnedPage() {
           items={items}
           boardWidth={board.w}
           boardHeight={board.h}
-          minSpacing={5}
+          minSpacing={5} // Minimum 5 px margin between posters 
           seed={42}
           onBoardSize={(w, h) =>
             setBoard((cur) => (cur.w === w && cur.h === h ? cur : { w, h }))
@@ -59,7 +59,7 @@ export default function PinnedPage() {
                 image={poster.image}
                 width={it.width}
                 height={it.height}
-                onPress={() => poster_nav_handler(it.id)}
+                onPress={() => posterNavHandler(it.id)}
               />
             );
           }}

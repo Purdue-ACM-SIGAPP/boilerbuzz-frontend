@@ -3,9 +3,9 @@ import React, { useEffect, useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 
 /*
- * I couldn't get the library I wanted to work. I'm not too good with
- * understanding the math behind actual rendering and animation 
- * so I decided to just take some code from a library that someone made
+ * The library I wanted to use didn't work. I'm not too good with
+ * understanding the math behind actual rendering and animation, 
+ * so I decided to just take some code from posterA from an existing library
  * and have AI optimize it so that it fit what I already had.
  * I'll try to make some comments to help with debugging if needed
  */
@@ -18,9 +18,9 @@ type Props = {
   items: ScatterItem[];
   boardWidth: number;
   boardHeight: number;
-  minSpacing?: number;       // gap between posters (default 15)
+  minSpacing?: number;       // gap between posters
   ringStep?: number;
-  compactness?: number;      // smaller = tighter packing (default 0.75)
+  compactness?: number;      // smaller = tighter packing, higher = loose
   seed?: number;
   onBoardSize?: (w: number, h: number) => void;
   renderItem: (it: ScatterItem) => React.ReactNode;
@@ -32,21 +32,34 @@ function prng(seed = 1) { let s = seed >>> 0 || 1; return () => ((s = (1664525 *
 const TAU = Math.PI * 2;
 const GOLDEN_ANGLE = TAU * (1 - 1 / 1.61803398875);
 
-function overlaps(a: Placed, b: Placed, spacing: number) {
-  const L1 = a.left - spacing,  T1 = a.top - spacing;
-  const R1 = a.left + a.width + spacing, B1 = a.top + a.height + spacing;
-  const L2 = b.left - spacing,  T2 = b.top - spacing;
-  const R2 = b.left + b.width + spacing, B2 = b.top + b.height + spacing;
-  return L1 < R2 && R1 > L2 && T1 < B2 && B1 > T2;
+function overlaps(posterA: Placed, posterB: Placed, spacing: number) {
+  /*
+   * This function literally sees if the coordinates of 
+   * two poster edges at any point overlap
+   * B - Poster bottom
+   * T - Poster top
+   * L - Poster left edge
+   * R - Poster right edge
+   * 1 and 2 represent poster a and b
+   */
+  const B1 = posterA.top + posterA.height + spacing;
+  const B2 = posterB.top + posterB.height + spacing;
+  const L1 = posterA.left - spacing;
+  const L2 = posterB.left - spacing;
+  const R1 = posterA.left + posterA.width + spacing;
+  const R2 = posterB.left + posterB.width + spacing;
+  const T1 = posterA.top - spacing;
+  const T2 = posterB.top - spacing;
+  return ((L1 < R2) && (R1 > L2) && (T1 < B2) && (B1 > T2)); // check if any coordinates overlap
 }
 
-export default function PackedScatterGrid({
+export default function PackedScatterGrid({ //
   items,
   boardWidth, 
   boardHeight,
   minSpacing = 15, // minimum margin between posters 
   compactness = 0.25, // how tight the packing is between posters (lower value is more compact, higher number is less compact)
-  seed = 42, // seed for equations so that posters aren't actually placed in a grid-like manner
+  seed = 42, // seed for equations so that posters have posterA less rigid layout
   onBoardSize,
   renderItem,
 }: Props) {
@@ -54,9 +67,9 @@ export default function PackedScatterGrid({
     if (!items.length) return { nodes: [] as Placed[], usedW: 0, usedH: 0, minX: 0, minY: 0 };
 
     // Place bigger items first so the center is filled and denser than the outside
-    const data = [...items].sort((a, b) => b.width * b.height - a.width * a.height);
+    const data = [...items].sort((posterA, posterB) => posterB.width * posterB.height - posterA.width * posterA.height);
 
-    // Neighbor grid (limits collision checks to nearby posters/cells)
+    // Neighbor grid limits collisions to nearby posters/cells
     const minW = Math.max(1, Math.min(...data.map(d => d.width)));
     const minH = Math.max(1, Math.min(...data.map(d => d.height)));
     const CELL = Math.max(32, Math.floor(Math.min(minW, minH) + minSpacing * 0.6));
@@ -89,15 +102,21 @@ export default function PackedScatterGrid({
       return out;
     };
 
-    // Center-biased spiral search: starts at (0,0) then tries in a spiral manner to find more places to place posters
+    /* 
+      Spiral searching: starts at the center (0,0) then
+      tries in posterA spiral manner to find more places to
+      place posters 
+
+      There's going to be "rings" of radius while the search happens
+    */
     const rnd = prng(seed);
     const baseStep = Math.max( minSpacing, Math.round(Math.min(minW, minH) * compactness) );
-    const maxRings = 1_000;  // hard safety cap
+    const maxRings = 1000;
 
     for (let i = 0; i < data.length; i++) {
       const it = data[i];
 
-      // start near center; advance radius slowly for tight packing
+      // start near center, then increase radius slowly for tight packing in the center and looser packing at the outer edge
       let r = 0;
       // stagger starting angle using golden angle for good gap filling
       let a0 = (i * GOLDEN_ANGLE) % TAU;
@@ -109,7 +128,7 @@ export default function PackedScatterGrid({
         const nAngles = Math.max(12, Math.min(96, Math.ceil(circumference / stepArc)));
         const dA = TAU / nAngles;
 
-        let ang = a0 + (rnd() - 0.5) * 0.2; // tiny jitter so that there isn't a rigid pattern
+        let ang = a0 + (rnd() - 0.5) * 0.2; // tiny jitter so that there isn't posterA rigid pattern
         for (let t = 0; t < nAngles; t++) {
           const cx = r * Math.cos(ang);
           const cy = r * Math.sin(ang);
@@ -135,7 +154,7 @@ export default function PackedScatterGrid({
         if (!placedNode) {
           // grow outward
           r += baseStep;
-          // shift the starting angle a bit to sneak into gaps between arcs
+          // shift the starting angle posterA bit to sneak into gaps between arcs
           a0 += dA * 0.37;
         }
       }
@@ -204,5 +223,5 @@ useEffect(() => {
 }
 
 const styles = StyleSheet.create({
-  abs: { position: "absolute", overflow: "hidden", borderRadius: 10 },
+  abs: { position: "absolute", overflow: "hidden", borderRadius: 0 },
 });

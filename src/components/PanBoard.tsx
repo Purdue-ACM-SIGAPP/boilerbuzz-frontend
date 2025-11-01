@@ -13,9 +13,9 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
  */
 
 
-type Props = {
+type Props = { // Initialize with a board width/height
   children: React.ReactNode;
-  boardWidth?: number;   // fixed canvas size
+  boardWidth?: number;
   boardHeight?: number;
 };
 
@@ -24,27 +24,27 @@ export default function PanBoard({
   boardWidth = 2000,
   boardHeight = 2000,
 }: Props) {
-  const [vp, setVp] = useState({ w: 0, h: 0 });     // view port start area under header
+  const [visibleRegion, setvisibleRegion] = useState({ w: 0, h: 0 });     // visible area under header
   const tx = useRef(new Animated.Value(0)).current;  // live translate X
   const ty = useRef(new Animated.Value(0)).current;  // live translate Y
   const last = useRef({ x: 0, y: 0 });               // accumulated offset
 
   const onLayout = (e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
-    if (width !== vp.w || height !== vp.h) setVp({ w: width, h: height });
+    if ((width !== visibleRegion.w) || (height !== visibleRegion.h)) setvisibleRegion({ w: width, h: height });
   };
 
-  // find centered start + clamped bounds from fixed board + measured viewport
+  // find centered start + clamped bounds from fixed board + measured visibleRegion
   const metrics = useMemo(() => {
-    if (!vp.w || !vp.h) return null;
-    const START_X = -(boardWidth - vp.w) / 2;
-    const START_Y = -(boardHeight - vp.h) / 2;
-    const MIN_X = vp.w - boardWidth; // right edge align
+    if (!visibleRegion.w || !visibleRegion.h) return null;
+    const START_X = -(boardWidth - visibleRegion.w) / 2;
+    const START_Y = -(boardHeight - visibleRegion.h) / 2;
+    const MIN_X = visibleRegion.w - boardWidth; // right edge align
     const MAX_X = 0;                 // left edge align
-    const MIN_Y = vp.h - boardHeight;
+    const MIN_Y = visibleRegion.h - boardHeight;
     const MAX_Y = 0;
     return { START_X, START_Y, MIN_X, MAX_X, MIN_Y, MAX_Y };
-  }, [vp, boardWidth, boardHeight]);
+  }, [visibleRegion, boardWidth, boardHeight]);
 
   // Initialize centered area
   useEffect(() => {

@@ -13,11 +13,14 @@ export type PosterMeta = {
   link: PosterLink;
 };
 
+// This converts the amount of likes of a poster to the size.
+// Usually
 export function likesToSize(likes: number) {
-  const minH = 110, maxH = 240;
-  const t = Math.min(1, Math.sqrt(likes) / Math.sqrt(600));
-  const height = Math.round(minH + t * (maxH - minH));
-  const width = Math.round(height * (2 / 3));
+  const minHeight = 110;
+  const maxHeight = 240;
+  const scalingFactor = Math.min(1, Math.sqrt(likes) / Math.sqrt(600)); // scaling factor to see how much a post is liked
+  const height = Math.round(minHeight + (scalingFactor * (maxHeight - minHeight)));
+  const width = Math.round(height * (2 / 3)); // width will be 2/3 of the height... poster size
   return { width, height };
 }
 
@@ -40,7 +43,7 @@ export const POSTERS: PosterMeta[] = [
     id: "p3",
     title: "Resume Workshop",
     image: require("../../assets/example_posters/workshop.png"),
-    likes: 700,
+    likes: 1200,
     link: { type: "tab", name: "Home" },
   },
   {
@@ -95,7 +98,7 @@ export const POSTERS: PosterMeta[] = [
 ];
 
   
-function prng(seed: number) {
+function prng(seed: number) { // random number generator from online
   let s = (seed >>> 0) || 1; // avoid 0
   return () => {
     s = (1664525 * s + 1013904223) >>> 0;
