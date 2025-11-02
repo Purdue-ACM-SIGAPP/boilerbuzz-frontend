@@ -17,7 +17,7 @@ export default function PinnedPage() {
 
   // This array will contain the elements of 10 example posters and 450 additional filler posters
   const ALL_POSTERS: PosterData[] = useMemo(() => { // useMemo() for cacheing
-    const filler = makeRandomPosters(EXAMPLE_POSTERS.length, 490); // the integer value is how many random posters to make
+    const filler = makeRandomPosters(EXAMPLE_POSTERS.length, 100); // the integer value is how many random posters to make
     return [...EXAMPLE_POSTERS, ...filler]; 
   }, []);
 
