@@ -10,14 +10,15 @@ import { EXAMPLE_POSTERS } from "../components/ExamplePosters";
 // It determines the placement of posters, then renders posters
 // while the user is panning through the board
 
+
 // If you want to add more posters, go to ExamplePosters.ts and edit the file
 
 export default function PinnedPage() {
 
 
-  // This array will contain the elements of 10 example posters and 450 additional filler posters
+  // This array will contain the elements of 10 example posters and 50 additional filler posters
   const ALL_POSTERS: PosterData[] = useMemo(() => { // useMemo() for cacheing
-    const filler = makeRandomPosters(EXAMPLE_POSTERS.length, 100); // the integer value is how many random posters to make
+    const filler = makeRandomPosters(EXAMPLE_POSTERS.length, 50); // the integer value is how many random posters to make
     return [...EXAMPLE_POSTERS, ...filler]; 
   }, []);
 

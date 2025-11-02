@@ -154,8 +154,12 @@ export default function PackedScatterGrid({
     // Determine which items are small enough to be affected by radius boundary
     const coreGate = 0.60;
 
-    // used to push smaller items further from center
-    const outerBias = radiusEstimate;
+    // OuterBias is used to push smaller items further from center and have it more sparsely spaced
+    // If we set it to radiusEstimate, it will keep smaller items spread out with lots of space
+    // if we set it to 0, then it will keep the outer edges within the cluster of posters without space
+
+    // A larger outer bias makes it much quicker to calculate, but not as visually pleasing
+    const outerBias = 0;
 
     const gamma = 2;
     const maxRings = 1000;
@@ -164,13 +168,13 @@ export default function PackedScatterGrid({
     for (let i = 0; i < items.length; i++) {
       const it = items[i];
       const rank = rankByIndex.get(i)!;
-      const percentile = 1 - rank / Math.max(1, n - 1); // largest≈1 → smallest≈0
+      const percentile = 1 - rank / Math.max(1, n - 1); // largest = 1 -> smallest = 0
       const sizeScore = Math.pow(percentile, gamma);
 
 
       // Have big items near center, small items further out, and tiny items starting at coreRadius
       let radius = Math.max((1 - sizeScore) * outerBias, sizeScore < coreGate ? coreRadius : 0);
-      const ringStep = baseRingStep * (1 + (1 - sizeScore)); // small items → bigger radius every step
+      const ringStep = baseRingStep * (1 + (1 - sizeScore)); // small items -> bigger radius every step
 
 
       // Tries out angles to put posters so that placement isn't rigid looking
