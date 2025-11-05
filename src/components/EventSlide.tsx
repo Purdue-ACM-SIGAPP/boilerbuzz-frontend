@@ -8,7 +8,7 @@ type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
 const { width: screenWidth } = Dimensions.get("window");
 const BASE_WIDTH = 375;
-const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85; 
+const scale = Math.min((screenWidth / BASE_WIDTH) * 1.15, 1); 
 
 
 type EventSlideProps = {
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 
 const EventPostShape = StyleSheet.create({
   container: {
-    width: Math.min(screenWidth * 0.85, 320), //Math.min(screenWidth * 0.85, 320)
+    width: Math.min(screenWidth * 0.75, 320), //Math.min(screenWidth * 0.85, 320)
     minHeight: 70 * scale, 
     backgroundColor: "FFFCF4",
     justifyContent: "space-between",
@@ -128,6 +128,7 @@ const EventPostShape = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     borderRadius: 8 * scale,
+    alignSelf: "flex-start"
   },
 
   textContainer: {
@@ -161,14 +162,14 @@ const EventPostShape = StyleSheet.create({
 
   textImageContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4 * scale,
+    alignItems: "flex-start",
+    marginBottom: 2 * scale,
   },
 
   club: {
     fontSize: 10 * scale,
     color: "darkgrey",
-    marginBottom: 4 * scale,
+    marginBottom: 10 * scale,
     flexShrink: 1,
   },
 
@@ -188,8 +189,6 @@ const EventPostShape = StyleSheet.create({
     borderRadius: 6 * scale,
     paddingHorizontal: 5 * scale,
     paddingVertical: 1 * scale,
-    borderColor: "black",
-    borderWidth: 1,
     marginRight: 5 * scale,
   },
 
@@ -198,8 +197,6 @@ const EventPostShape = StyleSheet.create({
     borderRadius: 6 * scale,
     paddingHorizontal: 5 * scale,
     paddingVertical: 1 * scale,
-    borderColor: "black",
-    borderWidth: 1,
   },
 
   socialText: {
@@ -214,7 +211,7 @@ const EventPostShape = StyleSheet.create({
     alignItems: "flex-end",
     paddingLeft: 8 * scale,
     height: "100%",
-    width: "20%",
+    width: "40%",
 
   },
 
