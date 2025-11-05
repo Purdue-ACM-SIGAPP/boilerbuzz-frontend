@@ -52,7 +52,7 @@ export default function CreateClubPage() {
       // safe-check both shapes:
       // @ts-ignore
       const uri = result?.assets?.[0]?.uri ?? (result as any).uri;
-      if (!result.cancelled && uri) {
+      if (!result.canceled && uri) {
         setLogoUri(uri);
       }
     } catch (err) {

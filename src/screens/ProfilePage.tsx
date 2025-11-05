@@ -10,9 +10,13 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
+import type { BottomTabsParamList } from "../navigation/types";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import HeaderBanner from "../components/HeaderBanner";
 import ClubBanner from "../components/ClubBanner"; // adjust path if needed
 import theme from "../theme";
-import HeaderBanner from "../components/HeaderBanner";
+
+type Props = BottomTabScreenProps<BottomTabsParamList, "Profile">;
 
 type FilterKey = "pinned" | "rsvp" | "past" | "invited";
 
@@ -53,7 +57,7 @@ export default function ProfilePage() {
         aspect: [1, 1],
       });
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         // expo v48+ uses result.assets[0].uri; older versions use result.uri
         // handle both shapes defensively
         // @ts-ignore

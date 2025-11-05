@@ -44,19 +44,6 @@ export default function BottomTabsNavigator() {
         }}
       />
       <Tab.Screen
-        name="Trending"
-        component={FeaturedPage}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              source={focused ? Images.podium_pressed : Images.podium}
-              label="Trending"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Search"
         component={SearchPage}
         options={{
@@ -65,6 +52,19 @@ export default function BottomTabsNavigator() {
               focused={focused}
               source={focused ? Images.search_pressed : Images.search}
               label="Find Events"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={FeaturedPage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              focused={focused}
+              source={focused ? Images.add_pressed : Images.add}
+              label="Add"
             />
           ),
         }}
