@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 import PosterCard from "../components/PosterCard";
+import CommentScroll from "../components/CommentScroll";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
@@ -65,18 +66,43 @@ export default function FeaturedPage({ navigation, route }: Props) {
     },
   ];
 
+  const [showComments, setShowComments] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const selectedComments =
+    selectedEventId != null
+      ? events.find((e) => e.id === selectedEventId)?.comments ?? []
+      : [];
+
   return (
     <View style={styles.container}>
       <HeaderBanner title="Home" />
        <FlatList
         data={events}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <PosterCard {...item} />}
+        renderItem={({ item }) => (
+          <PosterCard
+            {...item}
+            onPressComment={(id) => {
+              setSelectedEventId(id ?? null);
+              setShowComments(true);
+            }}
+          />
+        )}
         showsVerticalScrollIndicator={false}
+      />
+      <CommentScroll
+        visible={showComments}
+        eventId={selectedEventId}
+        initialComments={selectedComments}
+        onClose={() => setShowComments(false)}
       />
     </View>
   );
 }
+
+// ============================== local state ==============================
+
+// moved below component to keep top of file clean
 
 const styles = StyleSheet.create({
   container: {
