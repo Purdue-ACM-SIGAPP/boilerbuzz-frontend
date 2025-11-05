@@ -1,98 +1,51 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
+import type { EventSlideProps } from "./EventSlide";
+import EventSlide from "./EventSlide";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+// type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
 
 const { width: screenWidth } = Dimensions.get("window");
 const BASE_WIDTH = 375;
 const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85; 
 
 
-export type EventSlideProps = {
-  data: {
-    eventTitle?: string;
-    eventHost?: string;
-    eventLocation?: string;
-    eventTime?: string;
-    eventParticipants?: number;
-    eventParticipantsMax?: number;
-    socialTag?: boolean;
-    artsTag?: boolean;
-
-  };
-
-  
-
+type EventTimeSlotProps = {
+    events: any[],
+    time?: string
 }
 
-export default function EventSlide({ data }: EventSlideProps) {
-  const {
-    eventTitle, 
-    eventHost, 
-    eventLocation, 
-    eventTime, 
-    eventParticipants, 
-    eventParticipantsMax, 
-    socialTag, 
-    artsTag
-  } = data;
-  
+export default function EventTimeSlot({ events, time }: EventTimeSlotProps) {
+    const [showAll, setShowAll] = useState(false);
 
-  return (
+    const visibleEvents = showAll ? events : events.slice(0, 2);
+
+    return (
     <>
     
-    <View style={EventPostShape.container}>
- 
-    <Image source={require('../../assets/LongboardClub.webp')} style={EventPostShape.imageContainer} resizeMode="cover" /> 
-    
-    <View style={EventPostShape.textContainer}>
-      <Text style={EventPostShape.title} numberOfLines={1} >{eventTitle}.</Text>
-
-      <View style = {EventPostShape.textImageContainer}>
-        <Image source = {require('../../assets/location.png')} style = {EventPostShape.locationicon} />
-        <Text style = {EventPostShape.location}>{eventLocation}</Text>
-      </View>
-    
-      <Text style = {EventPostShape.club} numberOfLines={1}>{eventHost}</Text>
-
-      
-      <View style = {EventPostShape.tagContainerRow1}>
-        
-
-        {socialTag && (<View style = {EventPostShape.socialTag}>
-          <Text style = {EventPostShape.socialText}>social</Text>
-        </View>)}
-
-      </View>
-
-      <View style = {EventPostShape.tagContainerRow2}>
-        
-        {artsTag && (<View style = {EventPostShape.artsTag}>
-          <Text style = {EventPostShape.socialText}>Arts & Crafts</Text>
-        </View>)}
-
-      </View>
-
-    </View>
-
-    <View style = {EventPostShape.rightContainer}>
-    
-    <Text style = {EventPostShape.time} >{eventTime}</Text>
-
-    <View style = {EventPostShape.rightImageContainer}>
-      <Image source = {require('../../assets/group.png')} style = {EventPostShape.participantsicon} />
-      <Text style = {EventPostShape.participants}>{eventParticipants}/{eventParticipantsMax}</Text>
-    </View>
-
-    </View>
-
-          
+    <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+            <Text style={styles.time}>{time}:00-{time}:59</Text>
+            <Text style={styles.eventCount}>{events.length} Event{events.length > 1 && "s"}</Text>
         </View>
-    
 
+        {/* Event List */}
+        <ScrollView contentContainerStyle={styles.eventList}>
+            {visibleEvents.map((event, index) => (
+                <EventSlide key={index} data={event} />
+            ))}
+
+            {/* Show More Button */}
+            <TouchableOpacity style={styles.showMore} onPress={() => setShowAll(!showAll)}>
+                <Text style={styles.showMoreText}>{showAll?"Show Less":"Show More"}</Text>
+            </TouchableOpacity>
+        </ScrollView>
+          
+    </View>
     </>
   );
 }
@@ -100,10 +53,38 @@ export default function EventSlide({ data }: EventSlideProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 4,
-    alignItems: "center",
+    flex: 1,
     backgroundColor: theme.colors.background,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  time: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  eventCount: {
+    fontSize: 16,
+    color: '#888',
+  },
+  eventList: {
+    paddingBottom: 24,
+  },
+  showMore: {
+    marginTop: 12,
+    alignSelf: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: '#eee',
+  },
+  showMoreText: {
+    fontSize: 14,
+    color: '#333',
+  },
+
 });
 
 const EventPostShape = StyleSheet.create({
