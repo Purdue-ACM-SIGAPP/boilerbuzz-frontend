@@ -8,6 +8,7 @@ import RegisterPage from "../screens/RegisterPage";
 import SettingsPage from "../screens/SettingsPage";
 import ProfilePage from "../screens/ProfilePage";
 import type { RootStackParamList } from "./types";
+import EventsDetails from "../screens/EventsDetails";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
@@ -19,6 +20,7 @@ export default function RootStackNavigator() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="EventsDetails" component={EventsDetails} />
         <Stack.Screen name="Tabs" component={BottomTabsNavigator} />
         <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Register" component={RegisterPage} />

@@ -1,4 +1,4 @@
-import picture from '../public/image.jpg';
+import picture from 'profile.png';
 function Card() {
     return (
         <div> 
