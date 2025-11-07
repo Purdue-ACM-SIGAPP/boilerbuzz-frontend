@@ -9,10 +9,17 @@ import ClubBanner from "../components/ClubBanner";
 import MyButton from "../components/MyButton";
 import SearchBar from "../components/SearchBar";
 import EventSlide from "../components/EventSlide";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
 export default function FeaturedPage({ navigation, route }: Props) {
+
+  const onEventsPage = () => {
+    // navigate to your edit profile screen or open a modal
+    // example navigation to an EditProfile screen (you can change)
+    navigation.navigate?.("Event" as never);
+  };
 
   const eventData = [
     {
@@ -32,6 +39,9 @@ export default function FeaturedPage({ navigation, route }: Props) {
   return (
     <>
     <View style={styles.container}>
+      <TouchableOpacity style={styles.eventsPageBtn} onPress={onEventsPage}>
+                      <Text style={styles.eventsText}>Settings {">"}</Text>
+                    </TouchableOpacity>
       <HeaderBanner title="Find Events" />
       <SearchBar />
       <FilterMenu></FilterMenu>
@@ -53,6 +63,15 @@ const styles = StyleSheet.create({
     flex: 4,
     alignItems: "center",
     backgroundColor: theme.colors.background,
+  }, eventsPageBtn: {
+    borderWidth: 1,
+    borderRadius: 14,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderColor: "#bdbdbd",
+  }, eventsText: {
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
 
