@@ -84,7 +84,7 @@ export default function BottomTabsNavigator() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfilePage}
+        component={ProfilePage} 
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon
@@ -95,6 +95,25 @@ export default function BottomTabsNavigator() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="AddEvent"
+        component={AddEventPage} 
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              focused={focused}
+              source={focused ? Images.user_pressed : Images.user}
+              label="AddEvent"
+            />
+          ),
+        }}
+      />
+
+
     </Tab.Navigator>
+
+
+    
   );
 }
