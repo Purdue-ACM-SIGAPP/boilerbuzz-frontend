@@ -116,7 +116,7 @@ export default function SettingsPage() {
 
           {/* Back Arrow Overlay */}
           <TouchableOpacity
-            onPress={() => navigation.navigate("Tabs", { screen: "Profile" })}
+            onPress={() => navigation.navigate("Profile")}
             style={styles.backButton}
           >
             <Text style={styles.backArrow}>❮</Text>

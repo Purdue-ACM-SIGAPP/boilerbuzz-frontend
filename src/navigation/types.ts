@@ -14,6 +14,8 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Settings: undefined;
+  Profile: undefined;
+  Clubs: undefined;
 };
 
 export type ProfilePageParamList = {

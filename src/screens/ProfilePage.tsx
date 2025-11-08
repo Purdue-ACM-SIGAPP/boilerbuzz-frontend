@@ -73,7 +73,7 @@ export default function ProfilePage() {
 
   const onOpenClubs = () => {
     // empty navigate as requested
-    navigation.navigate?.("Clubs");
+    navigation.navigate?.("Profile",{ screen: "Clubs" });
     console.log("Navigate to Clubs screen");
   };
 
