@@ -1,21 +1,12 @@
-<<<<<<< HEAD
-import React from "react";
-import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity } from "react-native";
-=======
-import React, { useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
->>>>>>> d867d9a3bd3acb072a4476424acf4c9bd51bc68a
+import React, {useState} from "react";
+import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity} from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 import PosterCard from "../components/PosterCard";
-<<<<<<< HEAD
-import CommentComponent from "../components/Comment";
-=======
 import CommentScroll from "../components/CommentScroll";
->>>>>>> d867d9a3bd3acb072a4476424acf4c9bd51bc68a
-
+import Comment from "../components/Comment";    
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
 export default function FeaturedPage({ navigation, route }: Props) {
@@ -79,8 +70,8 @@ export default function FeaturedPage({ navigation, route }: Props) {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const selectedComments =
     selectedEventId != null
-      ? events.find((e) => e.id === selectedEventId)?.comments ?? []
-      : [];
+      ? events.find((e) => e.id === selectedEventId)?.comments ?? commentsData
+      : commentsData;
 
   return (
     <View style={styles.container}>
@@ -123,18 +114,18 @@ const styles = StyleSheet.create({
 
 const commentsData = [
     {
-        id: 1,
-        username: 'Soleil', 
-        profileImage: 'https://i.pravatar.cc/150?img=13',
+        id: '1',
+        user: 'Soleil', 
+        //profileImage: 'https://i.pravatar.cc/150?img=13',
         text: 'This event was amazing! Had a great time meeting new people.',
-        date: '2 hours ago',  
+        //date: '2 hours ago',  
     },
     {
-        id: 2,
-        username: 'Alex',
-        profileImage: 'https://i.pravatar.cc/150?img=14',
+        id: '2',
+        user: 'Alex',
+        //profileImage: 'https://i.pravatar.cc/150?img=14',
         text: 'Looking forward to the next one!',
-        date: '1 hour ago',
+        //date: '1 hour ago',
     },
 ];
 const HomePage: React.FC = () => {
@@ -147,11 +138,11 @@ const HomePage: React.FC = () => {
       {/* Render all comments from the array */}
       {commentsData.map((comment) => (
         <View key={comment.id} style={stylesComments.commentContainer}>
-          <Image source={{ uri: comment.profileImage }} style={stylesComments.avatar} />
+          {/* <Image source={{ uri: comment.profileImage }} style={stylesComments.avatar} /> */}
           <View style={stylesComments.commentContent}>
             <View style={stylesComments.header}>
-              <Text style={stylesComments.username}>{comment.username}</Text>
-              <Text style={stylesComments.date}>{comment.date}</Text>
+              <Text style={stylesComments.username}>{comment.user}</Text>
+              {/* <Text style={stylesComments.date}>{comment.date}</Text> */}
             </View>
 
             <Text style={stylesComments.commentText}>{comment.text}</Text>
