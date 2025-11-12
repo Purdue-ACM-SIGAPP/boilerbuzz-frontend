@@ -53,7 +53,7 @@ export default function ProfilePage() {
         aspect: [1, 1],
       });
 
-      if (!result.cancelled) {
+  if (!result.canceled) {
         // expo v48+ uses result.assets[0].uri; older versions use result.uri
         // handle both shapes defensively
         // @ts-ignore

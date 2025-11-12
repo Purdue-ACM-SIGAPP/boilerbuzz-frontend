@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ type Comment = {
 };
 
 type Props = {
+  id: string;
   eventTitle: string;
   eventDate: string;
   eventLocation: string;
@@ -37,6 +38,7 @@ type Props = {
 };
 
 export default function PosterCard({
+  id,
   eventTitle,
   eventDate,
   eventLocation,
@@ -47,6 +49,36 @@ export default function PosterCard({
   comments,
   onPress,
 }: Props) {
+  // local state for likes and loading state while we call the API
+  const [likes, setLikes] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function handleLike() {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `http://10.186.160.52:3000/api/user/poster/like/${id}`,
+        { method: "GET" }
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // try to parse JSON; if server returns { likes: number } use it
+      const json = await res.json().catch(() => null);
+      console.log(json.res.count)
+      if (json && typeof parseInt(json.res.count) === "number") {
+        setLikes(json.res.count);
+      } else {
+        console.log(typeof json.res.count)
+        // fallback: increment locally
+        setLikes((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error("Failed to update like", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}> */}
@@ -70,12 +102,14 @@ export default function PosterCard({
       <View style={styles.poster}></View>
       {/* Buttons */}
       <View style={styles.clubRow}>
-        <Image
-          source={Images.favorite}
-          style={styles.icons}
-          resizeMode="contain"
-        />
-        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
+        <Pressable onPress={handleLike} disabled={loading}>
+          <Image
+            source={Images.favorite}
+            style={styles.icons}
+            resizeMode="contain"
+          />
+        </Pressable>
+        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>{likes}</Text>
         <Text
           style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}
         >
