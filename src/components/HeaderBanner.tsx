@@ -7,7 +7,6 @@ import theme from "../theme";
  * Top banner component of each page with a header title
  *
  */
-
 export const HeaderBanner = ({ title }: { title: string }) => {
   return (
     <View style={styles.container}>

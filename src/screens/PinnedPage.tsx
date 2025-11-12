@@ -4,7 +4,6 @@ import { View, StyleSheet } from "react-native";
 import PanBoard from "../components/PanBoard";
 import PackedScatterGrid, { ScatterItem } from "../components/PackedScatterGrid";
 import BulletinPoster, { likesToSize, makeRandomPosters, PosterData } from "../components/BulletinPoster";
-import { EXAMPLE_POSTERS } from "../components/ExamplePosters";
 
 // For now, the board doesn't render poster at once.
 // It determines the placement of posters, then renders posters
@@ -17,10 +16,8 @@ export default function PinnedPage() {
 
 
   // This array will contain the elements of 10 example posters and 50 additional filler posters
-  const ALL_POSTERS: PosterData[] = useMemo(() => { // useMemo() for cacheing
-    const filler = makeRandomPosters(EXAMPLE_POSTERS.length, 50); // the integer value is how many random posters to make
-    return [...EXAMPLE_POSTERS, ...filler]; 
-  }, []);
+  const ALL_POSTERS: PosterData[] = useMemo(() => makeRandomPosters(0, 60), []);
+
 
   // const ALL_POSTERS: PosterData[] = useMemo(() => EXAMPLE_POSTERS, []); 
   

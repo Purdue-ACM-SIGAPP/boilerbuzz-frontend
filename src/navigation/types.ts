@@ -13,5 +13,7 @@ export type RootStackParamList = {
   Tabs: NavigatorScreenParams<BottomTabsParamList> | undefined;
   Login: undefined;
   Register: undefined;
-  Settings: undefined
+  Settings: undefined;
+  Profile: undefined;
+  AddEvent: undefined;
 };

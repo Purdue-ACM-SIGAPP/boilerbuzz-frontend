@@ -1,10 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FeedPage from "../screens/HomePage";
-import FeaturedPage from "../screens/TrendingPage";
+import FeaturedPage from "../components/FeaturedCarousel";
 import BoardPage from "../screens/PinnedPage";
 import SearchPage from "../screens/FindPage";
 import ProfilePage from "../screens/ProfilePage";
+import AddEventPage from "../screens/AddEventPage";
+
 import type { BottomTabsParamList } from "./types";
 import Images from "../../assets";
 import theme from "../theme";
@@ -37,19 +39,6 @@ export default function BottomTabsNavigator() {
               focused={focused}
               source={focused ? Images.home_pressed : Images.home}
               label="Home"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Trending"
-        component={FeaturedPage}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              source={focused ? Images.podium_pressed : Images.podium}
-              label="Trending"
             />
           ),
         }}
