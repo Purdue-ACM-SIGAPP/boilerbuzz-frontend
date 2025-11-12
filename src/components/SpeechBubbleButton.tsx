@@ -118,17 +118,17 @@ const styles = StyleSheet.create({
     color: theme.colors.darkGrey,
     marginTop: 4,
   },
-  tail: {
-    position: "absolute",
-    width: 0,
-    height: 0,
-    borderLeftWidth: 16,
-    borderRightWidth: 16,
-    borderBottomWidth: 20,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    // borderBottomColor is set inline so it matches bubble
-    bottom: -18,
-    transform: [{ rotate: "0deg" }],
-  },
+  // tail: {
+  //   position: "absolute",
+  //   width: 0,
+  //   height: 0,
+  //   borderLeftWidth: 16,
+  //   borderRightWidth: 16,
+  //   borderBottomWidth: 20,
+  //   borderLeftColor: "transparent",
+  //   borderRightColor: "transparent",
+  //   // borderBottomColor is set inline so it matches bubble
+  //   bottom: -18,
+  //   transform: [{ rotate: "0deg" }],
+  // },
 });

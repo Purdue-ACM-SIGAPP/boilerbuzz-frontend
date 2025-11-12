@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TextInput } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
+type Props = BottomTabScreenProps<BottomTabsParamList, "AddEvent">;
 
 export default function AddEventPage({ navigation, route }: Props) {
   function setText(newText: string): void {
@@ -94,19 +94,17 @@ const styles = StyleSheet.create({
 const AddEventText = StyleSheet.create({
   container: {
     padding: 10,
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
     left: 495,
-    marginLeft: 93
-    
+    marginLeft: 93,
   },
   titleFont: {
-    fontWeight: 'light',
+    fontWeight: "light",
     fontSize: 48,
-    textAlign: 'left',
+    textAlign: "left",
     width: 239,
-    height: 58
-
+    height: 58,
   },
   subtitleFont: {
     fontWeight: "bold",
@@ -121,14 +119,14 @@ const AddEventImages = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     margin: 5,
-    marginLeft: 100
+    marginLeft: 100,
   },
   uploadImage: {
     width: 159,
     height: 159,
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
-    left: 575
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    left: 575,
   },
   calenderImage: {
     width: 80,
@@ -141,17 +139,17 @@ const AddEventImages = StyleSheet.create({
 
 const Textbox = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 302,
     height: 33,
-    backgroundColor: 'gray',
-    borderRadius:10,
-    alignSelf:'center',
+    backgroundColor: "gray",
+    borderRadius: 10,
+    alignSelf: "center",
   },
   input: {
     height: 20,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 10,
     textAlign: "center",

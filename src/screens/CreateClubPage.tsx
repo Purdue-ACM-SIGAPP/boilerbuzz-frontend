@@ -17,6 +17,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBanner from "../components/HeaderBanner";
 import theme from "../theme";
 import MyButton from "../components/MyButton";
+import type { BottomTabsParamList } from "../navigation/types";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 export default function CreateClubPage() {
   const [logoUri, setLogoUri] = useState<string | null>(null);
