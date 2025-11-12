@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 import PosterCard from "../components/PosterCard";
+import CommentComponent from "../components/Comment";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
@@ -85,3 +86,103 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
 });
+
+const commentsData = [
+    {
+        id: 1,
+        username: 'Soleil', 
+        profileImage: 'https://i.pravatar.cc/150?img=13',
+        text: 'This event was amazing! Had a great time meeting new people.',
+        date: '2 hours ago',  
+    },
+    {
+        id: 2,
+        username: 'Alex',
+        profileImage: 'https://i.pravatar.cc/150?img=14',
+        text: 'Looking forward to the next one!',
+        date: '1 hour ago',
+    },
+];
+const HomePage: React.FC = () => {
+ 
+
+  return (
+   <View style={stylesComments.container}>
+      <Text style={stylesComments.title}>Home Page</Text>
+
+      {/* Render all comments from the array */}
+      {commentsData.map((comment) => (
+        <View key={comment.id} style={stylesComments.commentContainer}>
+          <Image source={{ uri: comment.profileImage }} style={stylesComments.avatar} />
+          <View style={stylesComments.commentContent}>
+            <View style={stylesComments.header}>
+              <Text style={stylesComments.username}>{comment.username}</Text>
+              <Text style={stylesComments.date}>{comment.date}</Text>
+            </View>
+
+            <Text style={stylesComments.commentText}>{comment.text}</Text>
+
+            <TouchableOpacity>
+              <Text style={stylesComments.reply}>Reply</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ))}
+    </View>
+
+   
+  );
+};
+
+const stylesComments = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  commentContainer: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderColor: '#ddd',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  commentContent: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  username: {
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  date: {
+    fontSize: 12,
+    color: '#888',
+  },
+  commentText: {
+    marginVertical: 4,
+    fontSize: 14,
+    color: '#333',
+  },
+  reply: {
+    fontSize: 13,
+    color: '#007bff',
+    marginTop: 2,
+  },
+});
+
+
+
