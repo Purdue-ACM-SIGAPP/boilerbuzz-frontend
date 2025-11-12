@@ -4,8 +4,6 @@ import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 
-type Props = BottomTabScreenProps<BottomTabsParamList, "Feed">;
-
 const { width: screenWidth } = Dimensions.get("window");
 const BASE_WIDTH = 375;
 const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85; 

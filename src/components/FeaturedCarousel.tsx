@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   Dimensions,
@@ -9,34 +8,33 @@ import {
   NativeSyntheticEvent,
 } from "react-native";
 import theme from "../theme";
-import HeaderBanner from "../components/HeaderBanner";
 
 const { width } = Dimensions.get("window");
 
-const items = [
-  { id: 1, title: "Item 1", color: "#EDECDD" },
-  { id: 2, title: "Item 2", color: "#F5D6C6" },
-  { id: 3, title: "Item 3", color: "#C8E1E7" },
-  { id: 4, title: "Item 4", color: "#DDEED1" },
-  { id: 5, title: "Item 5", color: "#FBE2E5" },
-];
+// Define the prop type for flexibility
+interface FeaturedCarouselProps {
+  items: { id: number; color: string; title?: string }[];
+  autoScrollInterval?: number;
+}
 
-export default function FeaturedPage() {
+const FeaturedCarousel: React.FC<FeaturedCarouselProps> = ({
+  items,
+  autoScrollInterval = 3000,
+}) => {
   const scrollRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-scroll every 3 seconds
+  // Auto-scroll effect
   useEffect(() => {
     const timer = setInterval(() => {
       const nextIndex = (currentIndex + 1) % items.length;
       scrollRef.current?.scrollTo({ x: nextIndex * width, animated: true });
       setCurrentIndex(nextIndex);
-    }, 3000);
+    }, autoScrollInterval);
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, autoScrollInterval, items.length]);
 
-  // Update index when user scrolls manually
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(offsetX / width);
@@ -44,10 +42,10 @@ export default function FeaturedPage() {
   };
 
   return (
-    <View style={styles.page}>
-      <HeaderBanner title="Trending" />
+    <View style={styles.container}>
 
-      {/* Horizontal Scroll Carousel */}
+      <View style={{height: 70}}></View>
+      {/* Horizontal Carousel */}
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -76,17 +74,18 @@ export default function FeaturedPage() {
       </View>
     </View>
   );
-}
+};
+
+export default FeaturedCarousel;
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
+  container: {
     backgroundColor: theme.colors.background,
   },
   card: {
     width: width * 0.85,
     marginHorizontal: width * 0.075,
-    height: 450,
+    height: 400,
     borderRadius: 10,
   },
   dotsContainer: {

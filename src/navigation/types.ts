@@ -14,4 +14,6 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Settings: undefined;
+  Profile: undefined;
+  AddEvent: undefined;
 };
