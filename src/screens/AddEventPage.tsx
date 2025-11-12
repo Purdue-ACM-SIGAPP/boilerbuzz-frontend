@@ -28,9 +28,6 @@ export default function AddEventPage({ navigation, route }: Props) {
 
   return (
     <>
-
-      <View style={styles.container}>
-      <HeaderBanner title = "Add Events" />
       <View style={AddEventText.container}>
         <Text style={AddEventText.subtitleFont}>Event Name<Text style = {{color: 'red'}}>*</Text></Text>
       </View>
