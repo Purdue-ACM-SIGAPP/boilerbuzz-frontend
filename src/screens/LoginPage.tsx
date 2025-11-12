@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../theme"
+
 const { width, height } = Dimensions.get("window");
 
 
@@ -224,6 +225,7 @@ const styles = StyleSheet.create({
   loginSection: {
     alignItems: "center",
     marginTop: 40,
+    justifyContent: "center",
   },
   inputContainer: { 
     width: "80%",
@@ -247,13 +249,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   appTitle: {
-    fontSize: 50,
+    fontSize: theme.title.fontSize,
     fontWeight: "bold",
     fontFamily: theme.fonts.heading,
     color: COLORS.primaryText,
     marginBottom: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    textAlign: "center",
   },
   loginButton: {
     width: 150,
