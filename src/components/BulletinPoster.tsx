@@ -1,71 +1,81 @@
-// components/BulletinPoster.tsx
 import React, { useRef } from "react";
 import { Animated, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import type { NavigationProp } from "@react-navigation/native";
-import type { BottomTabsParamList, RootStackParamList } from "../navigation/types";
+import type {
+  BottomTabsParamList,
+  RootStackParamList,
+} from "../navigation/types";
 
-// It looks like posts haven't been completely implemented, 
-// so a poster goes to a stack or bottom tab for now
+/**
+ * PosterLink — Describes where a poster navigates when tapped.
+ * It can point to a tab or a stack screen.
+ */
 export type PosterLink =
   | { type: "tab"; name: keyof BottomTabsParamList; params?: object }
   | { type: "stack"; name: keyof RootStackParamList; params?: object };
 
+/**
+ * PosterData — The data model for a single poster.
+ */
 export type PosterData = {
   id: string;
   title: string;
-  image: number | { uri: string }; // use a local image or a remote image
-  likes: number; 
+  image: number | { uri: string }; // supports both local and remote images
+  likes: number;
   link: PosterLink;
 };
 
-// Map amount of likes to size for the grid layout.
+/**
+ * Maps number of likes → poster size (height/width).
+ * Produces a natural scaling effect in a grid layout.
+ */
 export function likesToSize(likes: number) {
   const minHeight = 120;
   const maxHeight = 280;
-  
-  const scale = Math.min(1, Math.sqrt(likes) / Math.sqrt(1200)); // create a scaling factor from 0 to 1
-  
-  const height = Math.round(minHeight + scale * (maxHeight - minHeight)); // Map likes to height range
-  
-  const width = Math.round((2 / 3) * height); // width is 2/3 the height, which is the standard poster size right?
+
+  const scale = Math.min(1, Math.sqrt(likes) / Math.sqrt(1200));
+  const height = Math.round(minHeight + scale * (maxHeight - minHeight));
+  const width = Math.round((2 / 3) * height); // Standard 2:3 poster ratio
+
   return { width, height };
 }
 
-
-// Make filler posters using images from picsum
-export function makeRandomPosters(baseCount: number, howMany: number): PosterData[] {
-  const out: PosterData[] = [];
-  for (let i = 0; i < howMany; i++) {
-    const id = String(baseCount + i + 1); // making sure id doesn't collide with existing id's
+/**
+ * Generates a list of random posters using placeholder images from Picsum.
+ */
+export function makeRandomPosters(
+  baseCount: number,
+  howMany: number
+): PosterData[] {
+  return Array.from({ length: howMany }, (_, i) => {
+    const id = String(baseCount + i + 1);
     const likes = 10 + Math.floor(Math.random() * 1000);
 
-    out.push({
+    return {
       id,
       title: `Sample Poster ${id}`,
-      image: {uri: `https://picsum.photos/seed/${encodeURIComponent(id)}/400/600`},
+      image: {
+        uri: `https://picsum.photos/seed/${encodeURIComponent(id)}/400/600`,
+      },
       likes,
-      link: {type: "tab", name: "Trending"},
-    });
-  }
-  return out;
+      link: { type: "tab", name: "Trending" },
+    };
+  });
 }
 
-
-
-/* 
- * Poster component: Renders a poster image
- */
-
 type Props = {
-  data: PosterData; // all data for poster
+  data: PosterData;
   width: number;
   height: number;
-  autoNavigate?: boolean; // Determines if pressing the poster will nagivate
-  onPressAfterNavigate?: (data: PosterData) => void; // call back for poster (potential future feature) 
+  autoNavigate?: boolean; // whether pressing the poster navigates automatically
+  onPressAfterNavigate?: (data: PosterData) => void; // optional callback after navigation
 };
 
+/**
+ * BulletinPoster — Displays a single poster with spring animation and navigation.
+ */
 export default function BulletinPoster({
   data,
   width,
@@ -77,27 +87,35 @@ export default function BulletinPoster({
   const rootNav = tabNav.getParent<NavigationProp<RootStackParamList>>();
   const scale = useRef(new Animated.Value(1)).current;
 
-  // Animation for poster springing up or down when pressed or released
+  /**
+   * Animations
+   */
   const springTo = (toValue: number) =>
-    Animated.spring(scale, { toValue, friction: 3, useNativeDriver: true }).start();
+    Animated.spring(scale, {
+      toValue,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
 
-  // navigates when pressed
+  /**
+   * Navigation Logic
+   */
   const handlePress = () => {
     if (autoNavigate) {
       const { link } = data;
+
       if (link.type === "tab") {
         tabNav.navigate(link.name as any, link.params as any);
       } else {
         rootNav?.navigate(link.name as any, link.params as any);
       }
     }
+
     onPressAfterNavigate?.(data);
   };
 
-
-  // Rendering poster
   return (
-    <Animated.View style={[styles.wrap, { transform: [{ scale }] }]}>
+    <Animated.View style={[styles.wrapper, { transform: [{ scale }] }]}>
       <TouchableOpacity
         onPressIn={() => springTo(0.96)}
         onPressOut={() => springTo(1)}
@@ -107,11 +125,8 @@ export default function BulletinPoster({
       >
         <Image
           source={data.image}
-          style={[styles.img, { width, height }]}
-          // Stretch forces the ratio into 2:3, but if you guys
-          // ever want to preserve the original size of the posters,
-          // you can use 'contain' instead of 'stretch'
-          resizeMode="stretch"
+          style={[styles.image, { width, height }]}
+          resizeMode="stretch" // use "contain" to preserve original aspect ratio
         />
       </TouchableOpacity>
     </Animated.View>
@@ -119,6 +134,11 @@ export default function BulletinPoster({
 }
 
 const styles = StyleSheet.create({
-  wrap: { borderRadius: 0, overflow: "hidden" },
-  img: { borderRadius: 0 },
+  wrapper: {
+    borderRadius: 0,
+    overflow: "hidden",
+  },
+  image: {
+    borderRadius: 0,
+  },
 });

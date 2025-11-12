@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
-import ClubBanner from "../components/ClubBanner"; // adjust path if needed
+import ClubBanner from "../unused/ClubBanner"; // adjust path if needed
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 
@@ -54,9 +54,9 @@ export default function ProfilePage() {
       });
 
       // if (!result.cancelled) {
-        // expo v48+ uses result.assets[0].uri; older versions use result.uri
-        // handle both shapes defensively
-        // @ts-ignore
+      // expo v48+ uses result.assets[0].uri; older versions use result.uri
+      // handle both shapes defensively
+      // @ts-ignore
       //   const uri = result.assets?.[0]?.uri ?? (result as any).uri;
       //   if (uri) setAvatarUri(uri);
       // }

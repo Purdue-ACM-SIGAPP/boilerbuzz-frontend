@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../theme";
 import Images from "../../assets";
 
+// ==============================
+// Type Definitions
+// ==============================
 type User = {
   id: string;
   name: string;
@@ -24,7 +19,7 @@ type Comment = {
   text: string;
 };
 
-type Props = {
+interface PosterCardProps {
   eventTitle: string;
   eventDate: string;
   eventLocation: string;
@@ -34,8 +29,11 @@ type Props = {
   attendees: User[];
   comments: Comment[];
   onPress?: () => void;
-};
+}
 
+/**
+ * Component
+ */
 export default function PosterCard({
   eventTitle,
   eventDate,
@@ -46,98 +44,66 @@ export default function PosterCard({
   attendees,
   comments,
   onPress,
-}: Props) {
+}: PosterCardProps) {
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}> */}
-
-      {/* Club Info */}
-      <View style={styles.clubRow}>
+      {/* Club Header */}
+      <View style={styles.clubHeader}>
         <Image source={{ uri: clubLogo }} style={styles.clubLogo} />
         <Text style={theme.h2Bold}>{clubName}</Text>
-        <View
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <Pressable
-            style={styles.followBtn}
-            // onPress={onPressFunction}
-          >
+
+        <View style={styles.rightAlignedRow}>
+          <Pressable style={styles.followBtn}>
             <Text style={theme.h2Bold}>Follow</Text>
           </Pressable>
         </View>
       </View>
 
-      <View style={styles.poster}></View>
-      {/* Buttons */}
-      <View style={styles.clubRow}>
-        <Image
-          source={Images.favorite}
-          style={styles.icons}
-          resizeMode="contain"
-        />
-        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
-        <Text
-          style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}
-        >
-          Likes
-        </Text>
-        <View
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <Image
-            source={Images.comment}
-            style={styles.icons}
-            resizeMode="contain"
-          />
-          <Image
-            source={Images.send}
-            style={styles.icons}
-            resizeMode="contain"
-          />
-          <Image
-            source={Images.pin}
-            style={styles.icons}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
-      {/* Description */}
-      <View style={styles.clubRow}>
-        <View style={styles.description}>
-          <Text style={theme.h2}>{description}</Text>
-        </View>
-        <View
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <Pressable
-            style={styles.seeEventBtn}
-            // onPress={onPressFunction}
-          >
-            <Text style={theme.h2Bold}>See Event</Text>
-            <Image
-              source={Images.toEvent}
-              style={styles.toEvent}
-              resizeMode="contain"
-            />
-          </Pressable>
+      {/* Poster Image */}
+      <View style={styles.poster} />
+
+      {/* Action Row (Likes, Comments, etc.) */}
+      <View style={styles.actionRow}>
+        <Image source={Images.favorite} style={styles.icon} resizeMode="contain" />
+        <Text style={[theme.h2Bold, styles.likeCount]}>101</Text>
+        <Text style={[theme.h2Bold, styles.likeLabel]}>Likes</Text>
+
+        <View style={styles.rightAlignedRow}>
+          <Image source={Images.comment} style={styles.icon} resizeMode="contain" />
+          <Image source={Images.send} style={styles.icon} resizeMode="contain" />
+          <Image source={Images.pin} style={styles.icon} resizeMode="contain" />
         </View>
       </View>
 
-      {/* </TouchableOpacity> */}
+      {/* Description + Event Button */}
+      <View style={styles.footerRow}>
+        <View style={styles.descriptionContainer}>
+          <Text style={theme.h2}>{description}</Text>
+        </View>
+
+        <View style={styles.seeMoreRow}>
+          <Pressable style={styles.seeEventBtn}>
+            <Text style={theme.h2Bold}>See Event</Text>
+            <Image source={Images.toEvent} style={styles.toEventIcon} resizeMode="contain" />
+          </Pressable>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderTopColor: "black",
-    borderTopWidth: 0.5,
     width: "95%",
+    alignSelf: "center",
     padding: 16,
     marginVertical: 20,
-    alignSelf: "center",
+    borderTopWidth: 0.5,
+    borderTopColor: "black",
   },
-  clubRow: {
+
+  // --- Club Header ---
+  clubHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 6,
@@ -148,33 +114,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 8,
   },
-  attendeeRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  avatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: -10,
-    borderWidth: 1,
-    borderColor: "#fff",
-  },
-  comment: {
-    backgroundColor: theme.colors.highlight,
-    borderRadius: 10,
-    padding: 8,
-    marginTop: 6,
-  },
-  description: {
-    marginRight: 10,
-  },
-  poster: {
-    backgroundColor: theme.colors.highlight,
-    width: "100%",
-    height: 400,
-  },
   followBtn: {
     backgroundColor: "#feb210",
     height: 30,
@@ -183,10 +122,47 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  // --- Poster ---
+  poster: {
+    backgroundColor: theme.colors.highlight,
+    width: "100%",
+    height: 400,
+    marginVertical: 8,
+  },
+
+  // --- Action Row ---
+  actionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    margin: 5,
+  },
+  likeCount: {
+    marginLeft: 10,
+  },
+  likeLabel: {
+    marginLeft: 5,
+    color: "rgba(0, 0, 0, 0.4)",
+  },
+
+  // --- Footer ---
+  footerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  descriptionContainer: {
+    flexShrink: 1,
+    marginRight: 10,
+  },
   seeEventBtn: {
     flexDirection: "row",
-    backgroundColor: "white",
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "gray",
     height: 30,
     borderRadius: 10,
@@ -194,14 +170,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  icons: {
-    width: 30,
-    height: 30,
-    margin: 5,
-  },
-  toEvent: {
+  toEventIcon: {
     width: 15,
     height: 15,
     marginLeft: 2,
+  },
+
+  // --- Shared Helpers ---
+  rightAlignedRow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  seeMoreRow: {
+    flexShrink: 0,
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 });
