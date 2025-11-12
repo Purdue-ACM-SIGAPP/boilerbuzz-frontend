@@ -252,6 +252,8 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     color: COLORS.primaryText,
     marginBottom: 40,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loginButton: {
     width: 150,
