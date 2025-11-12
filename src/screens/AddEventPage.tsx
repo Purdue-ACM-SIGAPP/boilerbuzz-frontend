@@ -16,10 +16,6 @@ export default function AddEventPage({ navigation, route }: Props) {
 
   return (
     <>
-      {/* <View style={styles.container}>
-      <Text style={styles.text}>AddEventPage</Text>
-    </View> */}
-
       <View style={AddEventText.container}>
         <Text style={AddEventText.titleFont}>Add Event</Text>
         <Text style={AddEventText.subtitleFont}>Add your own club event</Text>

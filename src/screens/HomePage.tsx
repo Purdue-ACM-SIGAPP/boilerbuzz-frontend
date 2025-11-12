@@ -1,15 +1,31 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 import PosterCard from "../components/PosterCard";
+import FeaturedCarousel from "../components/FeaturedCarousel";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
-export default function FeaturedPage({ navigation, route }: Props) {
+const { width } = Dimensions.get("window");
 
+// Example carousel items
+const items = [
+  { id: 1, title: "Item 1", color: "#EDECDD" },
+  { id: 2, title: "Item 2", color: "#F5D6C6" },
+  { id: 3, title: "Item 3", color: "#C8E1E7" },
+  { id: 4, title: "Item 4", color: "#DDEED1" },
+  { id: 5, title: "Item 5", color: "#FBE2E5" },
+];
+
+export default function FeaturedPage({ navigation, route }: Props) {
   // ============================== DUMMY DATA ==============================
   const events = [
     {
@@ -49,7 +65,8 @@ export default function FeaturedPage({ navigation, route }: Props) {
       eventTitle: "Coding Hackathon 2025",
       eventDate: "Nov 1, 2025",
       eventLocation: "Innovation Hub",
-      description: "24 hours. One project. Free pizza. Let’s build something awesome.",
+      description:
+        "24 hours. One project. Free pizza. Let’s build something awesome.",
       clubName: "Tech Club",
       clubLogo: "https://i.pravatar.cc/150?img=8",
       attendees: [
@@ -67,12 +84,18 @@ export default function FeaturedPage({ navigation, route }: Props) {
 
   return (
     <View style={styles.container}>
-      <HeaderBanner title="Home" />
-       <FlatList
+      <HeaderBanner title="Home"/>
+      <FlatList
         data={events}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <PosterCard {...item} />}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <>
+            <FeaturedCarousel items={items} />
+          </>
+        }
+        contentContainerStyle={{ paddingBottom: 40 }}
       />
     </View>
   );
@@ -81,7 +104,6 @@ export default function FeaturedPage({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     backgroundColor: theme.colors.background,
   },
 });

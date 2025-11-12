@@ -4,47 +4,33 @@ import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
-import FilterMenu from "../components/FilterMenu";
-import ClubBanner from "../components/ClubBanner";
-import MyButton from "../components/MyButton";
+import ClubBanner from "../unused/ClubBanner";
 import SearchBar from "../components/SearchBar";
-import EventSlide from "../components/EventSlide";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Search">;
 
 export default function FeaturedPage({ navigation, route }: Props) {
-
   const eventData = [
     {
-    eventTitle: "Event", 
-    eventHost: "Purdue Acm Sigapp", 
-    eventLocation: "LWSN", 
-    eventTime: "5:30 - 8:30", 
-    eventParticipants: 23, 
-    eventParticipantsMax: 50, 
-    socialTag: true, 
-    artsTag: true 
-
-    }
-
-  ];  
+      eventTitle: "Event",
+      eventHost: "Purdue Acm Sigapp",
+      eventLocation: "LWSN",
+      eventTime: "5:30 - 8:30",
+      eventParticipants: 23,
+      eventParticipantsMax: 50,
+      socialTag: true,
+      artsTag: true,
+    },
+  ];
 
   return (
     <>
-    <View style={styles.container}>
-      <HeaderBanner title="Find Events" />
-      <SearchBar />
-      <FilterMenu></FilterMenu>
-      <ClubBanner></ClubBanner>
-      <MyButton title="test" onPress={()=>{}}></MyButton>
-      {eventData.map((event, index) => (
-        <EventSlide key={index} data={event} />
-      ))}
-    </View>
-
-    
-    
-        </>
+      <View style={styles.container}>
+        <HeaderBanner title="Find Events" />
+        <SearchBar />
+        <ClubBanner></ClubBanner>
+      </View>
+    </>
   );
 }
 
@@ -55,4 +41,3 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
 });
-
