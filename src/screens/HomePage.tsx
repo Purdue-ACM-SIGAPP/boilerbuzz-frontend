@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 import React from "react";
 import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity } from "react-native";
+=======
+import React, { useState } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+>>>>>>> d867d9a3bd3acb072a4476424acf4c9bd51bc68a
 import type { BottomTabsParamList } from "../navigation/types";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import theme from "../theme";
 import HeaderBanner from "../components/HeaderBanner";
 import PosterCard from "../components/PosterCard";
+<<<<<<< HEAD
 import CommentComponent from "../components/Comment";
+=======
+import CommentScroll from "../components/CommentScroll";
+>>>>>>> d867d9a3bd3acb072a4476424acf4c9bd51bc68a
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "Home">;
 
@@ -66,18 +75,43 @@ export default function FeaturedPage({ navigation, route }: Props) {
     },
   ];
 
+  const [showComments, setShowComments] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const selectedComments =
+    selectedEventId != null
+      ? events.find((e) => e.id === selectedEventId)?.comments ?? []
+      : [];
+
   return (
     <View style={styles.container}>
       <HeaderBanner title="Home" />
        <FlatList
         data={events}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <PosterCard {...item} />}
+        renderItem={({ item }) => (
+          <PosterCard
+            {...item}
+            onPressComment={(id) => {
+              setSelectedEventId(id ?? null);
+              setShowComments(true);
+            }}
+          />
+        )}
         showsVerticalScrollIndicator={false}
+      />
+      <CommentScroll
+        visible={showComments}
+        eventId={selectedEventId}
+        initialComments={selectedComments}
+        onClose={() => setShowComments(false)}
       />
     </View>
   );
 }
+
+// ============================== local state ==============================
+
+// moved below component to keep top of file clean
 
 const styles = StyleSheet.create({
   container: {

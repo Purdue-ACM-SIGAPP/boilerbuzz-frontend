@@ -25,6 +25,7 @@ type Comment = {
 };
 
 type Props = {
+  id?: string;
   eventTitle: string;
   eventDate: string;
   eventLocation: string;
@@ -33,10 +34,12 @@ type Props = {
   clubLogo: string;
   attendees: User[];
   comments: Comment[];
+  onPressComment?: (id?: string) => void;
   onPress?: () => void;
 };
 
 export default function PosterCard({
+  id,
   eventTitle,
   eventDate,
   eventLocation,
@@ -45,6 +48,7 @@ export default function PosterCard({
   clubLogo,
   attendees,
   comments,
+  onPressComment,
   onPress,
 }: Props) {
   return (
@@ -84,11 +88,13 @@ export default function PosterCard({
         <View
           style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
         >
-          <Image
-            source={Images.comment}
-            style={styles.icons}
-            resizeMode="contain"
-          />
+            <Pressable onPress={() => onPressComment?.(id)}>
+              <Image
+                source={Images.comment}
+                style={styles.icons}
+                resizeMode="contain"
+              />
+            </Pressable>
           <Image
             source={Images.send}
             style={styles.icons}
