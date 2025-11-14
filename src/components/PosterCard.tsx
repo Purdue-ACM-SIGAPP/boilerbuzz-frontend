@@ -88,13 +88,17 @@ export default function PosterCard({
         <View
           style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
         >
-            <Pressable onPress={() => onPressComment?.(id)}>
-              <Image
-                source={Images.comment}
-                style={styles.icons}
-                resizeMode="contain"
-              />
-            </Pressable>
+          <TouchableOpacity
+            onPress={() => onPressComment?.(id)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            activeOpacity={0.7}
+          >
+            <Image
+              source={Images.comment}
+              style={styles.icons}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
           <Image
             source={Images.send}
             style={styles.icons}

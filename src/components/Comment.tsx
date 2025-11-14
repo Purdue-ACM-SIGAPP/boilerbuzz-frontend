@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 export interface Comment{
@@ -70,9 +70,10 @@ const styles = StyleSheet.create({
 });
   
 export default Comment;
+*/
 
             
-=======
+
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import theme from "../theme";
@@ -81,13 +82,17 @@ type Props = {
   id?: string;
   user: string;
   text: string;
+  date: string;
 };
 
-export default function Comment({ user, text }: Props) {
+export default function Comment({ user, text , date}: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.user}>{user}</Text>
-      <Text style={styles.text}>{text}</Text>
+      <View style={styles.content}>
+        <Text style={styles.user}>{user}</Text>
+        <Text style={styles.text}>{text}</Text>
+      </View>
+      <Text style={styles.date}>{date}</Text>
     </View>
   );
 }
@@ -97,6 +102,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 0.5,
     borderBottomColor: "#eee",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  content: {
+    flex: 1,
+    paddingRight: 8,
   },
   user: {
     ...theme.h2Bold,
@@ -105,5 +118,11 @@ const styles = StyleSheet.create({
   text: {
     ...theme.h2,
   },
+  date:{
+    ...theme.h3,
+    color: '#888',
+    marginLeft: 8,
+    alignSelf: 'flex-start',
+  }
 });
->>>>>>> d867d9a3bd3acb072a4476424acf4c9bd51bc68a
+

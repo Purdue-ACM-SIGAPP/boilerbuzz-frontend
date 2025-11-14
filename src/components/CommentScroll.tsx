@@ -17,6 +17,7 @@ type Comment = {
   id: string;
   user: string;
   text: string;
+  date: string;
 };
 
 type Props = {
@@ -93,7 +94,7 @@ export default function CommentScroll({
           data={initialComments}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Comment id={item.id} user={item.user} text={item.text} />
+            <Comment id={item.id} user={item.user} text={item.text} date = {item.date}/>
           )}
           ListEmptyComponent={() => (
             <View style={styles.empty}>
@@ -164,6 +165,9 @@ const styles = StyleSheet.create({
   },
   commentText: {
     marginTop: 2,
+  },
+  commentDate:{
+    fontSize: 12,
   },
   empty: {
     padding: 20,

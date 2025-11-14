@@ -27,8 +27,8 @@ export default function FeaturedPage({ navigation, route }: Props) {
         { id: "3", name: "Linh", avatar: "https://i.pravatar.cc/150?img=4" },
       ],
       comments: [
-        { id: "1", user: "Jamie", text: "Can’t wait!" },
-        { id: "2", user: "Linh", text: "This looks amazing 💛" },
+        { id: "1", user: "Jamie", text: "Can’t wait!" , date: "2 days ago"},
+        { id: "2", user: "Linh", text: "This looks amazing 💛" , date: "3 days ago"},
       ],
     },
     {
@@ -43,7 +43,7 @@ export default function FeaturedPage({ navigation, route }: Props) {
         { id: "1", name: "Soleil", avatar: "https://i.pravatar.cc/150?img=6" },
         { id: "2", name: "Mia", avatar: "https://i.pravatar.cc/150?img=7" },
       ],
-      comments: [{ id: "1", user: "Eli", text: "I’ll definitely stop by!" }],
+      comments: [{ id: "1", user: "Eli", text: "I’ll definitely stop by!" ,date: "1 day ago"}],
     },
     {
       id: "3",
@@ -60,8 +60,8 @@ export default function FeaturedPage({ navigation, route }: Props) {
         { id: "4", name: "Devon", avatar: "https://i.pravatar.cc/150?img=12" },
       ],
       comments: [
-        { id: "1", user: "Riley", text: "Team up with me?" },
-        { id: "2", user: "Taylor", text: "Hackathon = caffeine + chaos ☕" },
+        { id: "1", user: "Riley", text: "Team up with me?", date: "5 hours ago" },
+        { id: "2", user: "Taylor", text: "Hackathon = caffeine + chaos ☕" , date: "3 hours ago" },
       ],
     },
   ];
@@ -118,6 +118,7 @@ const commentsData = [
         user: 'Soleil', 
         //profileImage: 'https://i.pravatar.cc/150?img=13',
         text: 'This event was amazing! Had a great time meeting new people.',
+        date: '2 hours ago',
         //date: '2 hours ago',  
     },
     {
@@ -125,6 +126,7 @@ const commentsData = [
         user: 'Alex',
         //profileImage: 'https://i.pravatar.cc/150?img=14',
         text: 'Looking forward to the next one!',
+        date: '30 minutes ago',
         //date: '1 hour ago',
     },
 ];
