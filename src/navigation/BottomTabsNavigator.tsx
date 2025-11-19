@@ -48,8 +48,8 @@ export default function BottomTabsNavigator() {
         onClose={closePopup}
         onAddEvent={handleAddEvent}
         onAddClub={handleAddClub}
-        // leftIcon={Images.calendar} // optional, adjust keys to your assets
-        // rightIcon={Images.group} // optional, adjust keys to your assets
+        leftIcon={Images.calendar} // optional, adjust keys to your assets
+        rightIcon={Images.clubs} // optional, adjust keys to your assets
         size={120} // optional size for bubbles
       />
 
@@ -100,21 +100,19 @@ export default function BottomTabsNavigator() {
           component={EmptyScreen}
           options={{
             tabBarButton: (
-              props: React.ComponentProps<typeof TouchableOpacity> & ViewProps
+              props: React.ComponentProps<typeof TouchableOpacity>
             ) => {
+              // Render a normal tab slot (no absolute positioning).
+              // props contains accessibility + onPress handlers; don't spread style because RN passes layout props
               return (
                 <TouchableOpacity
                   {...props}
                   activeOpacity={0.9}
                   onPress={openPopup}
-                  style={styles.centerButtonWrapper}
+                  style={styles.tabItem} // same layout as other items
                 >
-                  <View
-                    style={[
-                      styles.centerButton,
-                      popupOpen ? styles.centerButtonActive : undefined,
-                    ]}
-                  >
+                  {/* highlight background only when popupOpen */}
+                  <View style={popupOpen ? styles.centerHighlight : undefined}>
                     <TabIcon
                       focused={popupOpen}
                       source={popupOpen ? Images.add_pressed : Images.add}
@@ -159,31 +157,27 @@ export default function BottomTabsNavigator() {
   );
 }
 
+const TAB_BAR_HEIGHT = 150; // keep your value
+const TAB_ITEM_HEIGHT = 56; // visual area for icons (fits inside tab bar height)
+
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: theme.colors.background,
   },
+
+  // Generic tab item layout so Add uses the same vertical alignment
+  tabItem: {
+    flex: 1,
+    justifyContent: "center",
+    bottom: 14,
+  },
+
+  // kept in case you still need absolute for something else (not used for Add)
   centerButtonWrapper: {
-    // align center, allow the button to float above the tab bar
+    // not used for vertical alignment anymore — left here for other usages if needed
     position: "absolute",
     alignSelf: "center",
-    bottom: Platform.select({ ios: 18, android: 8 }),
     zIndex: 50,
-  },
-  centerButton: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: theme.colors.highlight,
-    borderWidth: 1,
-    borderColor: theme.colors.lightGrey,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 3,
-  },
-  centerButtonActive: {
-    // active style while popup is open
-    backgroundColor: theme.colors.navyBlue,
   },
 });

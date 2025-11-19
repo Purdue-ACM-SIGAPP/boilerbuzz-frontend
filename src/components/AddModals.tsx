@@ -103,9 +103,11 @@ const styles = StyleSheet.create({
   leftBubble: {
     marginRight: 12,
     transform: [{ translateX: -40 }],
+    bottom: 24,
   },
   rightBubble: {
     marginLeft: 12,
     transform: [{ translateX: 40 }],
+    bottom: 24,
   },
 });

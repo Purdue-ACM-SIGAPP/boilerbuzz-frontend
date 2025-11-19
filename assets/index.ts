@@ -24,6 +24,9 @@ const Images = {
   pin: require("./navbar_icons/thumbtack.png"),
   toEvent: require("./post_icons/to_event.png"),
 
+  clubs: require("./Clubs.png"),
+  calendar: require("./Calendar.png"),
+
   cross: require("./cross.png"),
 } as const;
 
