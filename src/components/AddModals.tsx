@@ -39,10 +39,8 @@ export default function AddModals({
       statusBarTranslucent
       onRequestClose={onClose}
     >
-      {/* outer overlay: touching it will close via TouchableWithoutFeedback */}
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay}>
-          {/* inner container holds the two bubble buttons above the tab bar */}
           <View style={styles.container}>
             <View style={styles.bubbleWrapper}>
               <SpeechBubbleButton
@@ -77,26 +75,25 @@ export default function AddModals({
 }
 
 const TAB_HEIGHT = 86; // approximate tab bar height used in your app
-const BOTTOM_PADDING = Platform.select({ ios: 18, android: 8 });
+const BOTTOM_SAFE = Platform.select({ ios: 18, android: 8 }) ?? 12;
 
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "transparent", // keep it transparent; adjust if you want a dim
+    // subtle dim that uses theme background but darker (keeps aesthetic)
+    backgroundColor: "rgba(0,0,0,0.15)",
     justifyContent: "flex-end",
     alignItems: "center",
   },
   container: {
     width: "100%",
-    // position the bubbles just above the bottom tab bar
-    paddingBottom: TAB_HEIGHT,
+    paddingBottom: TAB_HEIGHT + BOTTOM_SAFE,
     paddingHorizontal: 24,
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "center",
   },
   bubbleWrapper: {
-    // wrapper so we can shift left/right easily
     alignItems: "center",
     justifyContent: "center",
   },

@@ -15,7 +15,7 @@ type Props = {
   isLeft?: boolean;
   isRight?: boolean;
   label: string;
-  icon?: any; // image source or React element
+  icon?: any; // image source or React element / svg component
   onPress: (e?: GestureResponderEvent) => void;
   size?: number; // diameter of bubble
   style?: ViewStyle;
@@ -55,11 +55,14 @@ export default function SpeechBubbleButton({
         style={[styles.bubble, bubbleStyle]}
       >
         {icon ? (
-          // allow passing a React node or image source
-          typeof icon === "number" ? (
-            <Image source={icon} style={styles.icon} resizeMode="contain" />
-          ) : React.isValidElement(icon) ? (
+          // support: SVG component, JSX element, local require, or uri string
+          React.isValidElement(icon) ? (
             icon
+          ) : typeof icon === "function" ? (
+            // svg component import (pass size)
+            React.createElement(icon, { width: 56, height: 56 })
+          ) : typeof icon === "number" ? (
+            <Image source={icon} style={styles.icon} resizeMode="contain" />
           ) : (
             <Image
               source={{ uri: icon }}
@@ -73,17 +76,6 @@ export default function SpeechBubbleButton({
 
         <Text style={styles.label}>{label}</Text>
       </TouchableOpacity>
-
-      {/* tail (triangle) */}
-      <View
-        style={[
-          styles.tail,
-          {
-            left: tailLeft,
-            borderBottomColor: theme.colors.highlight,
-          },
-        ]}
-      />
     </View>
   );
 }
@@ -92,7 +84,6 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: "center",
     justifyContent: "flex-end",
-    // allow absolute positioning by parent if needed
   },
   bubble: {
     backgroundColor: theme.colors.highlight,
@@ -106,6 +97,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     marginBottom: 8,
+    // tints don't always apply to svgs, but keep it for PNGs
     tintColor: theme.colors.darkGrey,
   },
   emoji: {
@@ -118,17 +110,4 @@ const styles = StyleSheet.create({
     color: theme.colors.darkGrey,
     marginTop: 4,
   },
-  // tail: {
-  //   position: "absolute",
-  //   width: 0,
-  //   height: 0,
-  //   borderLeftWidth: 16,
-  //   borderRightWidth: 16,
-  //   borderBottomWidth: 20,
-  //   borderLeftColor: "transparent",
-  //   borderRightColor: "transparent",
-  //   // borderBottomColor is set inline so it matches bubble
-  //   bottom: -18,
-  //   transform: [{ rotate: "0deg" }],
-  // },
 });
