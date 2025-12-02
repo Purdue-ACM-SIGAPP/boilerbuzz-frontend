@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import PanBoard from "../components/PanBoard";
 import PackedScatterGrid, { ScatterItem } from "../components/PackedScatterGrid";
-import BulletinPoster, { likesToSize, makeRandomPosters, PosterData } from "../components/BulletinPoster";
+import BulletinPoster, { posterToSize, makeRandomPosters, PosterData } from "../components/BulletinPoster";
 
 // For now, the board doesn't render poster at once.
 // It determines the placement of posters, then renders posters
@@ -16,8 +16,10 @@ export default function PinnedPage() {
 
 
   // This array will contain the elements of 10 example posters and 50 additional filler posters
-  const ALL_POSTERS: PosterData[] = useMemo(() => makeRandomPosters(0, 60), []);
-
+  const ALL_POSTERS: PosterData[] = useMemo(() => { // useMemo() for cacheing
+    const filler = makeRandomPosters(10, 50); // the integer value is how many random posters to make
+    return [...filler]; 
+  }, []);
 
   // const ALL_POSTERS: PosterData[] = useMemo(() => EXAMPLE_POSTERS, []); 
   
@@ -34,7 +36,7 @@ export default function PinnedPage() {
     () =>
       ALL_POSTERS
         .map((poster) => { // convert likes to width/height
-          const { width, height } = likesToSize(poster.likes);
+          const { width, height } = posterToSize(poster);
           return { id: poster.id, width, height };
         })
         // Place bigger posters first so center is denser
@@ -96,3 +98,4 @@ export default function PinnedPage() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#0b0b0c" },
 });
+
