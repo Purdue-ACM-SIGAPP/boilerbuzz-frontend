@@ -31,7 +31,7 @@ export default function FeaturedPage() {
       const nextIndex = (currentIndex + 1) % items.length;
       scrollRef.current?.scrollTo({ x: nextIndex * width, animated: true });
       setCurrentIndex(nextIndex);
-    }, 3000);
+    }, 20000);
 
     return () => clearInterval(timer);
   }, [currentIndex]);

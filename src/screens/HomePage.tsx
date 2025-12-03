@@ -16,7 +16,7 @@ export default function FeaturedPage({ navigation, route }: Props) {
       id: "1",
       eventTitle: "Mid-Autumn Festival Celebration",
       eventDate: "Oct 12, 2025",
-      eventLocation: "Union Ballroom",
+      eventLocation: "Union Ballroom and monkey type",
       description: "Join us for mooncakes, lanterns, and live performances!",
       clubName: "Asian Student Union",
       clubLogo: "https://i.pravatar.cc/150?img=1",

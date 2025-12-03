@@ -11,6 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../theme";
 import Images from "../../assets";
+import { useState } from "react";
 
 type User = {
   id: string;
@@ -47,6 +48,21 @@ export default function PosterCard({
   comments,
   onPress,
 }: Props) {
+
+  const toggleLike = () => {
+    if (liked) {
+      setLiked(false);
+      setLikedCount(likeCount - 1);
+    }
+    if (!liked) {
+      setLiked(true);
+      setLikedCount(likeCount + 1);
+    }
+  }
+
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikedCount] = useState(0);
+
   return (
     <View style={styles.container}>
       {/* <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}> */}
@@ -70,14 +86,18 @@ export default function PosterCard({
       <View style={styles.poster}></View>
       {/* Buttons */}
       <View style={styles.clubRow}>
-        <Image
-          source={Images.favorite}
-          style={styles.icons}
-          resizeMode="contain"
-        />
-        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>101</Text>
+        
+        
+        <Pressable onPress={toggleLike}>
+          <Image
+            source={liked ? Images.favorite_pressed : Images.favorite}
+            style={styles.icons}
+            resizeMode="contain"
+          />
+        </Pressable>
+        <Text style={[theme.h2Bold, { marginLeft: 10 }]}>{likeCount}</Text>
         <Text
-          style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 5 }]}
+          style={[theme.h2Bold, { color: "rgba(0, 0, 0, 0.4)", marginLeft: 10 }]}
         >
           Likes
         </Text>

@@ -18,6 +18,7 @@ const Images = {
   // poster icons
   comment: require("./post_icons/comment.png"),
   favorite: require("./post_icons/favorite.png"),
+  favorite_pressed: require("./post_icons/favorite_pressed.png"),
   send: require("./post_icons/send.png"),
   pin: require("./navbar_icons/thumbtack.png"),
   toEvent: require("./post_icons/to_event.png"),
