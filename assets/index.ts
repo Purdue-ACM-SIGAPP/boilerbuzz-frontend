@@ -14,6 +14,8 @@ const Images = {
   thumbtack_pressed: require("./navbar_icons/thumbtack_pressed.png"),
   user: require("./navbar_icons/user.png"),
   user_pressed: require("./navbar_icons/user_pressed.png"),
+  add: require("./navbar_icons/add.png"),
+  add_pressed: require("./navbar_icons/add_pressed.png"),
 
   // poster icons
   comment: require("./post_icons/comment.png"),
@@ -22,8 +24,10 @@ const Images = {
   pin: require("./navbar_icons/thumbtack.png"),
   toEvent: require("./post_icons/to_event.png"),
 
-  cross: require("./cross.png"),
+  clubs: require("./Clubs.png"),
+  calendar: require("./Calendar.png"),
 
+  cross: require("./cross.png"),
 } as const;
 
 export type ImagesType = typeof Images;

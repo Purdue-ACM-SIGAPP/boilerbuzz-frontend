@@ -145,10 +145,6 @@ const AddEventText = StyleSheet.create({
     padding: 10,
     alignSelf: "center",
     width: Math.min(screenWidth * 0.85, 500)
-    
-    
-    
-    
   },
   subtitleFont: {
     fontWeight: "bold",
