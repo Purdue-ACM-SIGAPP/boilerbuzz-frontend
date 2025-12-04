@@ -7,7 +7,8 @@ import type { NavigationProp } from "@react-navigation/native";
 import type { BottomTabsParamList, RootStackParamList } from "../navigation/types";
 
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+const API_BASE_URL = "http://localhost:3000";
+;
 const POSTERS_ENDPOINT = `${API_BASE_URL}/posters`;
 
 function imageAPISrc(img_path: string) {
@@ -107,8 +108,23 @@ export default function BulletinPoster({
     onPress?.(data);
   };
 
+  function resolveImageSource(img_path?: string) {
+  // No path or empty
+  if (!img_path || img_path.trim() === "") {
+    return require("../../assets/example_posters/dev.png");
+  }
 
-  const source = { uri: data.img_path }; // might need to add base url before the path
+  // Absolute URL
+  if (img_path.startsWith("http://") || img_path.startsWith("https://")) {
+    return { uri: img_path };
+  }
+
+  // Fallback
+  return require("../../assets/example_posters/dev.png");
+}
+
+  // Do we actaully have a place where images are stored? I can't find them
+  const source = resolveImageSource(data.img_path);
 
   // Rendering poster
   return (
