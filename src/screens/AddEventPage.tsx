@@ -1,13 +1,15 @@
-// src/screens/FeedScreen.tsx
-import React, { useState } from "react"; //imported {useState} for textbox
+// src/screens/AddEventPage.tsx
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Image,
   TextInput,
   Dimensions,
-  Button,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Platform,
   Alert,
 } from "react-native";
 import type { BottomTabsParamList } from "../navigation/types";
@@ -16,263 +18,317 @@ import HeaderBanner from "../components/HeaderBanner";
 import MyButton from "../components/MyButton";
 import theme from "../theme";
 import * as DocumentPicker from "expo-document-picker";
-import { TouchableOpacity } from "react-native";
 
 type Props = BottomTabScreenProps<BottomTabsParamList, "AddEvent">;
 
 const { width: screenWidth } = Dimensions.get("window");
-const BASE_WIDTH = 375;
-const scale = Math.min(screenWidth / BASE_WIDTH, 1) * 0.85;
+const CONTAINER_MAX = 520;
+const HORIZONTAL_PADDING = 24;
+const containerWidth = Math.min(
+  screenWidth - HORIZONTAL_PADDING * 2,
+  CONTAINER_MAX
+);
 
-export default function AddEventPage({ navigation, route }: Props) {
-  function setText(newText: string): void {
-    throw new Error("Function not implemented.");
-  }
-  const [number, onChangeNumber] = React.useState(""); //Dunno what this does, just added after looking through the react native textinput example
-  const [number2, onChangeNumber2] = React.useState(""); //Nvm, after experimenting, each of these variables seems to represent a unique textbox
-  const [number3, onChangeNumber3] = React.useState("");
-  const [number4, onChangeNumber4] = React.useState("");
-  const [number5, onChangeNumber5] = React.useState("");
-  const [number6, onChangeNumber6] = React.useState("");
+export default function AddEventPage({ navigation }: Props) {
+  const [eventName, setEventName] = useState("");
+  const [location, setLocation] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [club, setClub] = useState("");
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "*/*",
+        copyToCacheDirectory: true,
+      });
+
+      // DocumentPicker returns an object with type === 'success' on success
+      if (result.type === "success") {
+        setFileName(result.name ?? "Selected file");
+        Alert.alert("File selected", result.name ?? "Selected file");
+      } else {
+        // cancelled
+      }
+    } catch (err) {
+      console.error("Error picking document:", err);
+      Alert.alert("Error", "Failed to pick document.");
+    }
+  };
+
+  const onSubmit = () => {
+    // very simple validation
+    if (!eventName.trim()) return Alert.alert("Please enter an event name");
+    if (!location.trim()) return Alert.alert("Please enter a location");
+    if (!club.trim()) return Alert.alert("Please select a club");
+
+    const payload = { eventName, location, month, day, club, fileName };
+    console.log("AddEvent payload:", payload);
+    Alert.alert("Event added", eventName);
+    // navigation.goBack() or other action
+  };
 
   return (
-    <>
-      <View style={AddEventText.container}>
-        <HeaderBanner title="CREATE EVENT" />
-
-        <Text style={AddEventText.subtitleFont}>
-          Event Name<Text style={{ color: "red" }}>*</Text>
-        </Text>
-
-        <TextInput
-          style={Textbox.container}
-          onChangeText={onChangeNumber}
-          value={number}
-          keyboardType="numeric"
-        />
-
-        <View style={AddEventText.container}>
-          <Text style={AddEventText.subtitleFont}>Flyer</Text>
-        </View>
-
-        <TouchableOpacity style={ImportButton.container} onPress={pickDocument}>
-          <Text style={{ fontWeight: "thin", fontSize: scale * 75 }}>+</Text>
-          <Text style={{ fontWeight: "bold" }}>Upload File</Text>
-        </TouchableOpacity>
-
-        <View style={AddEventText.container}>
-          <Text style={AddEventText.subtitleFont}>
-            Location<Text style={{ color: "red" }}>*</Text>
+    <View style={styles.safe}>
+      <HeaderBanner title="ADD EVENT" />
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={[styles.inner, { width: containerWidth }]}>
+          {/* Event Name */}
+          <Text style={styles.label}>
+            Event Name <Text style={styles.required}>*</Text>
           </Text>
-        </View>
-
-        <TextInput
-          style={Textbox.container}
-          onChangeText={onChangeNumber3}
-          value={number3}
-          keyboardType="numeric"
-        />
-
-        <View style={AddEventText.container}>
-          <Text style={AddEventText.subtitleFont}>Date</Text>
-        </View>
-
-        <View style={DateDescriptions.container}>
-          <View style={DateColumns.container}>
-            <Text>Month</Text>
-
-            <TextInput
-              style={SmallerTextbox.container}
-              onChangeText={onChangeNumber2}
-              value={number2}
-              keyboardType="numeric"
-            />
-          </View>
-
-          <View style={DateColumns.container}>
-            <Text> </Text>
-            <Text>/</Text>
-          </View>
-
-          <View style={DateColumns.container}>
-            <Text>Day</Text>
-            <TextInput
-              style={SmallerTextbox.container}
-              onChangeText={onChangeNumber4}
-              value={number4}
-              keyboardType="numeric"
-            />
-          </View>
-
-          <View style={DateColumns.container}>
-            <Text> </Text>
-            <Text>/</Text>
-          </View>
-
-          <View style={DateColumns.container}>
-            <Text>Year</Text>
-            <Text>2025</Text>
-          </View>
-
-          <Image
-            source={require("../../assets/CalenderIcon.png")}
-            style={CalenderImage.container}
+          <TextInput
+            value={eventName}
+            onChangeText={setEventName}
+            placeholder="Event name"
+            placeholderTextColor={theme.colors.darkGrey}
+            style={styles.input}
           />
-        </View>
 
-        <View style={AddEventText.container}>
-          <Text style={AddEventText.subtitleFont}>
-            Club<Text style={{ color: "red" }}>*</Text>
+          {/* Flyer upload */}
+          <Text style={[styles.label, { marginTop: 20 }]}>Flyer</Text>
+          <TouchableOpacity
+            style={styles.uploadBox}
+            onPress={pickDocument}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.uploadPlus}>+</Text>
+            <Text style={styles.uploadText}>
+              {fileName ? fileName : "Upload File"}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Location */}
+          <Text style={[styles.label, { marginTop: 20 }]}>
+            Location <Text style={styles.required}>*</Text>
           </Text>
+          <TextInput
+            value={location}
+            onChangeText={setLocation}
+            placeholder="Location"
+            placeholderTextColor={theme.colors.darkGrey}
+            style={styles.input}
+          />
+
+          {/* Date row */}
+          <Text style={[styles.label, { marginTop: 20 }]}>Date</Text>
+          <View style={styles.dateRow}>
+            <View style={styles.smallCol}>
+              <Text style={styles.smallLabel}>Month</Text>
+              <TextInput
+                value={month}
+                onChangeText={setMonth}
+                placeholder="MM"
+                placeholderTextColor={theme.colors.darkGrey}
+                style={styles.smallInput}
+                keyboardType="number-pad"
+                maxLength={2}
+              />
+            </View>
+
+            <Text style={styles.slash}>/</Text>
+
+            <View style={styles.smallCol}>
+              <Text style={styles.smallLabel}>Day</Text>
+              <TextInput
+                value={day}
+                onChangeText={setDay}
+                placeholder="DD"
+                placeholderTextColor={theme.colors.darkGrey}
+                style={styles.smallInput}
+                keyboardType="number-pad"
+                maxLength={2}
+              />
+            </View>
+
+            <Text style={styles.slash}>/</Text>
+
+            <View style={styles.yearCol}>
+              <Text style={styles.smallLabel}>Year</Text>
+              <Text style={styles.yearText}>2025</Text>
+            </View>
+
+            {/* optional calendar icon - replace with your SVG/PNG */}
+            {/* <Image source={require('../../assets/calendar.png')} style={styles.calendarIcon} /> */}
+          </View>
+
+          {/* Club picker (simple touchable for now) */}
+          <Text style={[styles.label, { marginTop: 20 }]}>
+            Club <Text style={styles.required}>*</Text>
+          </Text>
+          <TouchableOpacity
+            style={styles.input}
+            onPress={() => Alert.alert("Select club")}
+          >
+            <Text
+              style={[
+                styles.inputText,
+                { color: club ? "#000" : theme.colors.darkGrey },
+              ]}
+            >
+              {club || "Select a club"}
+            </Text>
+            <Text style={styles.chev}>▾</Text>
+          </TouchableOpacity>
+
+          <View style={{ height: 28 }} />
+
+          <MyButton
+            title="Add Event"
+            onPress={onSubmit}
+            style={styles.addButton}
+            textStyle={styles.addButtonText}
+          />
+
+          {/* Spacer so content isn't hidden by tab bar */}
+          <View style={{ height: TAB_BAR_SAFE }} />
         </View>
-
-        <TextInput
-          style={Textbox.container}
-          onChangeText={onChangeNumber5}
-          value={number5}
-          keyboardType="numeric"
-        />
-
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-
-        <MyButton title="Add Event" onPress={() => {}} />
-      </View>
-    </>
+      </ScrollView>
+    </View>
   );
 }
 
+const TAB_BAR_SAFE = TAB_BAR_SAFE_CONST();
+
+function TAB_BAR_SAFE_CONST() {
+  return 100 + (Platform.OS === "ios" ? 18 : 8);
+}
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 4,
-    alignItems: "center",
+  safe: {
+    flex: 1,
     backgroundColor: theme.colors.background,
   },
-});
-
-const AddEventText = StyleSheet.create({
-  container: {
-    padding: 10,
-    alignSelf: "center",
-    width: Math.min(screenWidth * 0.85, 500),
-  },
-  subtitleFont: {
-    fontWeight: "bold",
-    fontSize: scale * 20,
-    textAlign: "left",
-  },
-});
-
-const Textbox = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+  scrollContent: {
+    paddingHorizontal: HORIZONTAL_PADDING,
+    paddingTop: 0,
+    paddingBottom: 24,
     alignItems: "center",
-    backgroundColor: "#F4F0E5",
-    borderRadius: 10,
+  },
+  inner: {
+    paddingTop: 14,
     alignSelf: "center",
-    borderWidth: 1,
-    minHeight: 35 * scale,
-    width: Math.min(screenWidth * 0.85, 500),
+  },
+  label: {
+    fontFamily: theme.fonts.body,
+    color: theme.colors.darkGrey,
+    fontSize: theme.h1.fontSize,
+    marginBottom: 8,
+  },
+  required: {
+    color: "#D9534F",
   },
   input: {
-    paddingHorizontal: 10,
-    textAlign: "center",
-    paddingLeft: 100,
-  },
-});
-
-const UniqueTextbox = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F4F0E5",
-    borderRadius: 10,
-    alignSelf: "center",
-    borderWidth: 1,
-    minHeight: 140 * scale,
-    width: Math.min(screenWidth * 0.85, 500),
-  },
-  input: {
-    paddingHorizontal: 10,
-    textAlign: "center",
-  },
-});
-
-const SmallerTextbox = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F4F0E5",
-    borderRadius: 10,
-    alignSelf: "center",
-    borderWidth: 1,
-    minHeight: 35 * scale,
-    width: Math.min(screenWidth * 0.35, 100),
-  },
-  input: {
-    paddingHorizontal: 10,
-    textAlign: "center",
-  },
-});
-
-const DateDescriptions = StyleSheet.create({
-  container: {
+    backgroundColor: theme.colors.highlight,
+    borderRadius: 12,
+    borderWidth: 1.25,
+    borderColor: theme.colors.lightGrey,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    width: "100%",
+    fontFamily: theme.fonts.body,
+    fontSize: 16,
+    color: "#000",
     flexDirection: "row",
-    gap: scale * 10,
-  },
-});
-
-const DateColumns = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    gap: 5,
-  },
-});
-
-const CalenderImage = StyleSheet.create({
-  container: {
-    width: 40 * scale,
-    height: 40 * scale,
-    resizeMode: "contain",
-    marginTop: 10 * scale,
-  },
-});
-
-const pickDocument = async () => {
-  try {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: "*/*", // Allow all file types
-      copyToCacheDirectory: true, // Copy the file to the app's cache directory
-    });
-
-    if (result.canceled) {
-      Alert.alert("Document picking cancelled");
-    } else {
-      // Handle the selected file
-      console.log("Selected file URI:", result.assets[0].uri);
-      console.log("Selected file name:", result.assets[0].name);
-      console.log("Selected file size:", result.assets[0].size);
-      // You can then read the file content using libraries like expo-file-system
-      // or upload it to a server.
-      Alert.alert("File selected", `Name: ${result.assets[0].name}`);
-    }
-  } catch (err) {
-    console.error("Error picking document:", err);
-    Alert.alert("Error", "Failed to pick document.");
-  }
-};
-
-const ImportButton = StyleSheet.create({
-  container: {
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F4F0E5",
+  },
+  inputText: {
+    fontFamily: theme.fonts.body,
+    fontSize: 16,
+  },
+
+  uploadBox: {
+    backgroundColor: theme.colors.highlight,
+    borderRadius: 12,
+    borderWidth: 1.25,
+    borderColor: theme.colors.lightGrey,
+    minHeight: 140,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  uploadPlus: {
+    fontSize: 42,
+    color: theme.colors.darkGrey,
+    marginBottom: 8,
+    fontFamily: theme.fonts.heading,
+  },
+  uploadText: {
+    fontFamily: theme.fonts.body,
+    color: theme.colors.darkGrey,
+    fontSize: 16,
+  },
+
+  dateRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  smallCol: {
+    alignItems: "flex-start",
+    marginRight: 6,
+  },
+  smallLabel: {
+    fontFamily: theme.fonts.body,
+    color: theme.colors.darkGrey,
+    fontSize: theme.h3.fontSize,
+    marginBottom: 6,
+  },
+  smallInput: {
+    backgroundColor: theme.colors.highlight,
     borderRadius: 10,
+    borderWidth: 1.25,
+    borderColor: theme.colors.lightGrey,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    minWidth: 60,
+    textAlign: "center",
+    fontFamily: theme.fonts.body,
+    color: "#000",
+  },
+  slash: {
+    marginHorizontal: 6,
+    fontSize: 20,
+    color: theme.colors.darkGrey,
+  },
+  yearCol: {
+    marginLeft: 6,
+    alignItems: "flex-start",
+  },
+  yearText: {
+    fontFamily: theme.fonts.body,
+    fontSize: 18,
+    color: theme.colors.darkGrey,
+  },
+
+  // Add button (large orange pill)
+  addButton: {
+    marginHorizontal: 6,
     alignSelf: "center",
-    borderWidth: 1,
-    minHeight: 140 * scale,
-    width: Math.min(screenWidth * 0.85, 500),
+    width: "100%",
+    // make button tall and pill shaped
+    borderRadius: 999,
+  },
+  addButtonText: {
+    fontSize: 22,
+    color: "#000",
+  },
+
+  calendarIcon: {
+    width: 36,
+    height: 36,
+    marginLeft: 12,
+    resizeMode: "contain",
+  },
+
+  chev: {
+    position: "absolute",
+    right: 14,
+    color: theme.colors.darkGrey,
+    fontSize: 18,
   },
 });
