@@ -11,20 +11,24 @@ import {
   Alert,
   KeyboardAvoidingView,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBanner from "../components/HeaderBanner";
 import theme from "../theme";
 import MyButton from "../components/MyButton";
-import type { BottomTabsParamList } from "../navigation/types";
-import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+// Adjust this if your HeaderBanner has a different height
+const HEADER_HEIGHT = 142;
 
 export default function CreateClubPage() {
   const [logoUri, setLogoUri] = useState<string | null>(null);
   const [clubName, setClubName] = useState("");
   const [primaryAdvisor, setPrimaryAdvisor] = useState("");
-  const [members, setMembers] = useState(""); // comma separated list or single line
+  const [members, setMembers] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -47,11 +51,9 @@ export default function CreateClubPage() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.8,
         allowsEditing: true,
-        aspect: [1, 1], // force square crop
+        aspect: [1, 1],
       });
 
-      // new expo shape: result.assets[0].uri ; older: result.uri
-      // safe-check both shapes:
       // @ts-ignore
       const uri = result?.assets?.[0]?.uri ?? (result as any).uri;
       if (!result.canceled && uri) {
@@ -64,7 +66,6 @@ export default function CreateClubPage() {
   };
 
   const handleCreate = () => {
-    // Basic validation: require club name and at least 5 members (split by comma or newline)
     const memberList = members
       .split(",")
       .map((m) => m.trim())
@@ -78,112 +79,143 @@ export default function CreateClubPage() {
       return;
     }
 
-    // For now, just log — replace this with your API call or navigation
-    console.log({
-      clubName,
-      primaryAdvisor,
-      members: memberList,
-      logoUri,
-    });
+    console.log({ clubName, primaryAdvisor, members: memberList, logoUri });
     Alert.alert("Club created", `${clubName} has been created.`);
-    // Optionally clear form:
-    // setClubName(""); setPrimaryAdvisor(""); setMembers(""); setLogoUri(null);
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <HeaderBanner title="CREATE CLUB" />
-      <KeyboardAvoidingView
-        behavior={Platform.select({ ios: "padding", android: undefined })}
-        style={styles.container}
-      >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
+    <View style={styles.screen}>
+      {/* Header - absolutely positioned at top so it is flush to bezel/status area */}
+      <View style={styles.headerAbsolute}>
+        <HeaderBanner title="CREATE CLUB" />
+      </View>
+
+      {/* Body - give paddingTop equal to header height so content sits *under* banner */}
+      <SafeAreaView edges={["bottom"]} style={styles.bodySafe}>
+        <KeyboardAvoidingView
+          behavior={Platform.select({ ios: "padding", android: undefined })}
+          style={styles.flex}
         >
-          <View style={styles.inner}>
-            <Text style={styles.label}>Logo</Text>
-            <TouchableOpacity
-              style={styles.logoContainer}
-              onPress={pickLogo}
-              activeOpacity={0.8}
-            >
-              {logoUri ? (
-                <Image source={{ uri: logoUri }} style={styles.logoImage} />
-              ) : (
-                <View style={styles.logoPlaceholder}>
-                  <Text style={styles.plus}>+</Text>
-                </View>
-              )}
-            </TouchableOpacity>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.inner}>
+              <Text style={styles.label}>Logo</Text>
+              <TouchableOpacity
+                style={styles.logoContainer}
+                onPress={pickLogo}
+                activeOpacity={0.8}
+              >
+                {logoUri ? (
+                  <Image source={{ uri: logoUri }} style={styles.logoImage} />
+                ) : (
+                  <View style={styles.logoPlaceholder}>
+                    <Text style={styles.plus}>+</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
 
-            <Text style={[styles.label, { marginTop: 24 }]}>
-              Club Name <Text style={styles.required}>*</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter club name"
-              placeholderTextColor={theme.colors.darkGrey}
-              value={clubName}
-              onChangeText={setClubName}
-              returnKeyType="done"
-            />
+              <Text style={[styles.label, { marginTop: 24 }]}>
+                Club Name <Text style={styles.required}>*</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter club name"
+                placeholderTextColor={theme.colors.darkGrey}
+                value={clubName}
+                onChangeText={setClubName}
+                returnKeyType="done"
+              />
 
-            <Text style={[styles.label, { marginTop: 16 }]}>
-              Primary Advisor <Text style={styles.required}>*</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Advisor name"
-              placeholderTextColor={theme.colors.darkGrey}
-              value={primaryAdvisor}
-              onChangeText={setPrimaryAdvisor}
-              returnKeyType="done"
-            />
+              <Text style={[styles.label, { marginTop: 16 }]}>
+                Primary Advisor <Text style={styles.required}>*</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Advisor name"
+                placeholderTextColor={theme.colors.darkGrey}
+                value={primaryAdvisor}
+                onChangeText={setPrimaryAdvisor}
+                returnKeyType="done"
+              />
 
-            <Text style={[styles.label, { marginTop: 16 }]}>Add Members </Text>
-            <TextInput
-              style={[styles.input, styles.multilineInput]}
-              placeholder="Add member emails or names, separated by commas"
-              placeholderTextColor={theme.colors.darkGrey}
-              value={members}
-              onChangeText={setMembers}
-              multiline
-              numberOfLines={3}
-              textAlignVertical="top"
-            />
+              <Text style={[styles.label, { marginTop: 16 }]}>
+                Add Members{" "}
+              </Text>
+              <TextInput
+                style={[styles.input, styles.multilineInput]}
+                placeholder="Add member emails or names, separated by commas"
+                placeholderTextColor={theme.colors.darkGrey}
+                value={members}
+                onChangeText={setMembers}
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+              />
 
-            {/* Spacer before button */}
-            <View style={{ height: 28 }} />
+              <View style={{ height: 28 }} />
 
-            <MyButton title="Create Club" onPress={handleCreate} />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+              <MyButton title="Create Club" onPress={handleCreate} />
+            </View>
+
+            {/* spacer to ensure content stays at top when not enough content */}
+            <View style={styles.flexGrowSpacer} />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const LOGO_SIZE = 120;
 
 const styles = StyleSheet.create({
-  safe: {
+  screen: {
     flex: 1,
     backgroundColor: theme.colors.background,
   },
-  container: {
+
+  // absolutely place header to top so it's visually flush with bezel/statusbar
+  headerAbsolute: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: HEADER_HEIGHT,
+    backgroundColor: theme.colors.navyBlue,
+    zIndex: 20,
+    overflow: "hidden",
+  },
+
+  // body starts under header; paddingTop must match header height
+  bodySafe: {
     flex: 1,
+    paddingTop: HEADER_HEIGHT,
     backgroundColor: theme.colors.background,
   },
+
+  flex: {
+    flex: 1,
+  },
+
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 18,
+    paddingTop: 6, // small padding only
     paddingBottom: 36,
+    flexGrow: 1,
+    justifyContent: "flex-start",
   },
+
   inner: {
-    flex: 1,
+    marginTop: 32,
     alignItems: "stretch",
   },
+
+  flexGrowSpacer: {
+    flex: 1,
+  },
+
   label: {
     fontFamily: theme.fonts.body,
     color: theme.colors.darkGrey,
