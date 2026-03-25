@@ -1,73 +1,88 @@
-import React, { useState, useMemo } from "react"; // ✅ ADDED
+import React, { useMemo, useState } from "react";
 import {
-  View,
-  Text,
+  FlatList,
   StyleSheet,
+  Text,
   TouchableOpacity,
-  FlatList, 
-} from "react-native"; 
+  View,
+} from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
 import HeaderBanner from "../components/HeaderBanner";
-import ClubCard from "../components/ClubCard"; 
+import ClubCard from "../components/ClubCard";
 import theme from "../theme";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+
+type SortOption = "recent" | "name";
+
+const clubList = [
+  {
+    name: "Book Club",
+    description: "A club for book lovers to discuss their favorite reads.",
+    imageSource: require("../../assets/Clubs.png"),
+    followed: true,
+  },
+  {
+    name: "Fitness Club",
+    description: "A club for fitness enthusiasts to share tips and workouts.",
+    imageSource: require("../../assets/group.png"),
+    followed: false,
+  },
+];
 
 export default function Clubs() {
-
-  const navigation = useNavigation();
-
-  const [sortBy, setSortBy] = useState<"recent" | "name">("recent");
-
+  const [sortBy, setSortBy] = useState<SortOption>("recent");
 
   const clubs = useMemo(() => {
-    return [];
-  }, [sortBy]);
-
-  const clubList = [
-    {
-      name: "Book Club",
-      description: "A club for book lovers to discuss their favorite reads.",
-      imageSource: require("../assets/book_club.jpg"),
-      followed: true
-    }, 
-    {
-      name: "Fitness Club",
-      description: "A club for fitness enthusiasts to share tips and workouts.",
-      imageSource: require("../assets/fitness_club.jpg"),
-      followed: false
+    if (sortBy === "name") {
+      return [...clubList].sort((a, b) => a.name.localeCompare(b.name));
     }
-  ]
+
+    return [...clubList].sort(
+      (a, b) => Number(b.followed) - Number(a.followed),
+    );
+  }, [sortBy]);
 
   return (
     <View style={styles.container}>
-      <HeaderBanner
-          title="CLUBS"
-        />
+      <HeaderBanner title="CLUBS" />
 
       <View style={styles.topRow}>
-        <Text style={styles.countText}>{clubs.length} Clubs</Text>}
+        <Text style={styles.countText}>{clubs.length} Clubs</Text>
 
-        <TouchableOpacity style={styles.sortButtons}>
-          
-          <Text>Recently Followed</Text>
+        <TouchableOpacity
+          accessibilityRole="button"
+          onPress={() =>
+            setSortBy((current) => (current === "recent" ? "name" : "recent"))
+          }
+          style={styles.sortButton}
+        >
+          <Text style={styles.sortButtonText}>
+            {sortBy === "recent" ? "Recently Followed" : "A-Z"}
+          </Text>
         </TouchableOpacity>
       </View>
 
-      
       <FlatList
         data={clubs}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item }) => <ClubCard />}
-        contentContainerStyle={{ paddingHorizontal: 18 }}
+        keyExtractor={(item) => item.name}
+        renderItem={({ item }) => (
+          <ClubCard
+            name={item.name}
+            description={item.description}
+            imageSource={item.imageSource}
+            followed={item.followed}
+          />
+        )}
+        contentContainerStyle={styles.listContent}
       />
-
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.colors?.background ?? '#F7F2E8'}, 
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -75,13 +90,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 14,
   },
-  // countText: {fontsize: 16, color: "#9C9C9C" },
-  sortButtons: {
-    // borderwidth: 1,
+  countText: {
+    fontSize: 16,
+    color: "#9C9C9C",
+    fontFamily: theme.fonts.body,
+  },
+  sortButton: {
+    borderWidth: 1,
     borderColor: "#D3D3D3",
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 12,
-  }
+    backgroundColor: "#FFFFFF",
+  },
+  sortButtonText: {
+    fontFamily: theme.fonts.body,
+    color: "#111111",
+  },
+  listContent: {
+    paddingHorizontal: 18,
+    paddingBottom: 24,
+  },
 });
-
