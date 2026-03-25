@@ -35,6 +35,7 @@ export default function RootStackNavigator() {
           <Stack.Screen name="Profile" component={ProfilePage} />
           <Stack.Screen name="AddEvent" component={AddEventPage} />
           <Stack.Screen name="CreateClub" component={CreateClubPage} />
+          <Stack.Screen name ="Clubs" component={Clubs} />
         
           </>
         ) : (
